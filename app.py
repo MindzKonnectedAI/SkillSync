@@ -10,14 +10,31 @@ import operator
 from langchain_openai.chat_models import ChatOpenAI
 import create_team_supervisor_func
 from typing_extensions import TypedDict
-import research_team_supervisor_agent
-import document_team_supervisor
+# import research_team_supervisor_agent
+# import document_team_supervisor
 import sql_agent_team_supervisor
 import create_image_func
 import csv_to_sql
 import github_team_supervisor
+
 # Load environment variables from .env file
 load_dotenv()
+
+# Access the environment variables
+openai_api_key = os.getenv("OPENAI_API_KEY")
+tavily_api_key = os.getenv("TAVILY_API_KEY")
+langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
+langchain_tracking_v2 = os.getenv("LANGCHAIN_TRACING_V2")
+langchain_endpoint = os.getenv("LANGCHAIN_ENDPOINT")
+langchain_project = os.getenv("LANGCHAIN_PROJECT")
+
+# Set environment variables if needed
+os.environ["OPENAI_API_KEY"] = openai_api_key
+os.environ["TAVILY_API_KEY"] = tavily_api_key
+os.environ["LANGCHAIN_API_KEY"] = langchain_api_key
+os.environ["LANGCHAIN_TRACING_V2"] = langchain_tracking_v2
+os.environ["LANGCHAIN_ENDPOINT"] = langchain_endpoint
+os.environ["LANGCHAIN_PROJECT"] = langchain_project
 
 # Define the agent node function
 def agent_node(state, agent, name):
@@ -25,9 +42,10 @@ def agent_node(state, agent, name):
     return {"messages": [HumanMessage(content=result["messages"][-1].content, name=name)]}
 
 # Initialize the agents
-sql_chain = sql_agent_team_supervisor.sql_agent_team_supervisor()
+# research_chain = research_team_supervisor_agent.research_team_supervisor_agent(agent_node)
+# authoring_chain = document_team_supervisor.document_team_supervisor(agent_node)
 github_chain = github_team_supervisor.github_team_supervisor(agent_node)
-
+sql_chain = sql_agent_team_supervisor.sql_agent_team_supervisor()
 llm = ChatOpenAI(model="gpt-4o-mini")
 
 # Define the supervisor node
@@ -36,7 +54,7 @@ supervisor_node = create_team_supervisor_func.create_team_supervisor_func(
     "You are a supervisor tasked with managing a conversation between the following teams: {team_members}. "
     "Given the following user request, respond with the worker to act next. Each worker will perform a "
     "task and respond with their results and status. When finished, respond with FINISH.",
-    ["SqlTeam","GithubTeam"],
+    ["SqlTeam", "GithubTeam"],
 )
 
 # Define the top-level state
@@ -53,13 +71,16 @@ def join_graph(response: dict):
 
 # Define the graph
 super_graph = StateGraph(State)
-super_graph.add_node("SqlTeam", get_last_message | sql_chain | join_graph)
+# super_graph.add_node("ResearchTeam", get_last_message | research_chain | join_graph)
+# super_graph.add_node("PaperWritingTeam", get_last_message | authoring_chain | join_graph)
 super_graph.add_node("GithubTeam", get_last_message | github_chain | join_graph)
+super_graph.add_node("SqlTeam", get_last_message | sql_chain | join_graph)
 super_graph.add_node("super_supervisor", supervisor_node)
 
-super_graph.add_edge("SqlTeam", "super_supervisor")
+# super_graph.add_edge("ResearchTeam", "super_supervisor")
+# super_graph.add_edge("PaperWritingTeam", "super_supervisor")
 super_graph.add_edge("GithubTeam", "super_supervisor")
-
+super_graph.add_edge("SqlTeam", "super_supervisor")
 super_graph.add_conditional_edges(
     "super_supervisor",
     lambda x: x["next"],
@@ -69,8 +90,18 @@ super_graph.add_conditional_edges(
         "FINISH": END,
     },
 )
+# super_graph.add_conditional_edges(
+#     "super_supervisor",
+#     lambda x: x["next"],
+#     {
+#         "PaperWritingTeam": "PaperWritingTeam",
+#         "ResearchTeam": "ResearchTeam",
+#         "SqlTeam": "SqlTeam",
+#         "FINISH": END,
+#     },
+# )
 super_graph.add_edge(START, "super_supervisor")
-hello = super_graph.compile()
+super_graph = super_graph.compile()
 
 import tempfile
 import os
@@ -118,10 +149,10 @@ if st.button("Run Query"):
         image_path = tmp_file.name
 
     # Generate the graph image and save it to the temporary file
-    create_image_func.create_graph_image(hello, "hello")
+    create_image_func.create_graph_image(super_graph, "super_graph")
 
     # Display the results of the graph execution
-    for s in hello.stream(
+    for s in super_graph.stream(
         {"messages": [HumanMessage(content=user_input)]},
         {"recursion_limit": 40},
     ):

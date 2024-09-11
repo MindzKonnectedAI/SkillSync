@@ -44,9 +44,8 @@ def github_team_supervisor(agent_node)-> str:
             llm,
             "You are a supervisor tasked with managing a conversation between the"
             " following workers:  query_param_generator, fetch_users. Given the following user request,"
-            " respond with the worker to act next. Each worker will perform a"
-            " task and respond with their results and status. When finished,"
-            " respond with FINISH.",
+            " always respond with the query_param_generator worker as it will be called first and take its output as parameter to fetch_users worker"
+            " After calling fetch_users , respond with FINISH.",
             ["query_param_generator", "fetch_users"],
         )
         return github_supervisor_agent
