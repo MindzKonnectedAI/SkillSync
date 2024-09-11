@@ -4,21 +4,6 @@ import os
 # Load environment variables from .env file
 load_dotenv()
 
-# Access the variables
-openai_api_key = os.getenv("OPENAI_API_KEY")
-
-langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
-langchain_tracking_v2 = os.getenv("LANGCHAIN_TRACING_V2")
-langchain_endpoint = os.getenv("LANGCHAIN_ENDPOINT")
-langchain_project = os.getenv("LANGCHAIN_PROJECT1")
-
-# Set them as environment variables if needed
-os.environ["OPENAI_API_KEY"] = openai_api_key
-os.environ["LANGCHAIN_API_KEY"] = langchain_api_key
-os.environ["LANGCHAIN_TRACING_V2"] = langchain_tracking_v2
-os.environ["LANGCHAIN_ENDPOINT"] = langchain_endpoint
-os.environ["LANGCHAIN_PROJECT"] = langchain_project
-
 import create_image_func
 from langchain_core.messages import BaseMessage, HumanMessage
 import create_team_supervisor_func
