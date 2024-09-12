@@ -1,5 +1,3 @@
-# streamlit_app.py
-
 import streamlit as st
 from dotenv import load_dotenv
 import os
@@ -8,14 +6,12 @@ from langgraph.graph import END, StateGraph, START
 from langchain_core.messages import BaseMessage, HumanMessage
 import operator
 from langchain_openai.chat_models import ChatOpenAI
-import create_team_supervisor_func
 from typing_extensions import TypedDict
-# import research_team_supervisor_agent
-# import document_team_supervisor
+import create_team_supervisor_func
 import sql_agent_team_supervisor
-import create_image_func
-import csv_to_sql
 import github_team_supervisor
+import csv_to_sql
+import create_image_func
 
 # Load environment variables from .env file
 load_dotenv()
@@ -120,10 +116,11 @@ csv_folder = "csv"
 os.makedirs(csv_folder, exist_ok=True)
 
 # File uploader widget
-uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+st.sidebar.title('File Upload and Processing')
+uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type=["csv"])
 
 if uploaded_file is not None:
-    st.write("Processing the uploaded file...")
+    st.sidebar.write("Processing the uploaded file...")
 
     # Define the path to save the CSV in the csv folder
     csv_path = os.path.join(csv_folder, uploaded_file.name)
@@ -132,36 +129,26 @@ if uploaded_file is not None:
     with open(csv_path, "wb") as file:
         file.write(uploaded_file.getbuffer())
 
-    st.success(f"CSV file saved successfully in {csv_folder} as {uploaded_file.name}")
+    st.sidebar.success(f"CSV file saved successfully in {csv_folder} as {uploaded_file.name}")
 
     # Call the function to save CSV data into the database
     csv_to_sql.save_csv_to_sql(csv_path)
 
 
 # User input
-user_input = st.text_input("Enter your query:", "Total number of users in SQL Database?")
-
-if st.button("Run Query"):
+# user_input = st.text_input("Enter your query:", "Total number of users in SQL Database?")
+prompt = st.chat_input("Enter your query")
+if prompt is not None and prompt !="" :
     st.write("Processing your query...")
-
-    # Create a temporary file to store the image
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as tmp_file:
-        image_path = tmp_file.name
 
     # Generate the graph image and save it to the temporary file
     create_image_func.create_graph_image(super_graph, "super_graph")
 
     # Display the results of the graph execution
     for s in super_graph.stream(
-        {"messages": [HumanMessage(content=user_input)]},
+        {"messages": [HumanMessage(content=prompt)]},
         {"recursion_limit": 40},
     ):
         if "__end__" not in s:
             st.write(s)
             st.write("---")
-
-    # # Display the graph image
-    # if os.path.exists(image_path):
-    #     st.image(image_path, caption="Graph Visualization", use_column_width=True)
-    # else:
-    #     st.error("Failed to create or find the graph image.")

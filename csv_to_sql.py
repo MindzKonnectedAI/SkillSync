@@ -1,27 +1,3 @@
-# import pandas as pd
-# from sqlalchemy import create_engine
-# # from langchain_community.utilities import SQLDatabase
-
-# def save_csv_to_sql(output_csv):
-#     # Path to the SQLite database file
-#     # db_path = "employee.db"
-#     db_path = "employee.db"
-#     print(f"Database {db_path} does not exist. Creating and loading data.")
-#     # Load DataFrame from CSV
-#     try:
-#         df = pd.read_csv(output_csv, encoding='utf-8')
-#     except UnicodeDecodeError:
-#         df = pd.read_csv(output_csv, encoding='latin1')
-#     # print(df.shape)
-#     # print(df.columns.tolist())
-#     # Create SQLite engine
-#     engine = create_engine(f"sqlite:///{db_path}")
-#     # Load DataFrame into SQLite database
-#     df.to_sql("employee", engine, if_exists='replace', index=False)
-#     # Initialize SQLDatabase object
-#     # db = SQLDatabase(engine=engine)
-#     print(f"Successfully Created db")
-
 import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
@@ -58,4 +34,4 @@ def save_csv_to_sql(csv_path):
     # Load DataFrame into SQLite database
     df.to_sql("employee", engine, if_exists='replace', index=False)
 
-    st.success(f"Database created and data loaded successfully into {db_path}")
+    st.sidebar.success(f"Database created and data loaded successfully into {db_path}")
