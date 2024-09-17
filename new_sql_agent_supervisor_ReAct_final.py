@@ -148,7 +148,6 @@ INSTRUCTIONS:
 - To start you should ALWAYS look at the tables in the database to see what you can query. Do NOT skip this step.
 - Then you should query the schema of the most relevant tables.
 - Write your query based upon the schema of the tables. You MUST double check your query before executing it.
-- Unless the user specifies a specific number of examples they wish to obtain, always limit your query to at most 5 results.
 - You can order the results by a relevant column to return the most interesting examples in the database.
 - Never query for all the columns from a specific table, only ask for the relevant columns given the question.
 - If you get an error while executing a query, rewrite the query and try again.
