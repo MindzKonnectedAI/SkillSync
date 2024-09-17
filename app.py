@@ -58,7 +58,7 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 supervisor_node = create_team_supervisor_func.create_team_supervisor_func(
     llm,
     "You are a supervisor tasked with managing a conversation between the following teams: {team_members}. "
-    "Given the following user request, respond with the worker to act next. Each worker will perform a "
+    "Given the following user request, respond with the worker to act next. For a user request , you can only call one worker , so carefully analyze the user request and then assign the worker. Each worker will perform a "
     "task and respond with their results and status. When finished, respond with FINISH.",
     ["SqlTeam", "GithubTeam"],
 )
