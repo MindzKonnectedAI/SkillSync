@@ -67,6 +67,7 @@ def query_param_generator_node(agent_node):
     query_gen_system = """
     Strictly follow all the rules below to generate query parameters for GitHub User Search . Ensure all rules are followed to generate accurate search queries.
     Only return the query , no extra information .
+    Prefix every query you generate with 'type:user' 
     # GitHub User Search - Query Parameter Generation Rules
 
     The following guidelines define how to construct query parameters for the GitHub User Search. Ensure all rules are followed to generate accurate search queries.
@@ -157,10 +158,10 @@ def query_param_generator_node(agent_node):
     Always return ONLY the query parameters you generated WITHOUT any extra text . 
     Below are examples of some output that will be considered correct : 
 
-    1. AI Engineer location:India created:<2019-01-01 repos:>50
-    2. Blockchain developer location:Ukraine sort:followers
-    3. Full Stack Developer location:USA created:>2020-01-01 
-    4. UX Engineer location:Delhi 
+    1. type:user AI Engineer location:India created:<2019-01-01 repos:>50
+    2. type:user Blockchain developer location:Ukraine sort:followers
+    3. type:user Full Stack Developer location:USA created:>2020-01-01 
+    4. type:user UX Engineer location:Delhi 
     """
     query_param_generator_agent = create_react_agent(llm,tools=[query_param_generator],state_modifier=query_gen_system)
     query_param_node = functools.partial(agent_node, agent=query_param_generator_agent, name="query_param_generator")
