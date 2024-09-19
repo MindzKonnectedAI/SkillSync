@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 import os
 from typing import Annotated, List
 from langgraph.graph import END, StateGraph, START
-from langchain_core.messages import BaseMessage, HumanMessage
+from langchain_core.messages import BaseMessage, HumanMessage, AIMessage
 import operator
 from langchain_openai.chat_models import ChatOpenAI
 from typing_extensions import TypedDict
@@ -34,6 +34,10 @@ os.environ["LANGCHAIN_API_KEY"] = langchain_api_key
 os.environ["LANGCHAIN_TRACING_V2"] = langchain_tracking_v2
 os.environ["LANGCHAIN_ENDPOINT"] = langchain_endpoint
 os.environ["LANGCHAIN_PROJECT"] = langchain_project
+
+### Statefully manage chat history ###
+if "chat_history" not in st.session_state:
+    st.session_state.chat_history = []
 
 # Define the agent node function
 def agent_node(state, agent, name):
@@ -141,21 +145,31 @@ if uploaded_file is not None:
     # Call the function to save CSV data into the database
     csv_to_sql.save_csv_to_sql(csv_path)
 
+# Conversation History
+for message in st.session_state.chat_history:
+    if isinstance(message,HumanMessage):
+        with st.chat_message("Human"):
+            st.markdown(message.content)
+    else:
+        with st.chat_message("AI"):
+            st.markdown(message.content)
 
-# User input
 # user_input = st.text_input("Enter your query:", "Total number of users in SQL Database?")
 prompt = st.chat_input("Enter your query")
 if prompt is not None and prompt != "":
     with st.chat_message("Human"):
         st.markdown(prompt)
     
+    st.session_state.chat_history.append(HumanMessage(prompt))
     with st.chat_message("AI"):
         # Add a spinner with "Processing your query..." text
-        with st.spinner("Processing your query..."):
+        # with st.spinner("Processing your query..."):
             # Generate the graph image and save it to the temporary file
-            create_image_func.create_graph_image(super_graph, "super_graph")
-            final_prompt = prompt +" using "+ get_agent_name(agent_name)
-            print("the final prompt to go to supervisor :",final_prompt)
-            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
-            print("AI response :",res["messages"])
-            st.write(res["messages"][-1].content)            
+        create_image_func.create_graph_image(super_graph, "super_graph")
+        final_prompt = prompt +" using "+ get_agent_name(agent_name)
+        print("the final prompt to go to supervisor :",final_prompt)
+        res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
+        print("AI response :",res["messages"])
+        aiRes = res["messages"][-1].content
+        st.write(aiRes)            
+        st.session_state.chat_history.append(AIMessage(aiRes))
