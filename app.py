@@ -12,6 +12,7 @@ import sql_agent_team_supervisor
 import github_team_supervisor
 import csv_to_sql
 import create_image_func
+import os
 
 # Load environment variables from .env file
 load_dotenv()
@@ -99,13 +100,6 @@ super_graph.add_conditional_edges(
 super_graph.add_edge(START, "super_supervisor")
 super_graph = super_graph.compile()
 
-import tempfile
-import os
-
-# Other imports remain the same
-
-# ...
-
 # Streamlit UI
 st.title("Multi-Agent Supervisor System")
 
@@ -134,29 +128,6 @@ if uploaded_file is not None:
     # Call the function to save CSV data into the database
     csv_to_sql.save_csv_to_sql(csv_path)
 
-def extract_content(data):
-    """
-    Recursively search for and return the 'content' from the nested dictionary.
-    """
-    if isinstance(data, dict):
-        # If the data is a dictionary, look for 'messages' key
-        for key, value in data.items():
-            if key == 'messages' and isinstance(value, list) and len(value) > 0:
-                # Assuming 'content' exists in the first message in the list
-                return value[0].content
-            else:
-                # Recursively search in nested dictionaries
-                result = extract_content(value)
-                if result:
-                    return result
-    elif isinstance(data, list):
-        # If the data is a list, search each element recursively
-        for item in data:
-            result = extract_content(item)
-            if result:
-                return result
-    return None
-
 
 # User input
 # user_input = st.text_input("Enter your query:", "Total number of users in SQL Database?")
@@ -170,53 +141,6 @@ if prompt is not None and prompt != "":
         with st.spinner("Processing your query..."):
             # Generate the graph image and save it to the temporary file
             create_image_func.create_graph_image(super_graph, "super_graph")
-
-            previous_step = None  # Variable to store the previous step
-            finish_called = False  # To track if FINISH was directly called
-
-            # Process the stream to capture the step just before 'FINISH'
-            for s in super_graph.stream(
-                {"messages": [HumanMessage(content=prompt)]},
-                {"recursion_limit": 40},
-            ):
-                next_step = s.get('super_supervisor', {}).get('next', '')
-                # Check if the next step is 'FINISH'
-                if next_step == 'FINISH':
-                    if previous_step:
-                        # Dynamically extract the content from the previous step
-                        content = extract_content(previous_step)
-                        if content:
-                            st.write(content)
-                        else:
-                            st.write("No relevant content found.")
-                    else:
-                        st.write("No intermediate steps. Agent directly called FINISH.")
-                    finish_called = True
-                    break  # Exit the loop since we've handled the 'FINISH'
-
-                # Store the current step as the previous step for the next iteration
-                previous_step = s
-                print("s logged:", s)
-
-            # In case the loop ends without 'FINISH', handle it (optional safety check)
-            if not finish_called and previous_step:
-                st.write("Final result:", previous_step)
-
-
-# if prompt is not None and prompt !="" :
-#     with st.chat_message("Human"):
-#         st.markdown(prompt)
-#     st.write("Processing your query...")
-
-#     # Generate the graph image and save it to the temporary file
-#     create_image_func.create_graph_image(super_graph, "super_graph")
-
-#     # # Display the results of the graph execution
-#     for s in super_graph.stream(
-#         {"messages": [HumanMessage(content=prompt)]},
-#         {"recursion_limit": 40},
-#     ):
-#         if "__end__" not in s:
-#             st.write(s)
-#             st.write("---")
-
+            res = super_graph.invoke(input={"messages": [HumanMessage(content=prompt)]})
+            print("AI response :",res["messages"])
+            st.write(res["messages"][-1].content)            
