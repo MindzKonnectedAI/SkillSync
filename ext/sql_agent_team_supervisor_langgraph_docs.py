@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 import os
-import create_image_func
+import utils.create_image_func as create_image_func
 from langchain_core.messages import BaseMessage, HumanMessage
-import create_team_supervisor_func
+import utils.create_team_supervisor_func as create_team_supervisor_func
 from langchain_community.utilities import SQLDatabase
 from typing import Any
 from langchain_core.messages import ToolMessage

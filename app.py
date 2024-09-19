@@ -7,11 +7,13 @@ from langchain_core.messages import BaseMessage, HumanMessage
 import operator
 from langchain_openai.chat_models import ChatOpenAI
 from typing_extensions import TypedDict
-import create_team_supervisor_func
-import sql_agent_team_supervisor
-import github_team_supervisor
-import csv_to_sql
-import create_image_func
+import sql.sql_agent_team_supervisor as sql_agent_team_supervisor
+import github.github_team_supervisor as github_team_supervisor
+
+import utils.csv_to_sql as csv_to_sql
+import utils.create_image_func as create_image_func
+import utils.create_team_supervisor_func as create_team_supervisor_func
+
 import os
 
 # Load environment variables from .env file
@@ -60,7 +62,8 @@ supervisor_node = create_team_supervisor_func.create_team_supervisor_func(
     llm,
     "You are a supervisor tasked with managing a conversation between the following teams: {team_members}. "
     "Given the following user request, respond with the worker to act next. For a user request , you can only call one worker , so carefully analyze the user request and then assign the worker. Each worker will perform a "
-    "task and respond with their results and status. When finished, respond with FINISH.",
+    "task and respond with their results and status. When finished, respond with FINISH."
+    "When giving results back to the user , also mention the worker that was used.",
     ["SqlTeam", "GithubTeam"],
 )
 
@@ -112,6 +115,16 @@ os.makedirs(csv_folder, exist_ok=True)
 # File uploader widget
 st.sidebar.title('File Upload and Processing')
 uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type=["csv"])
+agent_name = st.sidebar.radio(
+    "Search using",
+    ["SQL", "Github"]
+)
+
+def get_agent_name(agent_name_here):
+    if(agent_name_here=="SQL"):
+        return "SQLTeam Agent"
+    else:
+        return "GithubTeam Agent"
 
 if uploaded_file is not None:
     st.sidebar.write("Processing the uploaded file...")
@@ -141,6 +154,8 @@ if prompt is not None and prompt != "":
         with st.spinner("Processing your query..."):
             # Generate the graph image and save it to the temporary file
             create_image_func.create_graph_image(super_graph, "super_graph")
-            res = super_graph.invoke(input={"messages": [HumanMessage(content=prompt)]})
+            final_prompt = prompt +" using "+ get_agent_name(agent_name)
+            print("the final prompt to go to supervisor :",final_prompt)
+            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
             print("AI response :",res["messages"])
             st.write(res["messages"][-1].content)            

@@ -1,14 +1,18 @@
-import github_agent
+import github.agent.github_agent as github_agent
 from typing import Annotated, List
 from langchain_core.messages import BaseMessage, HumanMessage
 import operator
 from typing_extensions import TypedDict
 from langchain_openai.chat_models import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
-from create_team_supervisor_func import create_team_supervisor_func
+from utils.create_team_supervisor_func import create_team_supervisor_func
 from langgraph.graph import END, StateGraph, START
-import create_image_func
+import utils.create_image_func as create_image_func
+from langchain_core.messages import ToolMessage
+from langchain_core.runnables import RunnableLambda, RunnableWithFallbacks
+from langgraph.prebuilt import ToolNode
 from typing import Annotated, Literal
+from typing import Any
 
 # GithubTeamState graph state
 class GithubTeamState(TypedDict):
@@ -20,6 +24,28 @@ class GithubTeamState(TypedDict):
     # Used to route work. The supervisor calls a function
     # that will update this every time it makes a decision
     next: str
+
+def create_tool_node_with_fallback(tools: list) -> RunnableWithFallbacks[Any, dict]:
+    """
+    Create a ToolNode with a fallback to handle errors and surface them to the agent.
+    """
+    return ToolNode(tools).with_fallbacks(
+        [RunnableLambda(handle_tool_error)], exception_key="error"
+    )
+
+
+def handle_tool_error(state) -> dict:
+    error = state.get("error")
+    tool_calls = state["messages"][-1].tool_calls
+    return {
+        "messages": [
+            ToolMessage(
+                content=f"Error: {repr(error)}\n please fix your mistakes.",
+                tool_call_id=tc["id"],
+            )
+            for tc in tool_calls
+        ]
+    }
 
 
 # The following functions interoperate between the top level graph state
@@ -36,13 +62,14 @@ def condition(
     state: GithubTeamState,
 ) -> Literal["supervisor", "query_param_generator"]:
     messages = state["messages"]
-    print("messages inside condition conditional edge :",messages)
+    print("messages inside should_continue:",messages)
     last_message = messages[-1]
-    print("last_message here in conditional edge ", last_message)
+    print("last_message here ", last_message)
     if last_message.content.startswith("Error:"):
         return "query_param_generator"
     else:
         return "supervisor"
+
 
 def github_team_supervisor(agent_node)-> str:
 

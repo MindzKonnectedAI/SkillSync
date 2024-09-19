@@ -1,0 +1,538 @@
+Name,Location,Experience,Skills,Graduation ,Post Graduation ,PhD
+Zara Smith,Chicago,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,NA,NA
+Carl Vaughn,Boston,3,"Java,  Content Marketing, Google Analytics",Bachelor's,NA,NA
+Dana White,New York,1,"Digital Marketing, SEO, Google Analytics",Bachelor's,Master's,PhD
+Alice Kim,Boston,4,"Digital Marketing, SEO, ",Bachelor's,NA,NA
+Bob Lee,New York,5,"Digital Marketing, SEO,  React Js",Bachelor's,NA,NA
+Charlie Park,New York,3," SEO,  Content Marketing, Google Analytics",Bachelor's,NA,NA
+Diana Ross,New York,4,"Digital Marketing, brand management, campaign strategy",Bachelor's,Master's,PhD
+Evan Scott,Los Angeles,5,"Recruitment, employee relations, performance management",Bachelor's,Master's,PhD
+Fiona Turner,Boston,3,"Structural design, project management, site supervision",Bachelor's,Master's,PhD
+George Walker,Chicago,7,"Visual design, branding, Adobe Creative Suite",Bachelor's,NA,NA
+Hannah Young,Chicago,8,"Network security, system maintenance, troubleshooting",Bachelor's,NA,NA
+Betty Underwood,Chicago,5,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,NA,NA
+Ian Adams,New York,3,"Financial modeling, Data Analysis, forecasting",Bachelor's,NA,NA
+Jenna Brooks,Los Angeles,4,"CAD design, product development, mechanical systems",Bachelor's,NA,NA
+Kevin Clark,Chicago,5,"Process improvement, Data Analysis, requirement gathering",Bachelor's,NA,NA
+Liam Davis,Chicago,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills, Salesforce, Successful Campaigns
+",Bachelor's,Master's,PhD
+Davis,Chicago,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills, Salesforce, Successful Campaigns
+",Bachelor's,NA,NA
+Mia Evans,Chicago,4,"Python, SQL,Hadoop,Google Analytics",Bachelor's,NA,NA
+Nathan Fisher,Chicago,5,"Python, SQL, Hadoop",Bachelor's,Master's,PhD
+Olivia Garcia,Chicago,3,"Python, SQL, Hadoop",Bachelor's,NA,NA
+Paul Harris,Boston,1,"Python, SQL,  Neural Networks, Hadoop",Bachelor's,Master's,PhD
+Quinn Jackson,Chicago,6,"Python, SQL,  Neural Networks, Hadoop",Bachelor's,NA,NA
+Rachel King,Chicago,7," SEO,  Content Marketing,Social Media",Bachelor's,NA,NA
+Samuel Lewis,New York,2,"Digital Marketing, SEO, Content Marketing",Bachelor's,NA,NA
+Tina Martinez,Los Angeles,3,"Python, SQL,Hadoop",Bachelor's,NA,NA
+Uma Nelson,Chicago,1,"Python, SQL, Hadoop",Bachelor's,NA,NA
+Victor Owen,Chicago,8,"Python, SQL, Hadoop",Bachelor's,NA,NA
+Wendy Perez,Los Angeles,3,"Python, SQL,  Neural Networks, Hadoop",Bachelor's,NA,NA
+Xavier Quinn,Chicago,10,Python,Bachelor's,Master's,PhD
+Yara Reed,Chicago,5,Process improvement,Bachelor's,NA,NA
+Adam Turner,Chicago,4,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,NA,NA
+Emily Stone,San Francisco,4,"Cloud Computing,  , Azure, Kubernetes",Bachelor's,Master's,PhD
+Daniel Brown,Austin,6,"Full Stack Development, Docker",Bachelor's,Master's,PhD
+Laura Johnson,Miami,5,"Data Science, Python, R, Machine Learning",Bachelor's,NA,NA
+Peter Garcia,Seattle,3,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Mary Wilson,Denver,8,"Healthcare Management, Patient Care, Healthcare Policies",Bachelor's,Master's,PhD
+James Martinez,Houston,2,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Jennifer Davis,Orlando,7,"Marketing Strategy, SEO, SEM, PPC",Bachelor's,Master's,PhD
+Robert Lopez,Phoenix,4,"Software Development, Java, Spring Boot",Bachelor's,NA,NA
+Patricia Anderson,Dallas,6,"Financial Analysis, Investment Banking, Portfolio Management",Bachelor's,Master's,PhD
+Thomas White,San Diego,1,"Graphic Design, Photoshop, Illustrator",Bachelor's,NA,NA
+Barbara Clark,Portland,5,"Human Resources, Talent Acquisition, Employee Relations",Bachelor's,Master's,PhD
+Christopher Lewis,San Antonio,3,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,NA,NA
+Nancy Lee,Las Vegas,2,"Event Planning, Hospitality Management, Vendor Coordination",Bachelor's,Master's,PhD
+Joseph Walker,Salt Lake City,4,"Environmental Science, Sustainability, Conservation",Bachelor's,Master's,PhD
+Karen Hall,New Orleans,5,"Social Media Management, Content Creation, Influencer Marketing",Bachelor's,Master's,PhD
+Michael Allen,Kansas City,7,"Supply Chain Management, Logistics, Inventory Control",Bachelor's,NA,NA
+Sarah Young,Minneapolis,3,"Education, Curriculum Development, Teaching",Bachelor's,Master's,PhD
+Charles King,Tampa,6,"Mobile App Development, Swift, Kotlin",Bachelor's,NA,NA
+Elizabeth Wright,Charlotte,2,"Sales, Account Management, CRM Systems",Bachelor's,Master's,PhD
+Richard Scott,Indianapolis,8,"Construction Management, Project Coordination, Safety Protocols",Bachelor's,Master's,PhD
+Linda Green,Memphis,1,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Donald Baker,Columbus,3,"Manufacturing Engineering, Process Optimization, Lean Manufacturing",Bachelor's,NA,NA
+Jennifer Gonzales,Albuquerque,4,"Pharmacology, Drug Development",Bachelor's,NA,NA
+Mark Rodriguez,Baltimore,5,"Real Estate Management, Property Development, Leasing",Bachelor's,NA,NA
+Susan Lewis,Louisville,2,"Journalism, Reporting, Editorial Writing",Bachelor's,Master's,PhD
+Charles Hill,Detroit,6,"Automotive Engineering, CAD, Vehicle Dynamics",Bachelor's,Master's,PhD
+Angela Adams,Hartford,3,"Legal Research, Contract Law, Litigation",Bachelor's,Master's,PhD
+Steven Nelson,Richmond,4,"Urban Planning, Zoning Regulations, Community Development",Bachelor's,Master's,PhD
+Kimberly Carter,Nashville,7,"Music Production, Audio Engineering, Mixing",Bachelor's,Master's,PhD
+Brian Mitchell,Oklahoma City,2,"Hospitality Management, Guest Services, Hotel Operations",Bachelor's,Master's,PhD
+Karen Perez,Providence,3,"Library Science, Cataloging, Archival Management",Bachelor's,Master's,PhD
+Ronald Turner,Charleston,5,"Marine Biology, Ecology, Fisheries Science",Bachelor's,Master's,PhD
+Michelle Parker,Des Moines,1,"Graphic Design, Web Design, HTML/CSS",Bachelor's,NA,NA
+Kevin Ramirez,Boise,4,"Computer Science, Algorithms, Data Structures",Bachelor's,Master's,PhD
+Lisa Roberts,Cheyenne,3,"Agribusiness, Farm Management, Crop Production",Bachelor's,Master's,PhD
+Eric Campbell,Madison,6,"Veterinary Medicine, Animal Care, Surgery",Bachelor's,Master's,PhD
+Jessica Martinez,Little Rock,4,"Nutrition, Dietetics, Wellness Coaching",Bachelor's,Master's,PhD
+Joshua Robinson,Wichita,3,"Civil Engineering, Structural Analysis, Geotechnical Engineering",Bachelor's,Master's,PhD
+Rebecca Thompson,Lincoln,2,"IT Support, Troubleshooting, Help Desk",Bachelor's,NA,NA
+William Phillips,Jackson,5,"Game Development, Unity, Unreal Engine",Bachelor's,Master's,PhD
+Brenda Mitchell,Baton Rouge,4,"Fashion Design, Textile Design, Trend Analysis",Bachelor's,NA,NA
+Edward Peterson,New Orleans,7,"Aviation Management, Air Traffic Control, Flight Scheduling",Bachelor's,Master's,PhD
+Melissa Stewart,Spokane,3,"Photography, Photo Editing, Lighting",Bachelor's,Master's,PhD
+Anthony Jenkins,El Paso,5,"Telecommunications, VoIP, Network Design",Bachelor's,NA,NA
+Amanda Russell,Tucson,4,"Public Health, Epidemiology, Biostatistics",Bachelor's,Master's,PhD
+Larry Morris,Anchorage,2,"Environmental Engineering, Waste Management, Renewable Energy",Bachelor's,Master's,PhD
+Amy Rogers,Honolulu,6,"Tourism Management, Travel Planning, Cultural Heritage",Bachelor's,Master's,PhD
+Scott Bell,Manchester,3,"Physical Therapy, Rehabilitation, Exercise Science",Bachelor's,NA,NA
+Karen Cook,Portland,5,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Dennis Edwards,Boise,4,"Mining Engineering, Mineral Processing, Geology",Bachelor's,Master's,PhD
+Stephanie Murphy,Anchorage,2,"Culinary Arts, Food Preparation, Menu Planning",Bachelor's,NA,NA
+Frank Roberts,Hartford,3,"Biochemistry, Molecular Biology, Genetics",Bachelor's,Master's,PhD
+Susan Turner,Birmingham,4,"Nursing, Patient Care, Clinical Procedures",Bachelor's,Master's,PhD
+Jason Sanchez,Fresno,5,"Aerospace Engineering, Aerodynamics, Flight Mechanics",Bachelor's,Master's,PhD
+Mary Bennett,Lexington,3,"Psychology, Counseling, Behavioral Analysis",Bachelor's,NA,NA
+William Ward,Greensboro,4,"Architecture, Urban Design, Landscape Architecture",Bachelor's,Master's,PhD
+Elizabeth Gray,Syracuse,2,"Geology, Petrology, Paleontology",Bachelor's,Master's,PhD
+Mark Howard,St. Louis,5,"Chemical Engineering, Process Engineering, Materials Science",Bachelor's,NA,NA
+Sarah Young,Reno,3,"Journalism, Reporting, Investigative Writing",Bachelor's,Master's,PhD
+Thomas Hernandez,Fort Worth,4,"Political Science, Public Policy, International Relations",Bachelor's,NA,NA
+Paul Clark,Albuquerque,6,"Software Testing, Quality Assurance, Test Automation",Bachelor's,NA,NA
+Nancy King,Louisville,3,"Library Science, Information Management, Digital Archives",Bachelor's,NA,NA
+Kenneth Wright,New Orleans,5,"Sociology, Social Research, Community Outreach",Bachelor's,Master's,PhD
+Donna Harris,Anchorage,4,"Oceanography, Marine Science, Coastal Management",Bachelor's,Master's,PhD
+Raymond Lewis,Miami,3,"Public Administration, Government Relations, Public Policy",Bachelor's,Master's,PhD
+Janet Walker,Baton Rouge,5,"Theater Arts, Acting, Directing",Bachelor's,Master's,PhD
+Carl Martinez,Madison,2,"Astrophysics, Cosmology, Space Research",Bachelor's,NA,NA
+Jessica Clark,New Orleans,4,"Graphic Arts, Digital Illustration, Printmaking",Bachelor's,Master's,PhD
+Brian Harris,Boise,6,"Ecology, Environmental Impact Assessment, Wildlife Conservation",Bachelor's,NA,NA
+Lisa Robinson,Honolulu,3,"Cultural Anthropology, Ethnography, Archaeology",Bachelor's,Master's,PhD
+Richard Jackson,Albuquerque,5,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,NA,NA
+Patricia Clark,Denver,4,"Medical Research, Clinical Studies, Drug Development",Bachelor's,NA,NA
+Amber Nelson,New York,3,"Data Analysis, Python, SQL",Bachelor's,Master's,PhD
+Bruce Carter,Los Angeles,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Carol Davis,Chicago,4,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+David Miller,Houston,7,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Ellen Martinez,Philadelphia,2,"Human Resources, Recruitment, Employee Relations",Bachelor's,Master's,PhD
+Frank Allen,Phoenix,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Grace Hernandez,San Antonio,4,"Graphic Design, Adobe Creative Suite, Branding",Bachelor's,NA,NA
+Harry Rodriguez,San Diego,3,"Mobile App Development, Swift, Kotlin",Bachelor's,Master's,PhD
+Isabella Smith,Dallas,5,"Supply Chain Management, Logistics, Inventory Control",Bachelor's,NA,NA
+Jack Thomas,San Jose,1,"IT Support, Troubleshooting, Help Desk",Bachelor's,Master's,PhD
+Karen White,Austin,8,"Project Management, Agile, Scrum",Bachelor's,Master's,PhD
+Larry Brown,Jacksonville,2,"Sales, CRM, Account Management",Bachelor's,Master's,PhD
+Michelle Johnson,Fort Worth,4,"Healthcare Management, Patient Care, Medical Records",Bachelor's,Master's,PhD
+Nathan Lee,Columbus,6,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Olivia Wilson,San Francisco,3,"Event Planning, Vendor Coordination, Hospitality Management",Bachelor's,NA,NA
+Patrick Anderson,Charlotte,5,"Real Estate Management, Property Development, Leasing",Bachelor's,Master's,PhD
+Rachel Harris,Indianapolis,2,"Social Media Management, Content Creation, Influencer Marketing",Bachelor's,NA,NA
+Samuel Martin,Seattle,7,"Environmental Science, Sustainability, Conservation",Bachelor's,Master's,PhD
+Tina Walker,Denver,4,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Victor Robinson,Memphis,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,NA,NA
+Wendy Moore,Boston,3,"Civil Engineering, Structural Analysis, Geotechnical Engineering",Bachelor's,Master's,PhD
+Xavier Adams,Nashville,5,"Chemical Engineering, Process Engineering, Materials Science",Bachelor's,Master's,PhD
+Yvonne Garcia,Baltimore,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Zachary Martinez,Louisville,4,"Urban Planning, Zoning Regulations, Community Development",Bachelor's,Master's,PhD
+Angela Thomas,Milwaukee,3,"Nutrition, Dietetics, Wellness Coaching",Bachelor's,NA,NA
+Brad Lewis,Albuquerque,5,"Computer Science, Algorithms, Data Structures",Bachelor's,Master's,PhD
+Cheryl Walker,Kansas City,4,"Veterinary Medicine, Animal Care, Surgery",Bachelor's,Master's,PhD
+Daniel Rodriguez,Miami,2,"Marine Biology, Ecology, Fisheries Science",Bachelor's,NA,NA
+Emily Young,Oklahoma City,6,"Tourism Management, Travel Planning, Cultural Heritage",Bachelor's,NA,NA
+Frank Baker,Portland,3,"Physical Therapy, Rehabilitation, Exercise Science",Bachelor's,NA,NA
+Gloria Harris,Las Vegas,5,"Culinary Arts, Food Preparation, Menu Planning",Bachelor's,NA,NA
+Howard Martin,New Orleans,4,"Architecture, Urban Design, Landscape Architecture",Bachelor's,Master's,PhD
+Irene Martinez,Tucson,3,"Biochemistry, Molecular Biology, Genetics",Bachelor's,Master's,PhD
+Jack White,Omaha,5,"Nursing, Patient Care, Clinical Procedures",Bachelor's,Master's,PhD
+Karen Thompson,Fresno,6,"Aerospace Engineering, Aerodynamics, Flight Mechanics",Bachelor's,Master's,PhD
+Lisa Anderson,Raleigh,3,"Psychology, Counseling, Behavioral Analysis",Bachelor's,NA,NA
+Mark Johnson,Wichita,4,"Game Development, Unity, Unreal Engine",Bachelor's,NA,NA
+Nancy Brown,Sacramento,5,"Theater Arts, Acting, Directing",Bachelor's,NA,NA
+Oscar Martinez,Tulsa,2,"Legal Research, Contract Law, Litigation",Bachelor's,NA,NA
+Paula Walker,Atlanta,4,"Sociology, Social Research, Community Outreach",Bachelor's,NA,NA
+Quincy Lee,Arlington,5,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,Master's,PhD
+Rachel Allen,Richmond,3,"Library Science, Information Management, Digital Archives",Bachelor's,NA,NA
+Samuel Scott,Minneapolis,2,"IT Support, Troubleshooting, Help Desk",Bachelor's,NA,NA
+Tiffany Harris,Honolulu,6,"Environmental Engineering, Waste Management, Renewable Energy",Bachelor's,Master's,PhD
+Victor Perez,Anchorage,4,"Public Health, Epidemiology, Biostatistics",Bachelor's,NA,NA
+Wendy Young,Boise,3,"Social Media Management, Content Creation, Influencer Marketing",Bachelor's,Master's,PhD
+Xavier Thompson,Miami,2,"Graphic Design, Web Design, HTML/CSS",Bachelor's,Master's,PhD
+Yolanda Lewis,Fort Worth,5,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Zachary Young,Salt Lake City,3,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Amanda Moore,Newark,4,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Brandon Harris,St. Louis,3,"Event Planning, Vendor Coordination, Hospitality Management",Bachelor's,Master's,PhD
+Carol Wilson,Tampa,5,"Healthcare Management, Patient Care, Medical Records",Bachelor's,Master's,PhD
+David Lee,Jacksonville,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Emily Taylor,Cleveland,3,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Frank Johnson,Pittsburgh,5,"Cloud Computing,  , Azure, Kubernetes",Bachelor's,NA,NA
+Grace Martin,Orlando,4,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Harry Lewis,Louisville,3,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Isabella Davis,Baltimore,2,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Jack Harris,San Francisco,6,"Human Resources, Recruitment, Employee Relations",Bachelor's,Master's,PhD
+Karen Thompson,Detroit,4,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Larry Moore,El Paso,3,"Supply Chain Management, Logistics, Inventory Control",Bachelor's,NA,NA
+Michelle Brown,Memphis,5,"Mobile App Development, Swift, Kotlin",Bachelor's,NA,NA
+Nathan Johnson,Baltimore,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Olivia Martinez,Austin,4,"Graphic Design, Adobe Creative Suite, Branding",Bachelor's,NA,NA
+Patrick Wilson,Denver,3,"Supply Chain Management, Logistics, Inventory Control",Bachelor's,Master's,PhD
+Rachel Taylor,San Diego,2,"Sales, CRM, Account Management",Bachelor's,NA,NA
+Samuel Anderson,Boston,5,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Tina Wilson,Portland,4,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Victor Thomas,Nashville,6,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Wendy Jackson,Las Vegas,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Xavier White,Kansas City,4,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Yolanda Harris,Albuquerque,2,"Event Planning, Vendor Coordination, Hospitality Management",Bachelor's,NA,NA
+Zachary Martinez,Tucson,5,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Amanda Taylor,Fresno,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,NA,NA
+Brandon Anderson,Indianapolis,3,"Civil Engineering, Structural Analysis, Geotechnical Engineering",Bachelor's,NA,NA
+Carol Martin,Sacramento,4,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+David Thomas,New Orleans,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Emily Wilson,Honolulu,5,"Environmental Science, Sustainability, Conservation",Bachelor's,NA,NA
+Frank Taylor,Omaha,3,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Grace Harris,Raleigh,4,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Harry Anderson,Cleveland,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Isabella Martin,Wichita,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Jack Johnson,Tulsa,3,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Karen Harris,Arlington,4,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Larry Thomas,Columbus,2,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Michelle Moore,Minneapolis,5,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,NA,NA
+Nathan Taylor,Tampa,6,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Olivia Harris,St. Louis,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Patrick Taylor,Milwaukee,4,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Rachel Johnson,Detroit,2,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Samuel Taylor,Louisville,5,"Software Engineering, Java, C++",Bachelor's,NA,NA
+Tina Martinez,Kansas City,3,"Data Analysis, Python, SQL",Bachelor's,Master's,PhD
+Victor Wilson,Indianapolis,4,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Wendy Thomas,Memphis,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Xavier Johnson,Baltimore,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,NA,NA
+Yolanda Taylor,Oklahoma City,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Zachary Harris,Boston,4,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Amanda Harris,Las Vegas,2,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Brandon Wilson,El Paso,5,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,NA,NA
+Carol Taylor,Albuquerque,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+David Harris,Tucson,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Emily Martinez,Fresno,4,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Frank Anderson,Sacramento,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Grace Johnson,Honolulu,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Harry Taylor,Omaha,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Isabella Harris,Raleigh,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Jack Martinez,Cleveland,3,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Karen Wilson,Wichita,4,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Larry Johnson,Tulsa,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Michelle Taylor,Arlington,5,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,NA,NA
+Nathan Harris,Columbus,6,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,NA,NA
+Olivia Wilson,Minneapolis,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Patrick Harris,Tampa,4,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Rachel Wilson,St. Louis,2,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Samuel Martinez,Milwaukee,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Tina Harris,Detroit,3,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Victor Taylor,Louisville,4,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Wendy Wilson,Kansas City,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Xavier Martinez,Indianapolis,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Yolanda Harris,Baltimore,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Zachary Wilson,Oklahoma City,4,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Amanda Martinez,Boston,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Brandon Harris,Las Vegas,5,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Carol Wilson,El Paso,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+David Taylor,Albuquerque,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Emily Harris,Tucson,4,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Frank Wilson,Fresno,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Grace Taylor,Sacramento,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Harry Harris,Honolulu,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Isabella Wilson,Omaha,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Jack Taylor,Raleigh,3,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Karen Harris,Cleveland,4,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Larry Wilson,Wichita,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Michelle Martinez,Tulsa,5,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Nathan Taylor,Arlington,6,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Olivia Harris,Columbus,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Patrick Wilson,Minneapolis,4,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Rachel Martinez,Tampa,2,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Samuel Taylor,St. Louis,5,"Software Engineering, Java, C++",Bachelor's,NA,NA
+Tina Harris,Milwaukee,3,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Victor Wilson,Detroit,4,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Wendy Taylor,Louisville,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Xavier Harris,Kansas City,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,NA,NA
+Yolanda Wilson,Indianapolis,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Zachary Martinez,Baltimore,4,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Amanda Taylor,Oklahoma City,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Brandon Harris,Boston,5,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Carol Wilson,Las Vegas,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+David Taylor,El Paso,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Emily Harris,Albuquerque,4,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Frank Wilson,Tucson,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Grace Taylor,Fresno,5,"Software Engineering, Java, C++",Bachelor's,NA,NA
+Harry Harris,Sacramento,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Isabella Wilson,Honolulu,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Jack Taylor,Omaha,3,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Karen Harris,Raleigh,4,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Larry Wilson,Cleveland,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Michelle Martinez,Wichita,5,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Nathan Taylor,Tulsa,3.5,"Financial Analysis, Risk Management, AWS",Bachelor's,Master's,PhD
+Olivia Harris,Arlington,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Patrick Wilson,Columbus,4,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Rachel Martinez,Minneapolis,2,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Samuel Taylor,Tampa,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Tina Harris,St. Louis,3,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Victor Wilson,Milwaukee,4,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Wendy Taylor,Detroit,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Xavier Harris,Louisville,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Yolanda Wilson,Kansas City,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Zachary Martinez,Indianapolis,4,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Amanda Taylor,Baltimore,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Brandon Harris,Oklahoma City,5,"Financial Analysis, Risk Management, Portfolio Management",Bachelor's,Master's,PhD
+Carol Wilson,Boston,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+David Taylor,Las Vegas,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Emily Harris,El Paso,4,"Data Analysis, Python, SQL",Bachelor's,Master's,PhD
+Frank Wilson,Albuquerque,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Grace Taylor,Tucson,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Harry Harris,Fresno,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Isabella Wilson,Sacramento,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Jack Taylor,Honolulu,3,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Karen Harris,Omaha,4,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,NA,NA
+Larry Wilson,Raleigh,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Michelle Martinez,Cleveland,5,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Nathan Taylor,Wichita,5.5,"Financial Analysis, Risk Management, GCB",Bachelor's,Master's,PhD
+Olivia Harris,Tulsa,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Patrick Wilson,Arlington,4,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Rachel Martinez,Columbus,2,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Samuel Taylor,Minneapolis,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
+Tina Harris,Indianapolis,3,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Victor Wilson,Detroit,4,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
+Wendy Taylor,Milwaukee,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Xavier Harris,Kansas City,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Yolanda Wilson,Louisville,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,PhD
+Zachary Martinez,Kansas City,4,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+George Willis,San Francisco,6,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Gabrial Martinez,Raleigh,6,"Electrical Engineering, Circuit Design, PCB Layout",Bachelor's,Master's,PhD
+Norris Gordon,Miami,7," SEO,  Content Marketing,Social Media",Bachelor's,Master's,PhD
+Jack Silva,Wichita,3,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Frank,Chicago,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,NA,NA
+George,Chicago,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,NA,NA
+Siwan,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,Master's,PhD
+Patna,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,Master's,PhD
+Ryan,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,NA,NA
+Elizabeth,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,Master's,PhD
+Chris,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,NA,NA
+Jackie,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,Master's,PhD
+Smith,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,Master's,PhD
+Lara,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
+",Bachelor's,Master's,PhD
+Aarav Patel,New York,2,"Java, Web Development",Bachelor's,Master's,PhD
+Aditi Sharma,San Francisco,3,"Python, Data Science, Machine Learning",Bachelor's,NA,NA
+Aishwarya Iyer,Boston,4,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Akash Mehta,Chicago,1,"Cybersecurity, Network Security",Bachelor's,Master's,PhD
+Alok Gupta,Seattle,5,"Financial Analysis, Investment Management",Bachelor's,Master's,PhD
+Anika Rao,Austin,3,"UX Design, Adobe XD, Sketch",Bachelor's,NA,NA
+Arjun Nair,Miami,6,"Software Engineering, Java, C++",Bachelor's,NA,NA
+Bhavana Joshi,Denver,4,"Business Analysis, SQL, Data Visualization",Bachelor's,NA,NA
+Chirag Shah,Phoenix,2,"Mobile Development, Swift, Kotlin",Bachelor's,Master's,PhD
+Deepak Verma,Dallas,7,"Network Engineering, Cisco, Juniper",Bachelor's,NA,NA
+Divya Kapoor,Atlanta,5,"Project Management, Agile, Scrum",Bachelor's,NA,NA
+Esha Sen,Portland,3,"Graphic Design, Adobe Creative Suite",Bachelor's,Master's,PhD
+Gaurav Bhatia,Charlotte,4,"Data Engineering, Python, SQL",Bachelor's,Master's,PhD
+Harshita Singh,San Diego,6,"Software Development, JavaScript, React",Bachelor's,Master's,PhD
+Ishan Kulkarni,Houston,5,"Electrical Engineering, Circuit Design",Bachelor's,Master's,PhD
+Jaya Desai,Minneapolis,2,"Content Writing, Blogging, SEO",Bachelor's,NA,NA
+Kabir Reddy,Baltimore,3,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Kavya Menon,Detroit,4,"Human Resources, Recruitment, Employee Relations",Bachelor's,Master's,PhD
+Kiran Kumar,Philadelphia,5,"Artificial Intelligence, Machine Learning",Bachelor's,Master's,PhD
+Lakshmi Sinha,San Antonio,2,"Financial Analysis, Data Analysis, Excel",Bachelor's,Master's,PhD
+Manish Jain,Columbus,6,"Database Administration, SQL, Oracle",Bachelor's,Master's,PhD
+Meera Chawla,Nashville,3,"Digital Marketing, Google Analytics",Bachelor's,Master's,PhD
+Naina Aggarwal,Louisville,4,"Healthcare Management, Patient Care",Bachelor's,NA,NA
+Neha Rajan,Omaha,5,"Data Analysis, Python, R",Bachelor's,NA,NA
+Nikhil Goel,Milwaukee,2,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Pooja Prasad,Kansas City,3,"Marketing, Market Research, Brand Management",Bachelor's,NA,NA
+Priya Narang,Raleigh,4,"Software Testing, QA, Automation",Bachelor's,Master's,PhD
+Rajiv Nambiar,Cleveland,5,"Data Science, Python, SQL",Bachelor's,NA,NA
+Ritu Kaur,Albuquerque,2,"Customer Service, Communication Skills",Bachelor's,Master's,PhD
+Rohit Kapoor,Sacramento,6,"Software Engineering, C#, .NET",Bachelor's,NA,NA
+Rohan Malhotra,New Orleans,3,"Civil Engineering, Project Management",Bachelor's,Master's,PhD
+Sanya Batra,Salt Lake City,4,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Shreya Joshi,Richmond,5,"UX/UI Design, Figma, Adobe XD",Bachelor's,Master's,PhD
+Siddharth Deshmukh,Orlando,2,"Mobile Development, Flutter, Dart",Bachelor's,NA,NA
+Sneha Bhardwaj,Providence,3,"Data Science, Machine Learning, R",Bachelor's,NA,NA
+Soham Desai,Memphis,4,"Software Development, Python, Django",Bachelor's,Master's,PhD
+Sudhir Mittal,Louisville,5,"Network Engineering, Cisco, Juniper",Bachelor's,Master's,PhD
+Tanya Shetty,Virginia Beach,2,"Digital Marketing, SEO, Social Media",Bachelor's,NA,NA
+Tarun Patel,Jacksonville,3,"Electrical Engineering, Circuit Design",Bachelor's,Master's,PhD
+Tejaswini Reddy,Buffalo,4,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Uday Gupta,Pittsburgh,5,"Project Management, Agile, Scrum",Bachelor's,Master's,PhD
+Uma Shankar,St. Louis,2,"Graphic Design, Adobe Creative Suite",Bachelor's,Master's,PhD
+Varun Sharma,Las Vegas,3,"Financial Analysis, Risk Management",Bachelor's,Master's,PhD
+Vidya Srinivasan,Washington,4,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Vikram Malhotra,San Jose,5,"Software Development, JavaScript, React",Bachelor's,NA,NA
+Vikas Jain,Indianapolis,6,"Database Administration, SQL, Oracle",Bachelor's,NA,NA
+Vishal Kulkarni,Tucson,3,"UX Design, Adobe XD, Sketch",Bachelor's,NA,NA
+Yash Raj,Austin,4,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Aarya Singh,Boston,2,"Software Testing, QA, Automation",Bachelor's,Master's,PhD
+Aditya Verma,Miami,5,"Network Engineering, Cisco, Juniper",Bachelor's,Master's,PhD
+Alka Raj,Denver,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,NA,NA
+Amit Reddy,Houston,4,"Software Development, Python, Django",Bachelor's,NA,NA
+Anish Bhatia,Atlanta,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Anjali Mehta,Dallas,3,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Ankita Rao,Charlotte,4,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Ankur Patel,Phoenix,2,"Mobile Development, Swift, Kotlin",Bachelor's,Master's,PhD
+Arvind Kumar,Seattle,5,"Financial Analysis, Investment Management",Bachelor's,Master's,PhD
+Ashwin Joshi,Chicago,3,"UX/UI Design, Figma, Adobe XD",Bachelor's,NA,NA
+Bharti Sharma,San Francisco,4,"Data Engineering, Python, SQL",Bachelor's,Master's,PhD
+Chetan Kapoor,New York,2,"Java, Web Development",Bachelor's,NA,NA
+Darshana Iyer,Austin,6,"Healthcare Management, Patient Care",Bachelor's,Master's,PhD
+Devesh Singh,Boston,3,"Project Management, Agile, Scrum",Bachelor's,NA,NA
+Devika Nair,Miami,4,"Graphic Design, Adobe Creative Suite",Bachelor's,Master's,PhD
+Diya Patel,Denver,5,"Network Engineering, Cisco, Juniper",Bachelor's,NA,NA
+Eashan Kapoor,Atlanta,2,"Software Testing, QA, Automation",Bachelor's,Master's,PhD
+Esha Sharma,Charlotte,3,"Data Science, Python, R",Bachelor's,Master's,PhD
+Gaurang Reddy,Phoenix,4,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Gayatri Singh,Seattle,5,"Content Writing, Blogging, SEO",Bachelor's,Master's,PhD
+Heena Joshi,Houston,6,"Software Development, JavaScript, React",Bachelor's,Master's,PhD
+Ishaan Desai,Dallas,2,"Mobile Development, Flutter, Dart",Bachelor's,Master's,PhD
+Ishita Patel,Chicago,3,"Data Science, Machine Learning, R",Bachelor's,Master's,PhD
+Jai Kapoor,San Francisco,4,"Software Engineering, C#, .NET",Bachelor's,Master's,PhD
+Jhanvi Reddy,New York,5,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Jitesh Mehta,Austin,2,"Marketing, Market Research, Brand Management",Bachelor's,NA,NA
+Jyoti Nair,Boston,3,"Human Resources, Recruitment, Employee Relations",Bachelor's,Master's,PhD
+Karan Gupta,Miami,4,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Karishma Singh,Denver,5,"Financial Analysis, Risk Management",Bachelor's,NA,NA
+Karthik Reddy,Atlanta,6,"Digital Marketing, Google Analytics",Bachelor's,NA,NA
+Kavya Patel,Dallas,3,"Data Engineering, Python, SQL",Bachelor's,Master's,PhD
+Keshav Sharma,Charlotte,2,"Mobile Development, Swift, Kotlin",Bachelor's,Master's,PhD
+Krishan Kapoor,Phoenix,3,"Electrical Engineering, Circuit Design",Bachelor's,NA,NA
+Lakshmi Joshi,Seattle,4,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Lavanya Nair,Houston,5,"Project Management, Agile, Scrum",Bachelor's,Master's,PhD
+Madhav Mehta,Dallas,2,"Graphic Design, Adobe Creative Suite",Bachelor's,Master's,PhD
+Maithili Singh,Chicago,3,"Software Development, Python, Django",Bachelor's,NA,NA
+Manan Reddy,San Francisco,4,"Network Engineering, Cisco, Juniper",Bachelor's,Master's,PhD
+Megha Patel,New York,5,"Financial Analysis, Data Analysis, Excel",Bachelor's,Master's,PhD
+Mohit Joshi,Austin,6,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,Master's,PhD
+Mukesh Kapoor,Boston,3,"Business Analysis, SQL, Data Visualization",Bachelor's,NA,NA
+Niharika Nair,Miami,4,"Healthcare Management, Patient Care",Bachelor's,Master's,PhD
+Nikita Gupta,Denver,5,"Data Science, Python, R",Bachelor's,NA,NA
+Nishant Sharma,Atlanta,6,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Pallavi Reddy,Dallas,2,"UX/UI Design, Figma, Adobe XD",Bachelor's,NA,NA
+Pankaj Patel,Charlotte,3,"Project Management, Agile, Scrum",Bachelor's,NA,NA
+Parul Singh,Phoenix,4,"Digital Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Piyush Desai,Seattle,5,"Electrical Engineering, Circuit Design",Bachelor's,Master's,PhD
+Prachi Mehta,Houston,6,"Software Development, JavaScript, React",Bachelor's,NA,NA
+Pranav Nair,Dallas,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Preeti Joshi,Chicago,3,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Priyanka Kapoor,San Francisco,4,"Marketing, Market Research, Brand Management",Bachelor's,NA,NA
+Rahul Gupta,New York,5,"Human Resources, Recruitment, Employee Relations",Bachelor's,NA,NA
+Rajesh Sharma,Austin,6,"Data Engineering, Python, SQL",Bachelor's,NA,NA
+Rakesh Reddy,Boston,2,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Rhea Nair,Miami,3,"Software Testing, QA, Automation",Bachelor's,Master's,PhD
+Rohini Mehta,Denver,4,"Financial Analysis, Risk Management",Bachelor's,Master's,PhD
+Ruchir Kapoor,Atlanta,5,"Mobile Development, Swift, Kotlin",Bachelor's,NA,NA
+Sakshi Joshi,Charlotte,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Sameer Sharma,Phoenix,3,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Sanjay Mehta,Seattle,4,"Graphic Design, Adobe Creative Suite",Bachelor's,NA,NA
+Satish Joshi,Houston,5,"Software Engineering, C#, .NET",Bachelor's,NA,NA
+Shalini Kapoor,Dallas,6,"Data Science, Python, R",Bachelor's,NA,NA
+Shruti Reddy,Chicago,2,"Mobile Development, Flutter, Dart",Bachelor's,Master's,PhD
+Shubham Patel,San Francisco,3,"Digital Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Smita Joshi,New York,4,"Network Engineering, Cisco, Juniper",Bachelor's,NA,NA
+Snehal Nair,Austin,5,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Soham Gupta,Boston,6,"Financial Analysis, Data Analysis, Excel",Bachelor's,Master's,PhD
+Soumya Reddy,Miami,2,"Marketing, Market Research, Brand Management",Bachelor's,Master's,PhD
+Sunil Joshi,Denver,3,"Project Management, Agile, Scrum",Bachelor's,NA,NA
+Swati Kapoor,Atlanta,4,"Healthcare Management, Patient Care",Bachelor's,NA,NA
+Tanish Nair,Dallas,5,"Data Science, Python, R",Bachelor's,NA,NA
+Tanya Sharma,Charlotte,6,"UX/UI Design, Figma, Adobe XD",Bachelor's,NA,NA
+Tarun Reddy,Phoenix,2,"Software Engineering, JavaScript, React",Bachelor's,Master's,PhD
+Tejas Patel,Seattle,3,"Data Analysis, Python, SQL",Bachelor's,Master's,PhD
+Vani Mehta,Houston,4,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Varun Joshi,Dallas,5,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,Master's,PhD
+Vedika Kapoor,Chicago,6,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Vijay Nair,San Francisco,2,"Network Engineering, Cisco, Juniper",Bachelor's,Master's,PhD
+Vinay Sharma,New York,3,"Software Development, Python, Django",Bachelor's,NA,NA
+Vishal Reddy,Austin,4,"Electrical Engineering, Circuit Design",Bachelor's,NA,NA
+Vishwa Kapoor,Boston,5,"Financial Analysis, Risk Management",Bachelor's,Master's,PhD
+Yogesh Joshi,Miami,6,"Digital Marketing, Google Analytics",Bachelor's,NA,NA
+Zoya Sharma,Denver,3,"UX/UI Design, Figma, Adobe XD",Bachelor's,Master's,PhD
+Abhay Mehta,Atlanta,2,"Business Analysis, SQL, Data Visualization",Bachelor's,NA,NA
+Adarsh Patel,Dallas,3,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Aishwarya Kapoor,Charlotte,4,"Data Science, Python, R",Bachelor's,NA,NA
+Ajay Sharma,Phoenix,5,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Akanksha Gupta,Seattle,6,"Software Development, JavaScript, React",Bachelor's,NA,NA
+Amrita Nair,Houston,2,"Marketing, Market Research, Brand Management",Bachelor's,NA,NA
+Anand Joshi,Dallas,3,"Project Management, Agile, Scrum",Bachelor's,NA,NA
+Anirudh Patel,Chicago,4,"Healthcare Management, Patient Care",Bachelor's,Master's,PhD
+Ankita Sharma,San Francisco,5,"Digital Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Ankit Kapoor,New York,6,"UX/UI Design, Figma, Adobe XD",Bachelor's,Master's,PhD
+Anuradha Reddy,Austin,2,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Apoorva Joshi,Boston,3,"Software Testing, QA, Automation",Bachelor's,Master's,PhD
+Archana Mehta,Miami,4,"Network Engineering, Cisco, Juniper",Bachelor's,NA,NA
+Arpita Nair,Denver,5,"Financial Analysis, Data Analysis, Excel",Bachelor's,NA,NA
+Arvind Gupta,Atlanta,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Ashish Sharma,Dallas,2,"Mobile Development, Swift, Kotlin",Bachelor's,Master's,PhD
+Ayesha Kapoor,Charlotte,3,"Software Engineering, C#, .NET",Bachelor's,NA,NA
+Bansi Nair,Phoenix,4,"Data Science, Python, R",Bachelor's,NA,NA
+Bharat Joshi,Seattle,5,"Digital Marketing, Google Analytics",Bachelor's,Master's,PhD
+Bhavya Patel,Houston,6,"Data Engineering, Python, SQL",Bachelor's,Master's,PhD
+Chandan Reddy,Dallas,2,"UX/UI Design, Figma, Adobe XD",Bachelor's,NA,NA
+Charu Sharma,Chicago,3,"Marketing, SEO, Social Media",Bachelor's,NA,NA
+Dhanraj Kapoor,San Francisco,4,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Dinesh Joshi,New York,5,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,Master's,PhD
+Durga Nair,Austin,6,"Healthcare Management, Patient Care",Bachelor's,NA,NA
+Eesha Patel,Boston,2,"Project Management, Agile, Scrum",Bachelor's,Master's,PhD
+Eklavya Gupta,Miami,3,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,NA,NA
+Falguni Kapoor,Denver,4,"Data Analysis, Python, SQL",Bachelor's,NA,NA
+Ganesh Joshi,Atlanta,5,"Network Engineering, Cisco, Juniper",Bachelor's,NA,NA
+Gaurav Reddy,Dallas,6,"Digital Marketing, SEO, Social Media",Bachelor's,NA,NA
+Harish Sharma,Charlotte,2,"Software Development, Python, Django",Bachelor's,NA,NA
+Himanshu Patel,Phoenix,3,"Financial Analysis, Risk Management",Bachelor's,NA,NA
+Isha Joshi,Seattle,4,"Data Engineering, Python, SQL",Bachelor's,Master's,PhD
+Ishita Reddy,Houston,5,"UX/UI Design, Figma, Adobe XD",Bachelor's,NA,NA
+Jatin Kapoor,Dallas,6,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,Master's,PhD
+Jayesh Sharma,Chicago,2,"Business Analysis, SQL, Data Visualization",Bachelor's,NA,NA
+Jeet Joshi,San Francisco,3,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
+Jyothi Kapoor,New York,4,"Data Science, Python, R",Bachelor's,Master's,PhD
+Kalpana Nair,Austin,5,"Project Management, Agile, Scrum",Bachelor's,NA,NA
+Kamlesh Gupta,Boston,6,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Kartik Joshi,Miami,2,"Data Analysis, Python, SQL",Bachelor's,Master's,PhD
+Kashish Reddy,Denver,3,"Network Engineering, Cisco, Juniper",Bachelor's,Master's,PhD
+Kavita Patel,Atlanta,4,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Keshav Joshi,Dallas,5,"Digital Marketing, Google Analytics",Bachelor's,NA,NA
+Kishan Sharma,Charlotte,6,"Software Testing, QA, Automation",Bachelor's,Master's,PhD
+Kritika Gupta,Phoenix,2,"Data Science, Python, R",Bachelor's,NA,NA
+Krunal Patel,Seattle,3,"Software Engineering, C#, .NET",Bachelor's,NA,NA
+Kunal Sharma,Houston,4,"UX/UI Design, Figma, Adobe XD",Bachelor's,NA,NA
+Lavanya Kapoor,Dallas,5,"Financial Analysis, Data Analysis, Excel",Bachelor's,Master's,NA
+Leela Reddy,Chicago,6,"Network Engineering, Cisco, Juniper",Bachelor's,NA,NA
+Madhuri Joshi,San Francisco,2,"Healthcare Management, Patient Care",Bachelor's,NA,NA
+Manish Gupta,New York,3,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Meena Patel,Austin,4,"Software Engineering, JavaScript, React",Bachelor's,NA,NA
+Mukta Reddy,Boston,5,"Digital Marketing, SEO, Social Media",Bachelor's,NA,NA
+Nalini Joshi,Miami,6,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Navin Sharma,Denver,2,"UX/UI Design, Figma, Adobe XD",Bachelor's,NA,NA
+Neha Kapoor,Atlanta,3,"Software Development, JavaScript, React",Bachelor's,Master's,PhD
+Neeraj Reddy,Dallas,4,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
+Nikunj Joshi,Chicago,5,"Data Engineering, Python, SQL",Bachelor's,NA,NA
+Niraj Gupta,San Francisco,6,"Mobile Development, Flutter, Dart",Bachelor's,NA,NA
+Nita Reddy,New York,2,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Pallavi Sharma,Austin,3,"Financial Analysis, Risk Management",Bachelor's,NA,NA
+Parag Joshi,Boston,4,"Digital Marketing, Google Analytics,React Js",Bachelor's,Master's,PhD
+Parikshit Patel,Miami,5,"Data Science, Python, R",Bachelor's,NA,NA
+Parth Joshi,Denver,6,"Software Engineering, C#, .NET",Bachelor's,Master's,NA
+Piyali Kapoor,Atlanta,2,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,NA,NA
+Prajakta Gupta,Dallas,3,"Marketing, Market Research, Brand Management",Bachelor's,Master's,PhD
+Pramod Reddy,Charlotte,4,"Cybersecurity, Network Security, Ethical Hacking",Bachelor's,Master's,PhD
+Tarli Sinha ,New York,2,"Digital Marketing, SEO,  Content Marketing, Google Analytics",Bachelor of Business Administration,Master of Business Administration,NA
+Barbora hanison ,New York,1.5,"Digital Marketing, SEO,  Content Marketing, Google Analytics",Bachelor's,Master's,PhD
+Lucas sinclare,New York,2,"Digital Marketing, SEO",Bachelor's,NA,NA
+Suzy clark,New York,1,"Digital Marketing, SEO",Bachelor's,NA,NA
+Bar Martinez,Philadelphia,5.5,"Human Resources, Recruitment, Employee Relations",Bachelor's,Master's,PhD
+Olwa saloni ,Philadelphia,5.5,DevOps,Bachelor's,Master's,PhD
+Mark Harbour,Los Angeles,2.5,"JavaScript, Git , AWS,  Agile methodologies",Bachelor's,Master's,PhD
+Lil Wayane ,Los Angeles,3.5,"JavaScript, Git , Google Cloud,  Agile methodologies",Bachelor's,Master's,PhD
+Ketty Parker ,Los Angeles,2,"JavaScript, Git , Azure,  Agile methodologies",Bachelor's,Master's,PhD
+Paul Walker ,Los Angeles,3,"JavaScript, Git , Agile methodologies",Bachelor's,Master's,PhD
+Edy Barbora,Los Angeles,4,"JavaScript, Git ,",Bachelor's,,
+,,, ,,,

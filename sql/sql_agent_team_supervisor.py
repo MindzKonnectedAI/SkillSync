@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 import os
-import create_image_func
+import utils.create_image_func as create_image_func
 from langchain_core.messages import BaseMessage, HumanMessage
-import create_team_supervisor_func
+import utils.create_team_supervisor_func as create_team_supervisor_func
 from langchain_community.utilities import SQLDatabase
 from typing import Any
 from langchain_core.messages import ToolMessage
@@ -20,9 +20,8 @@ from langchain_openai import ChatOpenAI
 from typing_extensions import TypedDict
 from langgraph.graph import END, StateGraph, START
 from langgraph.graph.message import AnyMessage, add_messages
-import create_image_func
 from langchain_core.messages import BaseMessage, HumanMessage
-import create_team_supervisor_func
+import utils.create_team_supervisor_func as create_team_supervisor_func
 from langchain_community.utilities import SQLDatabase
 from langchain_core.runnables import Runnable, RunnableConfig
 from langchain_core.messages import ToolMessage
@@ -150,6 +149,7 @@ INSTRUCTIONS:
 - Write your query based upon the schema of the tables. You MUST double check your query before executing it.
 - You can order the results by a relevant column to return the most interesting examples in the database.
 - Never query for all the columns from a specific table, only ask for the relevant columns given the question.
+- ALWAYS prefer to give response in table format when returning the it to the user
 - If you get an error while executing a query, rewrite the query and try again.
 - If the query returns a result, use check_result tool to check the query result.
 - If the query result result is empty, think about the table schema, rewrite the query, and try again.
