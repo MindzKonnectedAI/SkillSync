@@ -13,8 +13,15 @@ import github.github_team_supervisor as github_team_supervisor
 import utils.csv_to_sql as csv_to_sql
 import utils.create_image_func as create_image_func
 import utils.create_team_supervisor_func as create_team_supervisor_func
-
+import utils.upload_job_description as upload_job_description
+import utils.retreive_users as retreive_users
 import os
+# from langchain.chains.summarize import load_summarize_chain
+# from llama_parse import LlamaParse
+# import joblib
+# import chardet
+# from langchain_community.document_loaders import UnstructuredMarkdownLoader
+# from langchain.prompts import PromptTemplate
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,6 +33,7 @@ langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
 langchain_tracking_v2 = os.getenv("LANGCHAIN_TRACING_V2")
 langchain_endpoint = os.getenv("LANGCHAIN_ENDPOINT")
 langchain_project = os.getenv("LANGCHAIN_PROJECT")
+# llamaparse_api_key = "llx-8MMHGFCJ5PKqyfZM6h5D8epMtjzG4OEOe6lMCEOvgu67YgIt"
 
 # Set environment variables if needed
 os.environ["OPENAI_API_KEY"] = openai_api_key
@@ -34,6 +42,7 @@ os.environ["LANGCHAIN_API_KEY"] = langchain_api_key
 os.environ["LANGCHAIN_TRACING_V2"] = langchain_tracking_v2
 os.environ["LANGCHAIN_ENDPOINT"] = langchain_endpoint
 os.environ["LANGCHAIN_PROJECT"] = langchain_project
+# os.environ["LLAMAPARSE_API_KEY"] = llamaparse_api_key
 
 ### Statefully manage chat history ###
 if "chat_history" not in st.session_state:
@@ -95,20 +104,81 @@ super_graph.add_node("super_supervisor", supervisor_node)
 # super_graph.add_edge("PaperWritingTeam", "super_supervisor")
 super_graph.add_edge("GithubTeam", "super_supervisor")
 super_graph.add_edge("SqlTeam", "super_supervisor")
+# super_graph.add_conditional_edges(
+#     "super_supervisor",
+#     lambda x: x["next"],
+#     {
+#         "SqlTeam": "SqlTeam",
+#         "GithubTeam":"GithubTeam",
+#         "FINISH": END,
+#     },
+# )
+
+def next_step(x):
+    return x["next"]
+
 super_graph.add_conditional_edges(
     "super_supervisor",
-    lambda x: x["next"],
+    next_step,
     {
         "SqlTeam": "SqlTeam",
-        "GithubTeam":"GithubTeam",
+        "GithubTeam": "GithubTeam",
         "FINISH": END,
     },
 )
+
 super_graph.add_edge(START, "super_supervisor")
 super_graph = super_graph.compile()
 
+
 # Streamlit UI
 st.title("Multi-Agent Supervisor System")
+
+
+# File uploader widget
+uploaded_checking_rule_file = st.sidebar.file_uploader(
+    "Upload job description", type=["pdf"], key="pdf"
+)
+
+if uploaded_checking_rule_file is not None:
+    st.sidebar.write("Processing the uploaded file...")
+
+    upload_job_description.upload_rule_data(uploaded_checking_rule_file)
+
+    st.sidebar.success(f"CSV file saved successfully in as {uploaded_checking_rule_file.name}")
+
+
+upload_job_description.display_uploaded_files("./ruleData")
+
+def retrive():
+    question = retreive_users.retreive_users_fnc()
+    print("question", question)
+
+    with st.chat_message("Human"):
+        st.markdown(question)
+    
+    st.session_state.chat_history.append(HumanMessage(question))
+    with st.chat_message("AI"):
+        # Add a spinner with "Processing your query..." text
+        # with st.spinner("Processing your query..."):
+            # Generate the graph image and save it to the temporary file
+        create_image_func.create_graph_image(super_graph, "super_graph")
+        final_prompt = question +" using SQLTeam Agent"
+        print("the final prompt to go to supervisor :",final_prompt)
+        res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
+        print("AI response :",res["messages"])
+        aiRes = res["messages"][-1].content
+        st.write(aiRes)            
+        st.session_state.chat_history.append(AIMessage(aiRes))
+    return question
+
+# Use a lambda to delay the function call until the button is clicked
+st.sidebar.button(
+    "Reterive users",
+    on_click=retrive,  # Note the lack of parentheses here
+    key="retreive_users",
+    # help="collectible_button",
+)
 
 # Define folder paths
 csv_folder = "csv"
@@ -144,6 +214,7 @@ if uploaded_file is not None:
 
     # Call the function to save CSV data into the database
     csv_to_sql.save_csv_to_sql(csv_path)
+
 
 # Conversation History
 for message in st.session_state.chat_history:

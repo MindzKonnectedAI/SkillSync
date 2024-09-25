@@ -15,7 +15,7 @@ from langchain_core.utils.function_calling import convert_to_openai_function
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from typing import Annotated, Literal
 from langchain_core.messages import AIMessage
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from typing_extensions import TypedDict
 from langgraph.graph import END, StateGraph, START
@@ -57,7 +57,7 @@ db = SQLDatabase.from_uri(f"sqlite:///{db_path}")
 print(db.dialect)
 print(db.get_usable_table_names())
 
-llm=ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o-mini")
 # SQL toolkit
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 tools = toolkit.get_tools()
@@ -77,8 +77,11 @@ Double check the SQLite query for common mistakes, including:
 If there are any of the above mistakes, rewrite the query. If there are no mistakes, just reproduce the original query.
 
 Execute the correct query with the appropriate tool."""
-query_check_prompt = ChatPromptTemplate.from_messages([("system", query_check_system),("user", "{query}")])
+query_check_prompt = ChatPromptTemplate.from_messages(
+    [("system", query_check_system), ("user", "{query}")]
+)
 query_check = query_check_prompt | llm
+
 
 @tool
 def check_query_tool(query: str) -> str:
@@ -87,12 +90,16 @@ def check_query_tool(query: str) -> str:
     """
     return query_check.invoke({"query": query}).content
 
+
 # Query result checking
 query_result_check_system = """You are grading the result of a SQL query from a DB.
 - Check that the result is not empty.
 - If it is empty, instruct the system to re-try!"""
-query_result_check_prompt = ChatPromptTemplate.from_messages([("system", query_result_check_system),("user", "{query_result}")])
+query_result_check_prompt = ChatPromptTemplate.from_messages(
+    [("system", query_result_check_system), ("user", "{query_result}")]
+)
 query_result_check = query_result_check_prompt | llm
+
 
 @tool
 def check_result(query_result: str) -> str:
@@ -101,14 +108,17 @@ def check_result(query_result: str) -> str:
     """
     return query_result_check.invoke({"query_result": query_result}).content
 
+
 tools.append(check_query_tool)
 tools.append(check_result)
+
 
 # Define the state for the agent
 class State(TypedDict):
     messages: Annotated[list[AnyMessage], add_messages]
     team_members: str
     next: str
+
 
 # Assistant
 class Assistant:
@@ -136,6 +146,7 @@ class Assistant:
                 break
         return {"messages": result}
 
+
 # Assistant runnable
 query_gen_system = """
 ROLE:
@@ -155,13 +166,17 @@ INSTRUCTIONS:
 - If the query result result is empty, think about the table schema, rewrite the query, and try again.
 - DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database."""
 
-query_gen_prompt = ChatPromptTemplate.from_messages([("system", query_gen_system),("placeholder", "{messages}")])
+query_gen_prompt = ChatPromptTemplate.from_messages(
+    [("system", query_gen_system), ("placeholder", "{messages}")]
+)
 assistant_runnable = query_gen_prompt | llm.bind_tools(tools)
+
 
 def create_tool_node_with_fallback(tools: list) -> dict:
     return ToolNode(tools).with_fallbacks(
         [RunnableLambda(handle_tool_error)], exception_key="error"
     )
+
 
 def handle_tool_error(state) -> dict:
     error = state.get("error")
@@ -176,12 +191,14 @@ def handle_tool_error(state) -> dict:
         ]
     }
 
+
 def enter_chain(message: str):
     print("message", message)
     results = {
         "messages": [HumanMessage(content=message)],
     }
     return results
+
 
 def sql_agent_team_supervisor() -> str:
 
@@ -206,5 +223,5 @@ def sql_agent_team_supervisor() -> str:
     chain = builder.compile()
     sql_chain = enter_chain | chain
     create_image_func.create_graph_image(chain, "sql_graph_image3")
-    
+
     return sql_chain

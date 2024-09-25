@@ -15,7 +15,7 @@ from langchain_core.utils.function_calling import convert_to_openai_function
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from typing import Annotated, Literal
 from langchain_core.messages import AIMessage
-from langchain_core.pydantic_v1 import BaseModel, Field
+from pydantic import BaseModel, Field
 from langchain_openai import ChatOpenAI
 from typing_extensions import TypedDict
 from langgraph.graph import END, StateGraph, START
@@ -46,6 +46,7 @@ db_path = os.path.join(db_folder, "employee.db")
 
 db = SQLDatabase.from_uri(f"sqlite:///{db_path}")
 
+
 def create_tool_node_with_fallback(tools: list) -> RunnableWithFallbacks[Any, dict]:
     """
     Create a ToolNode with a fallback to handle errors and surface them to the agent.
@@ -68,11 +69,13 @@ def handle_tool_error(state) -> dict:
         ]
     }
 
+
 toolkit = SQLDatabaseToolkit(db=db, llm=ChatOpenAI(model="gpt-4o-mini"))
 tools = toolkit.get_tools()
 
 list_tables_tool = next(tool for tool in tools if tool.name == "sql_db_list_tables")
 get_schema_tool = next(tool for tool in tools if tool.name == "sql_db_schema")
+
 
 @tool
 def db_query_tool(query: str) -> str:
@@ -85,6 +88,7 @@ def db_query_tool(query: str) -> str:
     if not result:
         return "Error: Query failed. Please rewrite your query and try again."
     return result
+
 
 query_check_system = """You are a SQL expert with a strong attention to detail.
 Double check the SQLite query for common mistakes, including:
@@ -108,6 +112,7 @@ query_check_prompt = ChatPromptTemplate.from_messages(
 query_check = query_check_prompt | ChatOpenAI(
     model="gpt-4o-mini", temperature=0
 ).bind_tools([db_query_tool], tool_choice="required")
+
 
 # Define the state for the agent
 class State(TypedDict):
@@ -133,20 +138,25 @@ def first_tool_call(state: State) -> dict[str, list[AIMessage]]:
         ]
     }
 
+
 def model_check_query(state: State) -> dict[str, list[AIMessage]]:
     """
     Use this tool to double-check if your query is correct before executing it.
     """
     return {"messages": [query_check.invoke({"messages": [state["messages"][-1]]})]}
 
+
 model_get_schema = ChatOpenAI(model="gpt-4o-mini", temperature=0).bind_tools(
     [get_schema_tool]
 )
 
+
 # Describe a tool to represent the end state
 class SubmitFinalAnswer(BaseModel):
     """Submit the final answer to the user based on the query results."""
+
     final_answer: str = Field(..., description="The final answer to the user")
+
 
 # Add a node for a model to generate a query based on the question and schema
 query_gen_system = """You are a SQL expert with a strong attention to detail.
@@ -175,11 +185,15 @@ DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the databa
 """
 
 query_gen_prompt = ChatPromptTemplate.from_messages(
-    [("system", query_gen_system), ("placeholder", "{messages}"), ]
+    [
+        ("system", query_gen_system),
+        ("placeholder", "{messages}"),
+    ]
 )
-query_gen = query_gen_prompt | ChatOpenAI(model="gpt-4o-mini", temperature=0).bind_tools(
-    [SubmitFinalAnswer]
-)
+query_gen = query_gen_prompt | ChatOpenAI(
+    model="gpt-4o-mini", temperature=0
+).bind_tools([SubmitFinalAnswer])
+
 
 def query_gen_node(state: State):
     message = query_gen.invoke(state)
@@ -199,6 +213,7 @@ def query_gen_node(state: State):
         tool_messages = []
     return {"messages": [message] + tool_messages}
 
+
 # Define a conditional edge to decide whether to continue or end the workflow
 def should_continue(state: State) -> Literal[END, "correct_query", "query_gen"]:
     messages = state["messages"]
@@ -210,6 +225,7 @@ def should_continue(state: State) -> Literal[END, "correct_query", "query_gen"]:
         return "query_gen"
     else:
         return "correct_query"
+
 
 # The following functions interoperate between the top level graph state
 # and the state of the research sub-graph
