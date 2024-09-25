@@ -17,13 +17,7 @@ import utils.upload_job_description as upload_job_description
 import utils.retreive_users as retreive_users
 import os
 from langgraph.errors import GraphRecursionError
-
-# from langchain.chains.summarize import load_summarize_chain
-# from llama_parse import LlamaParse
-# import joblib
-# import chardet
-# from langchain_community.document_loaders import UnstructuredMarkdownLoader
-# from langchain.prompts import PromptTemplate
+import utils.display_uploaded_files as display_uploaded_files
 
 # Load environment variables from .env file
 load_dotenv()
@@ -56,21 +50,9 @@ def agent_node(state, agent, name):
     return {"messages": [HumanMessage(content=result["messages"][-1].content, name=name)]}
 
 # Initialize the agents
-# research_chain = research_team_supervisor_agent.research_team_supervisor_agent(agent_node)
-# authoring_chain = document_team_supervisor.document_team_supervisor(agent_node)
 github_chain = github_team_supervisor.github_team_supervisor(agent_node)
 sql_chain = sql_agent_team_supervisor.sql_agent_team_supervisor()
 llm = ChatOpenAI(model="gpt-4o-mini")
-
-# # Define the supervisor node
-# supervisor_node = create_team_supervisor_func.create_team_supervisor_func(
-#     llm,
-#     "You are a supervisor tasked with managing a conversation between the following teams: {team_members}. "
-#     "Given the following user request, respond with the worker to act next. "
-#     "Carefully analyze the query and then respond with the worker to act next as for a user request , you can only call one worker "
-#     "Each worker will perform a task and respond with their results and status. When finished, respond with FINISH.",
-#     ["SqlTeam", "GithubTeam"],
-# )
 
 # Define the supervisor node
 supervisor_node = create_team_supervisor_func.create_team_supervisor_func(
@@ -96,25 +78,12 @@ def join_graph(response: dict):
 
 # Define the graph
 super_graph = StateGraph(State)
-# super_graph.add_node("ResearchTeam", get_last_message | research_chain | join_graph)
-# super_graph.add_node("PaperWritingTeam", get_last_message | authoring_chain | join_graph)
 super_graph.add_node("GithubTeam", get_last_message | github_chain | join_graph)
 super_graph.add_node("SqlTeam", get_last_message | sql_chain | join_graph)
 super_graph.add_node("super_supervisor", supervisor_node)
 
-# super_graph.add_edge("ResearchTeam", "super_supervisor")
-# super_graph.add_edge("PaperWritingTeam", "super_supervisor")
 super_graph.add_edge("GithubTeam", "super_supervisor")
 super_graph.add_edge("SqlTeam", "super_supervisor")
-# super_graph.add_conditional_edges(
-#     "super_supervisor",
-#     lambda x: x["next"],
-#     {
-#         "SqlTeam": "SqlTeam",
-#         "GithubTeam":"GithubTeam",
-#         "FINISH": END,
-#     },
-# )
 
 def next_step(x):
     return x["next"]
@@ -135,22 +104,6 @@ super_graph = super_graph.compile()
 
 # Streamlit UI
 st.title("Multi-Agent Supervisor System")
-
-
-# File uploader widget
-uploaded_checking_rule_file = st.sidebar.file_uploader(
-    "Upload job description", type=["pdf"], key="pdf"
-)
-
-if uploaded_checking_rule_file is not None:
-    st.sidebar.write("Processing the uploaded file...")
-
-    upload_job_description.upload_rule_data(uploaded_checking_rule_file)
-
-    st.sidebar.success(f"CSV file saved successfully in as {uploaded_checking_rule_file.name}")
-
-
-upload_job_description.display_uploaded_files("./ruleData")
 
 def retrive():
     question = retreive_users.retreive_users_fnc()
@@ -173,27 +126,43 @@ def retrive():
         st.session_state.chat_history.append(AIMessage(aiRes))
     return question
 
-# Use a lambda to delay the function call until the button is clicked
-st.sidebar.button(
-    "Reterive users",
-    on_click=retrive,  # Note the lack of parentheses here
-    key="retreive_users",
-    # help="collectible_button",
-)
-
 # Define folder paths
 csv_folder = "csv"
 
 # Ensure the csv and db directories exist
 os.makedirs(csv_folder, exist_ok=True)
 
-# File uploader widget
-st.sidebar.title('File Upload and Processing')
-uploaded_file = st.sidebar.file_uploader("Upload your CSV file", type=["csv"])
 agent_name = st.sidebar.radio(
-    "Search using",
+    "Query using",
     ["SQL", "Github"]
 )
+
+# File uploader widget
+st.sidebar.title('File Upload and Processing')
+uploaded_file = st.sidebar.file_uploader("Upload CSV File", type=["csv"])
+display_uploaded_files.display_uploaded_files("2","./csv",".csv")
+
+if(agent_name=="SQL"):
+    uploaded_checking_rule_file = st.sidebar.file_uploader(
+        "Upload Job Description PDF", type=["pdf"], key="pdf"
+    )
+    display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
+
+    # Use a lambda to delay the function call until the button is clicked
+    st.sidebar.button(
+        "Retrieve Users",
+        on_click=retrive,  # Note the lack of parentheses here
+        key="retreive_users",
+        # help="collectible_button",
+    )
+
+    if uploaded_checking_rule_file is not None:
+        st.sidebar.write("Processing the uploaded file...")
+
+        upload_job_description.upload_rule_data(uploaded_checking_rule_file)
+
+        st.sidebar.success(f"CSV file saved successfully in as {uploaded_checking_rule_file.name}")
+
 
 def get_agent_name(agent_name_here):
     if(agent_name_here=="SQL"):
@@ -240,11 +209,11 @@ if prompt is not None and prompt != "":
         create_image_func.create_graph_image(super_graph, "super_graph")
         final_prompt = prompt +" using "+ get_agent_name(agent_name)
         print("the final prompt to go to supervisor :",final_prompt)
-        try:
-            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
-            print("AI response :",res["messages"])
-            aiRes = res["messages"][-1].content
-            st.write(aiRes)            
-            st.session_state.chat_history.append(AIMessage(aiRes))
-        except GraphRecursionError:
-            st.error("Error: Graph recursion limit exceeded , try again!")
+        # try:
+        res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
+        print("AI response :",res["messages"])
+        aiRes = res["messages"][-1].content
+        st.write(aiRes)            
+        st.session_state.chat_history.append(AIMessage(aiRes))
+        # except GraphRecursionError:
+        #     st.info("Graph recursion limit exceeded , try again!")
