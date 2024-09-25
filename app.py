@@ -16,6 +16,8 @@ import utils.create_team_supervisor_func as create_team_supervisor_func
 import utils.upload_job_description as upload_job_description
 import utils.retreive_users as retreive_users
 import os
+from langgraph.errors import GraphRecursionError
+
 # from langchain.chains.summarize import load_summarize_chain
 # from llama_parse import LlamaParse
 # import joblib
@@ -164,7 +166,6 @@ def retrive():
             # Generate the graph image and save it to the temporary file
         create_image_func.create_graph_image(super_graph, "super_graph")
         final_prompt = question +" using SQLTeam Agent"
-        print("the final prompt to go to supervisor :",final_prompt)
         res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
         print("AI response :",res["messages"])
         aiRes = res["messages"][-1].content
@@ -239,8 +240,11 @@ if prompt is not None and prompt != "":
         create_image_func.create_graph_image(super_graph, "super_graph")
         final_prompt = prompt +" using "+ get_agent_name(agent_name)
         print("the final prompt to go to supervisor :",final_prompt)
-        res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
-        print("AI response :",res["messages"])
-        aiRes = res["messages"][-1].content
-        st.write(aiRes)            
-        st.session_state.chat_history.append(AIMessage(aiRes))
+        try:
+            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
+            print("AI response :",res["messages"])
+            aiRes = res["messages"][-1].content
+            st.write(aiRes)            
+            st.session_state.chat_history.append(AIMessage(aiRes))
+        except GraphRecursionError:
+            st.error("Error: Graph recursion limit exceeded , try again!")
