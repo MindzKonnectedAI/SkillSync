@@ -139,6 +139,7 @@ agent_name = st.sidebar.radio(
     "Query using",
     ["SQL", "Github"]
 )
+buttonVal = False   
 
 if(agent_name=="SQL"):
     # File uploader widget
@@ -219,8 +220,8 @@ if(buttonVal):
         create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
-            final_prompt = question +" using "+ get_agent_name(agent_name)
-            print("the final prompt to go to supervisor :",final_prompt)
+            final_prompt = question +" *** using SQLTeam Agent *** "
+            # print("the final prompt to go to supervisor :",final_prompt)
             # try:
             res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
             print("AI response :",res["messages"])
