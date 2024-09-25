@@ -107,25 +107,27 @@ super_graph = super_graph.compile()
 st.title("Multi-Agent Supervisor System")
 
 def retrive():
-    question = retreive_users.retreive_users_fnc()
-    print("question", question)
+    pass
+    # question = retreive_users.retreive_users_fnc()
+    # return question
+    # print("question", question)
 
-    with st.chat_message("Human"):
-        st.markdown(question)
+    # with st.chat_message("Human"):
+    #     st.markdown(question)
     
-    st.session_state.chat_history.append(HumanMessage(question))
-    with st.chat_message("AI"):
-        # Add a spinner with "Processing your query..." text
-        # with st.spinner("Processing your query..."):
-            # Generate the graph image and save it to the temporary file
-        create_image_func.create_graph_image(super_graph, "super_graph")
-        final_prompt = question +" using SQLTeam Agent"
-        res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
-        print("AI response :",res["messages"])
-        aiRes = res["messages"][-1].content
-        st.write(aiRes)            
-        st.session_state.chat_history.append(AIMessage(aiRes))
-    return question
+    # st.session_state.chat_history.append(HumanMessage(question))
+    # with st.chat_message("AI"):
+    #     # Add a spinner with "Processing your query..." text
+    #     # with st.spinner("Processing your query..."):
+    #         # Generate the graph image and save it to the temporary file
+    #     create_image_func.create_graph_image(super_graph, "super_graph")
+    #     final_prompt = question +" *** using SQLTeam Agent *** "
+    #     res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]})
+    #     print("AI response :",res["messages"])
+    #     aiRes = res["messages"][-1].content
+    #     st.write(aiRes)            
+    #     st.session_state.chat_history.append(AIMessage(aiRes))
+    # return question
 
 # Define folder paths
 csv_folder = "csv"
@@ -137,7 +139,6 @@ agent_name = st.sidebar.radio(
     "Query using",
     ["SQL", "Github"]
 )
-
 
 if(agent_name=="SQL"):
     # File uploader widget
@@ -151,7 +152,7 @@ if(agent_name=="SQL"):
     display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
 
     # Use a lambda to delay the function call until the button is clicked
-    st.sidebar.button(
+    buttonVal = st.sidebar.button(
         "Retrieve Users",
         on_click=retrive,  # Note the lack of parentheses here
         key="retreive_users",
@@ -177,7 +178,6 @@ def get_agent_name(agent_name_here):
         return "GithubTeam Agent"
 
 
-
 # Conversation History
 for message in st.session_state.chat_history:
     if isinstance(message,HumanMessage):
@@ -189,23 +189,43 @@ for message in st.session_state.chat_history:
 
 # user_input = st.text_input("Enter your query:", "Total number of users in SQL Database?")
 prompt = st.chat_input("Enter your query")
-if prompt is not None and prompt != "":
+if prompt is not None and prompt != "" :
     with st.chat_message("Human"):
         st.markdown(prompt)
     
     st.session_state.chat_history.append(HumanMessage(prompt))
     with st.chat_message("AI"):
-        # Add a spinner with "Processing your query..." text
-        # with st.spinner("Processing your query..."):
-            # Generate the graph image and save it to the temporary file
         create_image_func.create_graph_image(super_graph, "super_graph")
-        final_prompt = prompt +" using "+ get_agent_name(agent_name)
-        print("the final prompt to go to supervisor :",final_prompt)
-        # try:
-        res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
-        print("AI response :",res["messages"])
-        aiRes = res["messages"][-1].content
-        st.write(aiRes)            
-        st.session_state.chat_history.append(AIMessage(aiRes))
-        # except GraphRecursionError:
-        #     st.info("Graph recursion limit exceeded , try again!")
+        holder = st.empty()
+        with st.spinner("Processing your query..."):
+            final_prompt = prompt +" using "+ get_agent_name(agent_name)
+            print("the final prompt to go to supervisor :",final_prompt)
+            # try:
+            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
+            print("AI response :",res["messages"])
+            aiRes = res["messages"][-1].content
+            holder.write(aiRes)            
+            st.session_state.chat_history.append(AIMessage(aiRes))
+            # except GraphRecursionError:
+            #     st.info("Graph recursion limit exceeded , try again!")
+
+if(buttonVal):
+    question = retreive_users.retreive_users_fnc()
+    with st.chat_message("Human"):
+        st.markdown(question)
+    
+    st.session_state.chat_history.append(HumanMessage(question))
+    with st.chat_message("AI"):
+        create_image_func.create_graph_image(super_graph, "super_graph")
+        holder = st.empty()
+        with st.spinner("Processing your query..."):
+            final_prompt = question +" using "+ get_agent_name(agent_name)
+            print("the final prompt to go to supervisor :",final_prompt)
+            # try:
+            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
+            print("AI response :",res["messages"])
+            aiRes = res["messages"][-1].content
+            holder.write(aiRes)            
+            st.session_state.chat_history.append(AIMessage(aiRes))
+            # except GraphRecursionError:
+            #     st.info("Graph recursion limit exceeded , try again!")
