@@ -18,6 +18,7 @@ import utils.retreive_users as retreive_users
 import os
 from langgraph.errors import GraphRecursionError
 import utils.display_uploaded_files as display_uploaded_files
+import utils.upload_csv as upload_csv
 
 # Load environment variables from .env file
 load_dotenv()
@@ -172,18 +173,7 @@ def get_agent_name(agent_name_here):
 
 if uploaded_file is not None:
     st.sidebar.write("Processing the uploaded file...")
-
-    # Define the path to save the CSV in the csv folder
-    csv_path = os.path.join(csv_folder, uploaded_file.name)
-
-    # Save the uploaded file to the csv folder
-    with open(csv_path, "wb") as file:
-        file.write(uploaded_file.getbuffer())
-
-    st.sidebar.success(f"CSV file saved successfully in {csv_folder} as {uploaded_file.name}")
-
-    # Call the function to save CSV data into the database
-    csv_to_sql.save_csv_to_sql(csv_path)
+    upload_csv.upload_csv(uploaded_file)
 
 
 # Conversation History

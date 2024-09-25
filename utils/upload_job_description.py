@@ -43,7 +43,7 @@ def load_or_parse_data(pdf_path, file_name, src_folder):
         It contains many tables, text, image and list.
         Try to be precise each and every details in proper fromat"""
         parser = LlamaParse(
-            api_key=llamaparse_api_key,
+            api_key="llx-8MMHGFCJ5PKqyfZM6h5D8epMtjzG4OEOe6lMCEOvgu67YgIt",
             result_type="markdown",
             parsing_instruction=parsingInstructionUber10k,
             max_timeout=5000,

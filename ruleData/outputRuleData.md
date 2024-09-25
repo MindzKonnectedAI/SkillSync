@@ -1,44 +1,43 @@
-# Job Posting - Digital Marketing Specialist
+# Job Posting - Software Engineer
 
 body {
 font-family: Arial, sans-serif;
 line-height: 1.6;
 margin: 20px;
 }
-h1 {
+h1, h2, h3 {
 color: #333;
 }
-h2 {
-color: #555;
-}
 ul {
-list-style-type: disc;
-margin-left: 20px;
+margin: 10px 0;
+padding-left: 20px;
 }
 .section {
 margin-bottom: 20px;
 }
 
-# Job Title: Digital Marketing Specialist
+# Job Title: Software Engineer
 
-Location: New York, NY
+# Location
 
-# Experience Required:
+Los Angeles
 
-- Minimum of 1 year in digital marketing
+# Experience Required
 
-# Education:
+- 2-4 years of experience in software development
 
-- Bachelor's degree (Required)
-- Master's degree (Preferred)
-- Ph.D (Preferred)
+# Education
 
-# Required Skills:
+- Bachelor’s degree in Computer Science (Required)
+- Master’s degree (Preferred)
+- PhD (Preferred)
 
-- Expertise in Digital Marketing strategies
-- Proficiency in SEO (Search Engine Optimization)
+# Required Skills
 
-# Preferred Skills:
+- Proficiency in JavaScript
+- Strong understanding in Git
 
-- Strong knowledge of Content Marketing
-- Advanced experience with Google Analytics
+# Preferred Skills
+
+- Experience with cloud platforms such as AWS
+- Knowledge of Agile methodologies

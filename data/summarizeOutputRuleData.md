@@ -1,27 +1,24 @@
 ### Job Posting Summary
 
 #### Job Title
-- **Position**: Digital Marketing Specialist
+- **Position:** Software Engineer
 
 #### Location
-- **City**: New York, NY
+- **City:** Los Angeles
 
 #### Experience Required
-- **Minimum Experience**: 1 year in digital marketing
+- **Years of Experience:** 2-4 years in software development
 
-#### Education Requirements
-- **Required**: Bachelor's degree
-- **Preferred**: 
-  - Master's degree
-  - Ph.D.
+#### Education
+- **Required Degree:** Bachelor’s degree in Computer Science
+- **Preferred Degrees:** 
+  - Master’s degree
+  - PhD
 
 #### Required Skills
-- **Expertise**: Digital Marketing strategies
-- **Proficiency**: SEO (Search Engine Optimization)
+- **Proficiency in:** JavaScript
+- **Understanding of:** Git
 
 #### Preferred Skills
-- **Knowledge**: Strong knowledge of Content Marketing
-- **Experience**: Advanced experience with Google Analytics
-
-### Additional Notes
-- The job posting outlines specific educational qualifications and a minimum experience requirement, emphasizing both "and" (for preferred degrees) and "or" (for minimum experience).
+- **Experience with:** Cloud platforms (e.g., AWS)
+- **Knowledge of:** Agile methodologies
