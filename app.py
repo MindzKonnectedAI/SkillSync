@@ -138,12 +138,13 @@ agent_name = st.sidebar.radio(
     ["SQL", "Github"]
 )
 
-# File uploader widget
-st.sidebar.title('File Upload and Processing')
-uploaded_file = st.sidebar.file_uploader("Upload CSV File", type=["csv"])
-display_uploaded_files.display_uploaded_files("2","./csv",".csv")
 
 if(agent_name=="SQL"):
+    # File uploader widget
+    st.sidebar.title('File Upload and Processing')
+    uploaded_file = st.sidebar.file_uploader("Upload CSV File", type=["csv"])
+    display_uploaded_files.display_uploaded_files("2","./csv",".csv")
+
     uploaded_checking_rule_file = st.sidebar.file_uploader(
         "Upload Job Description PDF", type=["pdf"], key="pdf"
     )
@@ -164,6 +165,10 @@ if(agent_name=="SQL"):
 
         st.sidebar.success(f"CSV file saved successfully in as {uploaded_checking_rule_file.name}")
 
+    if uploaded_file is not None:
+        st.sidebar.write("Processing the uploaded file...")
+        upload_csv.upload_csv(uploaded_file)
+
 
 def get_agent_name(agent_name_here):
     if(agent_name_here=="SQL"):
@@ -171,9 +176,6 @@ def get_agent_name(agent_name_here):
     else:
         return "GithubTeam Agent"
 
-if uploaded_file is not None:
-    st.sidebar.write("Processing the uploaded file...")
-    upload_csv.upload_csv(uploaded_file)
 
 
 # Conversation History
