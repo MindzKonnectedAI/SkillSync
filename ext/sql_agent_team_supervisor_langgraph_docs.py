@@ -287,7 +287,7 @@ def sql_agent_team_supervisor() -> str:
     # sql_chain = enter_chain | chain
     sql_chain = enter_chain | chain
 
-    create_image_func.create_graph_image(chain, "sql_graph_image3")
+    # create_image_func.create_graph_image(chain, "sql_graph_image3")
 
     # messages = sql_chain.invoke("user which have skills python?")
 

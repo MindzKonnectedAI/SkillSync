@@ -81,5 +81,5 @@ def github_team_supervisor(agent_node)-> str:
     chain = github_graph.compile()
 
     github_chain = enter_chain | chain
-    create_image_func.create_graph_image(chain, "github_graph_image")
+    # create_image_func.create_graph_image(chain, "github_graph_image")
     return github_chain

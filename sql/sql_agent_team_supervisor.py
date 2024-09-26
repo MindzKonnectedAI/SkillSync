@@ -222,6 +222,6 @@ def sql_agent_team_supervisor() -> str:
     builder.add_edge("tools", "assistant")
     chain = builder.compile()
     sql_chain = enter_chain | chain
-    create_image_func.create_graph_image(chain, "sql_graph_image3")
+    # create_image_func.create_graph_image(chain, "sql_graph_image3")
 
     return sql_chain

@@ -196,7 +196,7 @@ if prompt is not None and prompt != "" :
     
     st.session_state.chat_history.append(HumanMessage(prompt))
     with st.chat_message("AI"):
-        create_image_func.create_graph_image(super_graph, "super_graph")
+        # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
             final_prompt = prompt +" using "+ get_agent_name(agent_name)
@@ -217,7 +217,7 @@ if(buttonVal):
     
     st.session_state.chat_history.append(HumanMessage(question))
     with st.chat_message("AI"):
-        create_image_func.create_graph_image(super_graph, "super_graph")
+        # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
             final_prompt = question +" *** using SQLTeam Agent *** "
