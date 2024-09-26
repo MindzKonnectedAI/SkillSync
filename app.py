@@ -201,14 +201,14 @@ if prompt is not None and prompt != "" :
         with st.spinner("Processing your query..."):
             final_prompt = prompt +" using "+ get_agent_name(agent_name)
             print("the final prompt to go to supervisor :",final_prompt)
-            # try:
-            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
-            print("AI response :",res["messages"])
-            aiRes = res["messages"][-1].content
-            holder.write(aiRes)            
-            st.session_state.chat_history.append(AIMessage(aiRes))
-            # except GraphRecursionError:
-            #     st.info("Graph recursion limit exceeded , try again!")
+            try:
+                res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
+                print("AI response :",res["messages"])
+                aiRes = res["messages"][-1].content
+                holder.write(aiRes)            
+                st.session_state.chat_history.append(AIMessage(aiRes))
+            except GraphRecursionError:
+                st.info("Graph recursion limit exceeded , try again!")
 
 if(buttonVal):
     question = retreive_users.retreive_users_fnc()
@@ -222,11 +222,11 @@ if(buttonVal):
         with st.spinner("Processing your query..."):
             final_prompt = question +" *** using SQLTeam Agent *** "
             # print("the final prompt to go to supervisor :",final_prompt)
-            # try:
-            res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
-            print("AI response :",res["messages"])
-            aiRes = res["messages"][-1].content
-            holder.write(aiRes)            
-            st.session_state.chat_history.append(AIMessage(aiRes))
-            # except GraphRecursionError:
-            #     st.info("Graph recursion limit exceeded , try again!")
+            try:
+                res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
+                print("AI response :",res["messages"])
+                aiRes = res["messages"][-1].content
+                holder.write(aiRes)            
+                st.session_state.chat_history.append(AIMessage(aiRes))
+            except GraphRecursionError:
+                st.info("Graph recursion limit exceeded , try again!")

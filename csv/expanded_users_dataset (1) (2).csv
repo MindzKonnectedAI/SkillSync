@@ -113,7 +113,7 @@ Brandon Martin,St. Louis,3,"Public Relations, Media Outreach, Press Releases",Ba
 Ruth Mcknight MD,Atlanta,5,"Project Management, Agile, Scrum",Bachelor's,Master's,
 Maria Thompson,Tucson,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,
 Charles Navarro,Honolulu,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
-Julia King,Chicago,4,"Marketing, SEO, Social Media",Bachelor's,Master's,
+Julia King,Chicago,4,"Marketing, SEO",Bachelor's,Master's,
 Robert Myers,Las Vegas,2,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
 Robin Kirk,Seattle,5,"Financial Analysis, Investment Management",Bachelor's,Master's,PhD
 Alicia Lowery,Des Moines,1,"Graphic Design, Web Design, HTML/CSS",Bachelor's,Master's,
@@ -1001,6 +1001,6 @@ Himesh sharma ,Denver,5,"Network Engineering, Cisco, Juniper",Bachelor's,Master'
 Parul Sharma ,San Francisco,6,"Digital Marketing, SEO, Social Media",Bachelor's,,
 Tar Wilsom,Miami,5,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,Master's,PhD
 Anirudh Pathak,Boston,4,"Healthcare Management, Patient Care",Bachelor's,Master's,PhD
-Charles Brown,Chicago,12,"Python,Power BI",Bachelor's,Master's,PhD
-JR. Charles Brown,New York,13,"Python,Power BI",Bachelor's,Master's,PhD
-Hanna Montana ,Miami,14,"Python,Power BI",Bachelor's,Master's,PhD
+Charles Brown,Chicago,12,"Python,SQL",Bachelor's,Master's,PhD
+JR. Charles Brown,New York,13,"Python,Power BI,SQL",Bachelor's,Master's,PhD
+Hanna Montana ,Miami,14,"Python,Power BI,DevOps",Bachelor's,Master's,PhD
