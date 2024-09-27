@@ -19,7 +19,7 @@ import os
 from langgraph.errors import GraphRecursionError
 import utils.display_uploaded_files as display_uploaded_files
 import utils.upload_csv as upload_csv
-
+import time
 # Load environment variables from .env file
 load_dotenv()
 
@@ -135,41 +135,68 @@ csv_folder = "csv"
 # Ensure the csv and db directories exist
 os.makedirs(csv_folder, exist_ok=True)
 
-agent_name = st.sidebar.radio(
-    "Query using",
-    ["SQL", "Github"]
+view = st.sidebar.selectbox(
+    "View",
+    ("User", "Admin"),
+    0
 )
+
+
 buttonVal = False   
 
-if(agent_name=="SQL"):
-    # File uploader widget
-    st.sidebar.title('File Upload and Processing')
-    uploaded_file = st.sidebar.file_uploader("Upload CSV File", type=["csv"])
+if(view=="User"):
+    agent_name = st.sidebar.radio(
+        "Get resource",
+        ["Internally", "Github","LinkedIn","Reddit"]
+    )
+    
+    if(agent_name=="Internally"):
+        # File uploader widget
+        # st.sidebar.title('File Upload and Processing')
+        uploaded_checking_rule_file = st.sidebar.file_uploader(
+            "Upload your Job Description", type=["pdf"], key="pdf_uploader"
+        )
+
+        display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
+
+        # Use a lambda to delay the function call until the button is clicked
+        buttonVal = st.sidebar.button(
+            "Retrieve Users",
+            on_click=retrive,  # Note the lack of parentheses here
+            key="retreive_users",
+            # help="collectible_button",
+        )
+
+
+        if uploaded_checking_rule_file is not None:
+            container = st.empty()
+            container.write("Processing the uploaded file...")
+            upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
+            time.sleep(2)
+            container.empty()
+
+        # st.sidebar.divider()
+
+        # uploaded_file = st.sidebar.file_uploader("Upload CSV File", type=["csv"],key="csv_uploader")
+        # display_uploaded_files.display_uploaded_files("2","./csv",".csv")
+
+        # if uploaded_file is not None:
+        #     container = st.empty()
+        #     container.write("Processing the uploaded file...")
+        #     upload_csv.upload_csv(uploaded_file,container)
+        #     time.sleep(2)
+        #     container.empty()
+
+if(view=="Admin"):
+    uploaded_file = st.sidebar.file_uploader("Upload CSV File", type=["csv"],key="csv_uploader")
     display_uploaded_files.display_uploaded_files("2","./csv",".csv")
 
-    uploaded_checking_rule_file = st.sidebar.file_uploader(
-        "Upload Job Description PDF", type=["pdf"], key="pdf"
-    )
-    display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
-
-    # Use a lambda to delay the function call until the button is clicked
-    buttonVal = st.sidebar.button(
-        "Retrieve Users",
-        on_click=retrive,  # Note the lack of parentheses here
-        key="retreive_users",
-        # help="collectible_button",
-    )
-
-    if uploaded_checking_rule_file is not None:
-        st.sidebar.write("Processing the uploaded file...")
-
-        upload_job_description.upload_rule_data(uploaded_checking_rule_file)
-
-        st.sidebar.success(f"CSV file saved successfully in as {uploaded_checking_rule_file.name}")
-
     if uploaded_file is not None:
-        st.sidebar.write("Processing the uploaded file...")
-        upload_csv.upload_csv(uploaded_file)
+        container = st.empty()
+        container.write("Processing the uploaded file...")
+        upload_csv.upload_csv(uploaded_file,container)
+        time.sleep(2)
+        container.empty()
 
 
 def get_agent_name(agent_name_here):
@@ -199,7 +226,7 @@ if prompt is not None and prompt != "" :
         # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
-            final_prompt = prompt +" using "+ get_agent_name(agent_name)
+            final_prompt = prompt +" using "+ "***" +get_agent_name(agent_name)+"***"
             print("the final prompt to go to supervisor :",final_prompt)
             try:
                 res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})

@@ -52,7 +52,7 @@ Charles Carter,Syracuse,2,"Geology, Petrology, Paleontology",Bachelor's,Master's
 Penny Carpenter,Memphis,5,"Mobile App Development, Swift, Kotlin",Bachelor's,Master's,
 Kimberly Green,New York,2,"Java, Web Development",Bachelor's,Master's,
 Rebecca Nicholson,Atlanta,3,"Software Development, JavaScript, React",Bachelor's,Master's,PhD
-Samantha Jones,Albuquerque,1,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,Master's,
+Samantha Jones,Albuquerque,5,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,Master's,
 Melissa Taylor,Buffalo,4,"Business Analysis, SQL, Data Visualization",Bachelor's,Master's,PhD
 Jade Keller,Milwaukee,2,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,Master's,
 Andrew Green,San Francisco,4,"Data Engineering, Python, SQL",Bachelor's,Master's,PhD
@@ -113,7 +113,7 @@ Brandon Martin,St. Louis,3,"Public Relations, Media Outreach, Press Releases",Ba
 Ruth Mcknight MD,Atlanta,5,"Project Management, Agile, Scrum",Bachelor's,Master's,
 Maria Thompson,Tucson,3,"Business Administration, Entrepreneurship, Business Strategy",Bachelor's,Master's,
 Charles Navarro,Honolulu,2,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
-Julia King,Chicago,4,"Marketing, SEO",Bachelor's,Master's,
+Julia King,Chicago,4,"Marketing, SEO, Social Media",Bachelor's,Master's,
 Robert Myers,Las Vegas,2,"Marketing, SEO, Social Media",Bachelor's,Master's,PhD
 Robin Kirk,Seattle,5,"Financial Analysis, Investment Management",Bachelor's,Master's,PhD
 Alicia Lowery,Des Moines,1,"Graphic Design, Web Design, HTML/CSS",Bachelor's,Master's,
@@ -121,7 +121,7 @@ Christina Schneider,Cleveland,5,"Data Science, Python, SQL",Bachelor's,Master's,
 Joseph Hernandez,Tampa,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
 Tara Barajas,Fresno,5,"Aerospace Engineering, Aerodynamics, Flight Mechanics",Bachelor's,Master's,PhD
 Abigail Newman,Minneapolis,3,"Public Relations, Media Outreach, Press Releases",Bachelor's,Master's,PhD
-William Stewart,Arlington,2,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,Master's,PhD
+William Stewart,Arlington,5,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,Master's,PhD
 Christopher Horne,Houston,6,"Software Development, JavaScript, React",Bachelor's,Master's,
 Stephanie Berry,Raleigh,3,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
 ",Bachelor's,Master's,PhD
@@ -486,7 +486,7 @@ Tina Martinez,Los Angeles,3,"Python, SQL,Hadoop",Bachelor's,,
 Uma Nelson,Chicago,1,"Python, SQL, Hadoop",Bachelor's,,
 Victor Owen,Chicago,8,"Python, SQL, Hadoop",Bachelor's,,
 Wendy Perez,Los Angeles,3,"Python, SQL,  Neural Networks, Hadoop",Bachelor's,,
-Xavier Quinn,Chicago,11,"Python,Power BI",Bachelor's,Master's,PhD
+Xavier Quinn,Chicago,10,Python,Bachelor's,Master's,PhD
 Yara Reed,Chicago,5,Process improvement,Bachelor's,,
 Adam Turner,Chicago,4,"Digital Marketing, SEO,  Content Marketing, Google Analytics,Social Media, communication skills,  leadership skills
 ",Bachelor's,,
@@ -560,7 +560,7 @@ Carl Martinez,Madison,2,"Astrophysics, Cosmology, Space Research",Bachelor's,,
 Jessica Clark,New Orleans,4,"Graphic Arts, Digital Illustration, Printmaking",Bachelor's,Master's,PhD
 Brian Harris,Boise,6,"Ecology, Environmental Impact Assessment, Wildlife Conservation",Bachelor's,,
 Lisa Robinson,Honolulu,3,"Cultural Anthropology, Ethnography, Archaeology",Bachelor's,Master's,PhD
-Richard Jackson,Albuquerque,3,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,,
+Richard Jackson,Albuquerque,5,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,,
 Patricia Clark,Denver,4,"Medical Research, Clinical Studies, Drug Development",Bachelor's,,
 Amber Nelson,New York,3,"Data Analysis, Python, SQL",Bachelor's,Master's,PhD
 Bruce Carter,Los Angeles,5,"Software Engineering, Java, C++",Bachelor's,Master's,PhD
@@ -602,7 +602,7 @@ Mark Johnson,Wichita,4,"Game Development, Unity, Unreal Engine",Bachelor's,,
 Nancy Brown,Sacramento,5,"Theater Arts, Acting, Directing",Bachelor's,,
 Oscar Martinez,Tulsa,2,"Legal Research, Contract Law, Litigation",Bachelor's,,
 Paula Walker,Atlanta,4,"Sociology, Social Research, Community Outreach",Bachelor's,,
-Quincy Lee,Arlington,4,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,Master's,PhD
+Quincy Lee,Arlington,5,"Urban Studies, Regional Planning, Sustainable Development",Bachelor's,Master's,PhD
 Rachel Allen,Richmond,3,"Library Science, Information Management, Digital Archives",Bachelor's,,
 Samuel Scott,Minneapolis,2,"IT Support, Troubleshooting, Help Desk",Bachelor's,,
 Tiffany Harris,Honolulu,6,"Environmental Engineering, Waste Management, Renewable Energy",Bachelor's,Master's,PhD
@@ -1001,6 +1001,3 @@ Himesh sharma ,Denver,5,"Network Engineering, Cisco, Juniper",Bachelor's,Master'
 Parul Sharma ,San Francisco,6,"Digital Marketing, SEO, Social Media",Bachelor's,,
 Tar Wilsom,Miami,5,"Mechanical Engineering, CAD, SolidWorks",Bachelor's,Master's,PhD
 Anirudh Pathak,Boston,4,"Healthcare Management, Patient Care",Bachelor's,Master's,PhD
-Charles Brown,Chicago,12,"Python,SQL",Bachelor's,Master's,PhD
-JR. Charles Brown,New York,13,"Python,Power BI,SQL",Bachelor's,Master's,PhD
-Hanna Montana ,Miami,14,"Python,Power BI,DevOps",Bachelor's,Master's,PhD

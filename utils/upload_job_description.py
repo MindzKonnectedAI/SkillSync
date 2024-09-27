@@ -141,7 +141,7 @@ def summarize_data(load_markdown_path, create_markdown_path):
         print(f"Error writing file: {e}")
 
 # Function to handle file upload
-def upload_rule_data(uploaded_file):
+def upload_rule_data(uploaded_file,container):
     folder_path = "./ruleData"
 
     # Delete all existing files in the folder
@@ -151,7 +151,7 @@ def upload_rule_data(uploaded_file):
             if os.path.isfile(file_path):
                 os.remove(file_path)
         except Exception as e:
-            st.error(f"Failed to delete file {file_name}: {str(e)}")
+            container.error(f"Failed to delete file {file_name}: {str(e)}")
             return
 
     # Save the new file
@@ -165,9 +165,9 @@ def upload_rule_data(uploaded_file):
         summarize_data(
             "./ruleData/outputRuleData.md", "./data/summarizeOutputRuleData.md"
         )
-        st.success("Data processed successfully")
+        container.success("Data processed successfully")
     except Exception as e:
-        st.error(f"Error in processing data: {str(e)}")
+        container.error(f"Error in processing data: {str(e)}")
 
 
 # Function to display already uploaded PDF files in the sidebar

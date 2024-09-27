@@ -1,24 +1,28 @@
-### Job Posting Summary
+### Job Posting Summary: Software Engineer
 
 #### Job Title
-- **Position:** Software Engineer
+- **Position**: Software Engineer
 
 #### Location
-- **City:** Los Angeles
+- **City**: Los Angeles
 
 #### Experience Required
-- **Years of Experience:** 2-4 years in software development
+- **Duration**: 2-4 years of experience in software development
 
 #### Education
-- **Required Degree:** Bachelor’s degree in Computer Science
-- **Preferred Degrees:** 
+- **Required**: Bachelor’s degree in Computer Science
+- **Preferred**: 
   - Master’s degree
   - PhD
 
 #### Required Skills
-- **Proficiency in:** JavaScript
-- **Understanding of:** Git
+- **Proficiency in**: JavaScript
+- **Understanding in**: Git
 
 #### Preferred Skills
-- **Experience with:** Cloud platforms (e.g., AWS)
-- **Knowledge of:** Agile methodologies
+- **Experience with**: Cloud platforms such as AWS
+- **Knowledge of**: Agile methodologies
+
+#### Conditions
+- **Education Requirements**: Bachelor's degree is required, while a Master’s or PhD is preferred. 
+- **Experience Range**: Candidates must have between 2 to 4 years of software development experience.

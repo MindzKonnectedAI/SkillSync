@@ -11,7 +11,7 @@ db_folder = "db"
 os.makedirs(csv_folder, exist_ok=True)
 os.makedirs(db_folder, exist_ok=True)
 
-def save_csv_to_sql(csv_path):
+def save_csv_to_sql(csv_path,container):
     """
     Saves the content of a CSV file into an SQLite database.
 
@@ -34,4 +34,4 @@ def save_csv_to_sql(csv_path):
     # Load DataFrame into SQLite database
     df.to_sql("employee", engine, if_exists='replace', index=False)
 
-    st.sidebar.success(f"Database created and data loaded successfully into {db_path}")
+    container.success(f"Database created and data loaded successfully into {db_path}")
