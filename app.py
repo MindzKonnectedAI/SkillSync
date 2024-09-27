@@ -143,19 +143,29 @@ view = st.sidebar.selectbox(
 
 
 buttonVal = False   
+agent_name = None
 
 if(view=="User"):
     agent_name = st.sidebar.radio(
         "Get resource",
         ["Internally", "Github","LinkedIn","Reddit"]
     )
-    
+
     if(agent_name=="Internally"):
         # File uploader widget
         # st.sidebar.title('File Upload and Processing')
-        uploaded_checking_rule_file = st.sidebar.file_uploader(
-            "Upload your Job Description", type=["pdf"], key="pdf_uploader"
-        )
+        with st.sidebar.form("jd_pdf_upload_form", clear_on_submit=True):
+            uploaded_checking_rule_file = st.file_uploader(
+                "Upload your Job Description", type=["pdf"], key="pdf_uploader"
+            )
+            file_submitted = st.form_submit_button("Submit")
+        if file_submitted and (uploaded_checking_rule_file is not None):
+            container = st.empty()
+            container.write("Processing the uploaded file...")
+            upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
+            time.sleep(2)
+            container.empty()
+
 
         display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
 
@@ -168,12 +178,6 @@ if(view=="User"):
         )
 
 
-        if uploaded_checking_rule_file is not None:
-            container = st.empty()
-            container.write("Processing the uploaded file...")
-            upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
-            time.sleep(2)
-            container.empty()
 
         # st.sidebar.divider()
 
@@ -188,19 +192,22 @@ if(view=="User"):
         #     container.empty()
 
 if(view=="Admin"):
-    uploaded_file = st.sidebar.file_uploader("Upload CSV File", type=["csv"],key="csv_uploader")
-    display_uploaded_files.display_uploaded_files("2","./csv",".csv")
+    with st.sidebar.form("csv_upload_form", clear_on_submit=True):
+        uploaded_file = st.file_uploader("Upload CSV File", type=["csv"],key="csv_uploader")
+        file_submitted = st.form_submit_button("Submit")
 
-    if uploaded_file is not None:
+    if file_submitted and (uploaded_file is not None):
         container = st.empty()
         container.write("Processing the uploaded file...")
         upload_csv.upload_csv(uploaded_file,container)
         time.sleep(2)
         container.empty()
 
+    display_uploaded_files.display_uploaded_files("2","./csv",".csv")
+
 
 def get_agent_name(agent_name_here):
-    if(agent_name_here=="SQL"):
+    if(agent_name_here=="Internally"):
         return "SQLTeam Agent"
     else:
         return "GithubTeam Agent"
