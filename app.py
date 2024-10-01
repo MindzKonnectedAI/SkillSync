@@ -212,14 +212,29 @@ def get_agent_name(agent_name_here):
         return "GithubTeam Agent"
 
 
+# Filter for messages from SQLTeam Agent
+agent_name_to_filter = get_agent_name(agent_name)  # Adjust this parameter as needed
+
 # Conversation History
-for message in st.session_state.chat_history:
-    if isinstance(message,HumanMessage):
-        with st.chat_message("Human"):
-            st.markdown(message.content)
-    else:
-        with st.chat_message("AI"):
-            st.markdown(message.content)
+if 'chat_history' in st.session_state:
+    for message in st.session_state.chat_history:
+        if isinstance(message, HumanMessage) and message.name == agent_name_to_filter:
+            with st.chat_message("Human"):
+                st.markdown(message.content)
+        elif isinstance(message, AIMessage) and message.name == agent_name_to_filter:
+            with st.chat_message("AI"):
+                st.markdown(message.content)
+
+
+# # Conversation History
+# for message in st.session_state.chat_history:
+#     print("st.session_state.chat_history", st.session_state.chat_history)
+#     if isinstance(message,HumanMessage):
+#         with st.chat_message("Human"):
+#             st.markdown(message.content)
+#     else:
+#         with st.chat_message("AI"):
+#             st.markdown(message.content)
 
 # user_input = st.text_input("Enter your query:", "Total number of users in SQL Database?")
 prompt = st.chat_input("Enter your query")
@@ -227,7 +242,7 @@ if prompt is not None and prompt != "" :
     with st.chat_message("Human"):
         st.markdown(prompt)
     
-    st.session_state.chat_history.append(HumanMessage(prompt))
+    st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
     with st.chat_message("AI"):
         # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
@@ -242,14 +257,14 @@ if prompt is not None and prompt != "" :
                     print("AI response :",res["messages"])
                     aiRes = res["messages"][-1].content
                     holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
+                    st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
                 else:
                     config={"configurable": {"thread_id": "2"},"recursion_limit":40}
                     res = github_chain.invoke(prompt,config)
                     print("AI response :",res["messages"])
                     aiRes = res["messages"][-1].content
                     holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
+                    st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
             except GraphRecursionError:
                 st.info("Graph recursion limit exceeded , try again!")
 
@@ -259,30 +274,11 @@ if(buttonVal):
     with st.chat_message("Human"):
         st.markdown(question)
     
-    st.session_state.chat_history.append(HumanMessage(question))
+    st.session_state.chat_history.append(HumanMessage(content=question, name=get_agent_name(agent_name)))
     with st.chat_message("AI"):
         # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
-            # #final_prompt = question +" *** using SQLTeam Agent *** "
-            # # print("the final prompt to go to supervisor :",final_prompt)
-            # try:
-            #     ""
-            #     # res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
-            #     # print("AI response :",res["messages"])
-            #     # aiRes = res["messages"][-1].content
-            #     # holder.write(aiRes)            
-            #     # st.session_state.chat_history.append(AIMessage(aiRes))
-                
-            #     #res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
-            #     config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-            #     res = sql_chain.invoke(question, config)
-            #     print("AI response :",res["messages"])
-            #     aiRes = res["messages"][-1].content
-            #     holder.write(aiRes)            
-            #     st.session_state.chat_history.append(AIMessage(aiRes))
-            # except GraphRecursionError:
-            #     st.info("Graph recursion limit exceeded , try again!")
             try:
                 if(get_agent_name(agent_name) == "SQLTeam Agent"):
                     config={"configurable": {"thread_id": "1"},"recursion_limit":40}
@@ -290,13 +286,13 @@ if(buttonVal):
                     print("AI response :",res["messages"])
                     aiRes = res["messages"][-1].content
                     holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
+                    st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
                 else:
                     config={"configurable": {"thread_id": "2"},"recursion_limit":40}
                     res = github_chain.invoke(question,config)
                     print("AI response :",res["messages"])
                     aiRes = res["messages"][-1].content
                     holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
+                    st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
             except GraphRecursionError:
                 st.info("Graph recursion limit exceeded , try again!")
