@@ -6,12 +6,20 @@ import functools
 from langgraph.prebuilt import create_react_agent
 from langchain_core.messages import ToolMessage
 
+@tool("supported_queries")
+def supported_queries(query:str):
+    """
+    Takes a natural language user query as input and only returns the parameters acceptable by the Github User Search API 
+    """
+    print("query in supported_queries node :",query)
+    pass
 
 @tool("query_param_generator")
 def query_param_generator(query:str):
     """
     Takes a natural language query as input and returns the appropriate query parameters based on the rules defined in system_message
     """
+    print("query in query_param_generator node :",query)
     pass
 
 
@@ -61,6 +69,49 @@ def fetch_users(query_param: str, per_page: int = 10):
         }
 
 llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+
+def supported_queries_node(agent_node):
+    # give prompt to agent
+    query_gen_system = """
+    You are a specialized Query Parameters Filter Agent. Your task is to analyze a Job Description written in natural language and extract only the relevant fields supported by the GitHub User Search API. Focus exclusively on fields that are searchable via the API.
+
+    Your output should be a list of strings containing only those fields from the job description that align with the GitHub User Search API's capabilities.
+
+    Below are the fields supported by the GitHub User Search API:
+    1. Job Title: Title or role of the candidate
+    2. Location: Candidate’s location
+    3. Repositories: Number of GitHub repositories the candidate has
+    4. Followers: Number of GitHub followers the candidate has
+    5. Number of candidates: How many candidates to retrieve
+    6. Language: Programming languages used by the candidate
+    7. Email: Candidate’s email address
+    8. Bio: Information from the candidate's bio
+    9. Username: Candidate’s GitHub username
+    10. is:sponsorable: Boolean indicating whether the candidate is sponsorable
+    """
+
+    # query_gen_system = """
+    # You are an expert Query Parameters Filter Agent .
+    # Your job is to take a natural language user question and find out the key fields which are supported by the Github User Search API.
+    # You will be given a Job Description written in natural language .
+    # You need to extract only the fields that are supported by Github User Search API from the job description and return them as a list of strings.
+    # ALWAYS need to make sure these key fields can be searched using the Github User Search API .
+    # Below are some of the fields supported by the Github User Search API :
+    # 1. Job Title : Job title of the candidate 
+    # 2. Location : Location of the candidate
+    # 3. Repositories : Number of Github Repositories of the candidate
+    # 4. Followers : Number of Github Followers of the candidate
+    # 5. Number of candidates : Number of candidates you want, if mentioned in the job description
+    # 6. Language : Programming language of the candidate
+    # 7. Email : Email of the candidate
+    # 8. Bio : Bio of the candidate
+    # 9. Username : Username of the candidate
+    # 10. is:sponsorable : Boolean value denoting if the candidate is sponsorable
+    # """
+    supported_queries_agent = create_react_agent(llm,tools=[supported_queries],state_modifier=query_gen_system)
+    supported_queries_agent_node = functools.partial(agent_node, agent=supported_queries_agent, name="supported_queries")
+    return supported_queries_agent_node
+
 
 def query_param_generator_node(agent_node):
     # give prompt to agent

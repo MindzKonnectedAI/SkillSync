@@ -151,31 +151,29 @@ if(view=="User"):
         ["Internally", "Github","LinkedIn","Reddit"]
     )
 
-    if(agent_name=="Internally"):
-        # File uploader widget
-        # st.sidebar.title('File Upload and Processing')
-        with st.sidebar.form("jd_pdf_upload_form", clear_on_submit=True):
-            uploaded_checking_rule_file = st.file_uploader(
-                "Upload your Job Description", type=["pdf"], key="pdf_uploader"
-            )
-            file_submitted = st.form_submit_button("Submit")
-        if file_submitted and (uploaded_checking_rule_file is not None):
-            container = st.empty()
-            container.write("Processing the uploaded file...")
-            upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
-            time.sleep(2)
-            container.empty()
-
-
-        display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
-
-        # Use a lambda to delay the function call until the button is clicked
-        buttonVal = st.sidebar.button(
-            "Retrieve Users",
-            on_click=retrive,  # Note the lack of parentheses here
-            key="retreive_users",
-            # help="collectible_button",
+    # File uploader widget
+    with st.sidebar.form("jd_pdf_upload_form", clear_on_submit=True):
+        uploaded_checking_rule_file = st.file_uploader(
+            "Upload your Job Description", type=["pdf"], key="pdf_uploader"
         )
+        file_submitted = st.form_submit_button("Submit")
+    if file_submitted and (uploaded_checking_rule_file is not None):
+        container = st.empty()
+        container.write("Processing the uploaded file...")
+        upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
+        time.sleep(2)
+        container.empty()
+
+
+    display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
+
+    # Use a lambda to delay the function call until the button is clicked
+    buttonVal = st.sidebar.button(
+        "Retrieve Users",
+        on_click=retrive,  # Note the lack of parentheses here
+        key="retreive_users",
+        # help="collectible_button",
+    )
 
 
 
@@ -254,8 +252,8 @@ if(buttonVal):
         # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
-            final_prompt = question +" *** using SQLTeam Agent *** "
-            # print("the final prompt to go to supervisor :",final_prompt)
+            final_prompt = question +" using "+ "***" +get_agent_name(agent_name)+"***"
+            print("the final prompt to go to supervisor :",final_prompt)
             try:
                 res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
                 print("AI response :",res["messages"])

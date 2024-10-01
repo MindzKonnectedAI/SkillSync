@@ -48,6 +48,8 @@ def github_team_supervisor(agent_node)-> str:
 
     llm = ChatOpenAI(model="gpt-4o-mini")
 
+    supported_queries_agent_node = github_agent.supported_queries_node(agent_node)
+
     query_param_node = github_agent.query_param_generator_node(agent_node)
 
     fetch_node = github_agent.fetch_users_node(agent_node)
@@ -57,20 +59,24 @@ def github_team_supervisor(agent_node)-> str:
         github_supervisor_agent = create_team_supervisor_func(
             llm,
             "You are a supervisor tasked with managing a conversation between the"
-            " following workers:  query_param_generator, fetch_users. Given the following user request,"
-            " always respond with the query_param_generator worker as it will be called first and take its output as parameter to fetch_users worker"
-            " After calling fetch_users , respond with FINISH.",
-            ["query_param_generator", "fetch_users"],
+            " following workers:  supported_queries, query_param_generator, fetch_users. Given the following user request,"
+            "ALWAYS respond with supported_queries worker as it will be called first. "
+            "THEN , take its output as parameter to the query_param_generator worker"
+            "THEN , take the output of query_param_generator as parameter to fetch_users worker"
+            "After calling fetch_users , respond with FINISH.",
+            ["supported_queries","query_param_generator", "fetch_users"],
         )
         return github_supervisor_agent
 
     github_graph = StateGraph(GithubTeamState)
+    github_graph.add_node("supported_queries",supported_queries_agent_node)
     github_graph.add_node("query_param_generator", query_param_node)
     github_graph.add_node("fetch_users", fetch_node)
     github_graph.add_node("supervisor", supervisor_agent)
 
     # Define the control flow
-    github_graph.add_edge(START,"query_param_generator")
+    github_graph.add_edge(START,"supported_queries")
+    github_graph.add_edge("supported_queries","query_param_generator")
     github_graph.add_edge("query_param_generator", "fetch_users")
     github_graph.add_conditional_edges(
         "fetch_users",
