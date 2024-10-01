@@ -102,6 +102,30 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 # super_graph.add_edge(START, "super_supervisor")
 # super_graph = super_graph.compile()
 
+# import pdfplumber  # Use this for more reliable PDF text extraction
+# import fitz  # PyMuPDF
+
+# def show_pdf(file_path):
+#     if file_path is not None:
+#         try:
+#             # Open the PDF with PyMuPDF
+#             doc = fitz.open(file_path)
+#             content = ""
+#             for page_num in range(doc.page_count):
+#                 page = doc.load_page(page_num)
+#                 content += page.get_text()
+
+#             # Display the content
+#             st.write(content if content else "No extractable text found.")
+        
+#         except Exception as e:
+#             st.error(f"An error occurred: {str(e)}")
+
+
+# file_path = os.path.join("./ruleData", "Name.pdf")
+# print("file_path", file_path)
+# show_pdf(file_path)  # Trigger PDF display with selected file
+
 
 # Streamlit UI
 st.title("Multi-Agent Supervisor System")
