@@ -39,7 +39,7 @@ def display_uploaded_files(index, folder_path, file_extension):
             with col2:
                 # Eye icon button to show PDF in a dialog
                 if file_extension == '.pdf':
-                    if st.button("👁️", key=f"show_pdf_{file}"):
+                    if st.button("View", key=f"show_pdf_{file}"):
                         # Trigger PDF view in dialog
                         view_pdf(os.path.join(folder_path, file))  # Full file path
 
