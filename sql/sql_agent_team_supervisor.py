@@ -28,7 +28,9 @@ from langchain_core.messages import ToolMessage
 from langchain_core.runnables import RunnableLambda
 from langgraph.graph import END, StateGraph
 from langgraph.prebuilt import ToolNode, tools_condition
+from langgraph.checkpoint.memory import MemorySaver
 
+memory = MemorySaver()
 # Load environment variables from .env file
 load_dotenv()
 
@@ -220,8 +222,26 @@ def sql_agent_team_supervisor() -> str:
         {"tools": "tools", END: END},
     )
     builder.add_edge("tools", "assistant")
-    chain = builder.compile()
+
+
+    chain = builder.compile(checkpointer=memory)
     sql_chain = enter_chain | chain
     # create_image_func.create_graph_image(chain, "sql_graph_image3")
+
+    
+    # config = {
+    #     "configurable": {
+    #         # Checkpoints are accessed by thread_id
+    #         "thread_id": 1,
+    #     }
+    # }
+
+    # events = sql_chain.stream(
+    #     {"messages": ("user", "total user ?")}
+    # )
+    # for event in events:
+    #     _print_event(event, _printed)
+
+    #print(sql_chain.invoke("total user ?", config))
 
     return sql_chain

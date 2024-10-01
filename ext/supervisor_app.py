@@ -55,52 +55,52 @@ github_chain = github_team_supervisor.github_team_supervisor(agent_node)
 sql_chain = sql_agent_team_supervisor.sql_agent_team_supervisor()
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-# # Define the supervisor node
-# supervisor_node = create_team_supervisor_func.create_team_supervisor_func(
-#     llm,
-#     "You are a supervisor tasked with managing a conversation between the following teams: {team_members}. "
-#     "Given the following user request, respond with the worker to act next. For a user request , you can only call one worker , so carefully analyze the user request and then assign the worker. Each worker will perform a "
-#     "task and respond with their results and status. When finished, respond with FINISH."
-#     "When giving results back to the user , also mention the worker that was used.",
-#     ["SqlTeam", "GithubTeam"],
-# )
+# Define the supervisor node
+supervisor_node = create_team_supervisor_func.create_team_supervisor_func(
+    llm,
+    "You are a supervisor tasked with managing a conversation between the following teams: {team_members}. "
+    "Given the following user request, respond with the worker to act next. For a user request , you can only call one worker , so carefully analyze the user request and then assign the worker. Each worker will perform a "
+    "task and respond with their results and status. When finished, respond with FINISH."
+    "When giving results back to the user , also mention the worker that was used.",
+    ["SqlTeam", "GithubTeam"],
+)
 
-# # Define the top-level state
-# class State(TypedDict):
-#     messages: Annotated[List[BaseMessage], operator.add]
-#     next: str
+# Define the top-level state
+class State(TypedDict):
+    messages: Annotated[List[BaseMessage], operator.add]
+    next: str
 
-# # Helper functions
-# def get_last_message(state: State) -> str:
-#     return state["messages"][-1].content
+# Helper functions
+def get_last_message(state: State) -> str:
+    return state["messages"][-1].content
 
-# def join_graph(response: dict):
-#     return {"messages": [response["messages"][-1]]}
+def join_graph(response: dict):
+    return {"messages": [response["messages"][-1]]}
 
-# # Define the graph
-# super_graph = StateGraph(State)
-# super_graph.add_node("GithubTeam", get_last_message | github_chain | join_graph)
-# super_graph.add_node("SqlTeam", get_last_message | sql_chain | join_graph)
-# super_graph.add_node("super_supervisor", supervisor_node)
+# Define the graph
+super_graph = StateGraph(State)
+super_graph.add_node("GithubTeam", get_last_message | github_chain | join_graph)
+super_graph.add_node("SqlTeam", get_last_message | sql_chain | join_graph)
+super_graph.add_node("super_supervisor", supervisor_node)
 
-# super_graph.add_edge("GithubTeam", "super_supervisor")
-# super_graph.add_edge("SqlTeam", "super_supervisor")
+super_graph.add_edge("GithubTeam", "super_supervisor")
+super_graph.add_edge("SqlTeam", "super_supervisor")
 
-# def next_step(x):
-#     return x["next"]
+def next_step(x):
+    return x["next"]
 
-# super_graph.add_conditional_edges(
-#     "super_supervisor",
-#     next_step,
-#     {
-#         "SqlTeam": "SqlTeam",
-#         "GithubTeam": "GithubTeam",
-#         "FINISH": END,
-#     },
-# )
+super_graph.add_conditional_edges(
+    "super_supervisor",
+    next_step,
+    {
+        "SqlTeam": "SqlTeam",
+        "GithubTeam": "GithubTeam",
+        "FINISH": END,
+    },
+)
 
-# super_graph.add_edge(START, "super_supervisor")
-# super_graph = super_graph.compile()
+super_graph.add_edge(START, "super_supervisor")
+super_graph = super_graph.compile()
 
 
 # Streamlit UI
@@ -148,33 +148,34 @@ agent_name = None
 if(view=="User"):
     agent_name = st.sidebar.radio(
         "Get resource",
-        ["Internally", "Github"]
+        ["Internally", "Github","LinkedIn","Reddit"]
     )
-    agent_name2 = st.sidebar.radio(label="",options=["LinkedIn","Reddit"],disabled=True,label_visibility="collapsed",index=None)
 
-    # File uploader widget
-    with st.sidebar.form("jd_pdf_upload_form", clear_on_submit=True):
-        uploaded_checking_rule_file = st.file_uploader(
-            "Upload your Job Description", type=["pdf"], key="pdf_uploader"
+    if(agent_name=="Internally"):
+        # File uploader widget
+        # st.sidebar.title('File Upload and Processing')
+        with st.sidebar.form("jd_pdf_upload_form", clear_on_submit=True):
+            uploaded_checking_rule_file = st.file_uploader(
+                "Upload your Job Description", type=["pdf"], key="pdf_uploader"
+            )
+            file_submitted = st.form_submit_button("Submit")
+        if file_submitted and (uploaded_checking_rule_file is not None):
+            container = st.empty()
+            container.write("Processing the uploaded file...")
+            upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
+            time.sleep(2)
+            container.empty()
+
+
+        display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
+
+        # Use a lambda to delay the function call until the button is clicked
+        buttonVal = st.sidebar.button(
+            "Retrieve Users",
+            on_click=retrive,  # Note the lack of parentheses here
+            key="retreive_users",
+            # help="collectible_button",
         )
-        file_submitted = st.form_submit_button("Submit")
-    if file_submitted and (uploaded_checking_rule_file is not None):
-        container = st.empty()
-        container.write("Processing the uploaded file...")
-        upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
-        time.sleep(2)
-        container.empty()
-
-
-    display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
-
-    # Use a lambda to delay the function call until the button is clicked
-    buttonVal = st.sidebar.button(
-        "Retrieve Users",
-        on_click=retrive,  # Note the lack of parentheses here
-        key="retreive_users",
-        # help="collectible_button",
-    )
 
 
 
@@ -232,27 +233,16 @@ if prompt is not None and prompt != "" :
         # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
-            #final_prompt = prompt +" using "+ "***" +get_agent_name(agent_name)+"***"
-            #print("the final prompt to go to supervisor :",final_prompt)
-            print("the final prompt  :",prompt)
+            final_prompt = prompt +" using "+ "***" +get_agent_name(agent_name)+"***"
+            print("the final prompt to go to supervisor :",final_prompt)
             try:
-                if(get_agent_name(agent_name) == "SQLTeam Agent"):
-                    config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-                    res = sql_chain.invoke(prompt, config)
-                    print("AI response :",res["messages"])
-                    aiRes = res["messages"][-1].content
-                    holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
-                else:
-                    config={"configurable": {"thread_id": "2"},"recursion_limit":40}
-                    res = github_chain.invoke(prompt,config)
-                    print("AI response :",res["messages"])
-                    aiRes = res["messages"][-1].content
-                    holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
+                res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
+                print("AI response :",res["messages"])
+                aiRes = res["messages"][-1].content
+                holder.write(aiRes)            
+                st.session_state.chat_history.append(AIMessage(aiRes))
             except GraphRecursionError:
                 st.info("Graph recursion limit exceeded , try again!")
-
 
 if(buttonVal):
     question = retreive_users.retreive_users_fnc()
@@ -264,39 +254,13 @@ if(buttonVal):
         # create_image_func.create_graph_image(super_graph, "super_graph")
         holder = st.empty()
         with st.spinner("Processing your query..."):
-            # #final_prompt = question +" *** using SQLTeam Agent *** "
-            # # print("the final prompt to go to supervisor :",final_prompt)
-            # try:
-            #     ""
-            #     # res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
-            #     # print("AI response :",res["messages"])
-            #     # aiRes = res["messages"][-1].content
-            #     # holder.write(aiRes)            
-            #     # st.session_state.chat_history.append(AIMessage(aiRes))
-                
-            #     #res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
-            #     config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-            #     res = sql_chain.invoke(question, config)
-            #     print("AI response :",res["messages"])
-            #     aiRes = res["messages"][-1].content
-            #     holder.write(aiRes)            
-            #     st.session_state.chat_history.append(AIMessage(aiRes))
-            # except GraphRecursionError:
-            #     st.info("Graph recursion limit exceeded , try again!")
+            final_prompt = question +" *** using SQLTeam Agent *** "
+            # print("the final prompt to go to supervisor :",final_prompt)
             try:
-                if(get_agent_name(agent_name) == "SQLTeam Agent"):
-                    config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-                    res = sql_chain.invoke(question, config)
-                    print("AI response :",res["messages"])
-                    aiRes = res["messages"][-1].content
-                    holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
-                else:
-                    config={"configurable": {"thread_id": "2"},"recursion_limit":40}
-                    res = github_chain.invoke(question,config)
-                    print("AI response :",res["messages"])
-                    aiRes = res["messages"][-1].content
-                    holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(aiRes))
+                res = super_graph.invoke(input={"messages": [HumanMessage(content=final_prompt)]},config={"recursion_limit":40})
+                print("AI response :",res["messages"])
+                aiRes = res["messages"][-1].content
+                holder.write(aiRes)            
+                st.session_state.chat_history.append(AIMessage(aiRes))
             except GraphRecursionError:
                 st.info("Graph recursion limit exceeded , try again!")

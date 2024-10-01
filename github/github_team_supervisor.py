@@ -9,6 +9,8 @@ from utils.create_team_supervisor_func import create_team_supervisor_func
 from langgraph.graph import END, StateGraph, START
 import utils.create_image_func as create_image_func
 from typing import Annotated, Literal
+from langgraph.checkpoint.memory import MemorySaver
+memory = MemorySaver()
 
 # GithubTeamState graph state
 class GithubTeamState(TypedDict):
@@ -84,7 +86,7 @@ def github_team_supervisor(agent_node)-> str:
     )
     github_graph.add_edge("supervisor",END)
     # github_graph.add_edge(START, "supervisor")
-    chain = github_graph.compile()
+    chain = github_graph.compile(checkpointer=memory)
 
     github_chain = enter_chain | chain
     # create_image_func.create_graph_image(chain, "github_graph_image")
