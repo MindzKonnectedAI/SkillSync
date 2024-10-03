@@ -7,7 +7,9 @@ from langchain_community.document_loaders import UnstructuredMarkdownLoader
 from langchain.prompts import PromptTemplate
 import streamlit as st
 from langchain_openai.chat_models import ChatOpenAI
-
+import nltk
+# nltk.download('punkt_tab')
+# nltk.download('averaged_perceptron_tagger_eng')
 
 llamaparse_api_key = os.getenv("LLAMAPARSE_API_KEY")
 llm = ChatOpenAI(model="gpt-4o-mini")
@@ -32,11 +34,11 @@ def load_or_parse_data(pdf_path, file_name, src_folder):
 
     changed_file_ext = create_pkl_string(file_name)
     print("changed_file_ext", changed_file_ext)
-    data_file = f"data/{changed_file_ext}"
+    data_file = f"{src_folder}/{changed_file_ext}"
 
     if os.path.exists(data_file):
         # Load the parsed data from the file
-        parsed_data = joblib.load(data_file)
+        return joblib.load(data_file)
     else:
         # Perform the parsing step and store the result in llama_parse_documents
         parsingInstructionUber10k = """The provided document is unstructured
@@ -140,6 +142,28 @@ def summarize_data(load_markdown_path, create_markdown_path):
     except UnicodeEncodeError as e:
         print(f"Error writing file: {e}")
 
+
+def pdf_folder(uploaded_file,container):
+
+    folder_path = "./pdf"
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    # Delete all existing files in the folder
+    for file_name in os.listdir(folder_path):
+        file_path = os.path.join(folder_path, file_name)
+        try:
+            if os.path.isfile(file_path):
+                os.remove(file_path)
+        except Exception as e:
+            container.error(f"Failed to delete file {file_name}: {str(e)}")
+            return
+
+    # Save the new file
+    file_path = os.path.join(folder_path, uploaded_file.name)
+    with open(file_path, "wb") as f:
+        f.write(uploaded_file.getbuffer())
+
 # Function to handle file upload
 def upload_rule_data(uploaded_file,container):
     folder_path = "./ruleData"
@@ -158,6 +182,8 @@ def upload_rule_data(uploaded_file,container):
     file_path = os.path.join(folder_path, uploaded_file.name)
     with open(file_path, "wb") as f:
         f.write(uploaded_file.getbuffer())
+    
+    pdf_folder(uploaded_file,container)
 
     # Perform additional processing
     try:
