@@ -128,7 +128,7 @@ llm = ChatOpenAI(model="gpt-4o-mini")
 
 
 # Streamlit UI
-st.title("Multi-Agent Supervisor System")
+st.title("Intelligent Talent Acquisition Network")
 
 def retrive():
     pass
@@ -172,9 +172,11 @@ agent_name = None
 if(view=="User"):
     agent_name = st.sidebar.radio(
         "Get resource",
-        ["Internally", "Github"]
+        ["InternalATS", "Github"]
     )
-    agent_name2 = st.sidebar.radio(label="",options=["LinkedIn","Reddit"],disabled=True,label_visibility="collapsed",index=None)
+    agent_name2 = st.sidebar.radio(label="",options=["LinkedIn","Reddit","CareerBuilder","Monster","Stack Overflow"],disabled=True,label_visibility="collapsed",index=None)
+
+    st.sidebar.button("Connect With APIs")
 
     # File uploader widget
     with st.sidebar.form("jd_pdf_upload_form", clear_on_submit=True):
@@ -230,7 +232,7 @@ if(view=="Admin"):
 
 
 def get_agent_name(agent_name_here):
-    if(agent_name_here=="Internally"):
+    if(agent_name_here=="InternalATS"):
         return "SQLTeam Agent"
     else:
         return "GithubTeam Agent"
@@ -261,7 +263,7 @@ if 'chat_history' in st.session_state:
 #             st.markdown(message.content)
 
 # user_input = st.text_input("Enter your query:", "Total number of users in SQL Database?")
-prompt = st.chat_input("Enter your query")
+prompt = st.chat_input("Find your next superstar")
 if prompt is not None and prompt != "" :
     with st.chat_message("Human"):
         st.markdown(prompt)
