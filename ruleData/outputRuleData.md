@@ -1,69 +1,51 @@
-# Personal Information
+# Job Description - 3D Artist
 
 body {
 font-family: Arial, sans-serif;
 line-height: 1.6;
 margin: 20px;
+padding: 0;
 }
 h1 {
-text-align: center;
+color: #333;
+}
+h2 {
+color: #555;
+}
+ul {
+list-style-type: disc;
+margin-left: 20px;
 }
 .section {
 margin-bottom: 20px;
 }
-.sub-section {
-margin-left: 20px;
-}
-ul {
-list-style-type: none;
-padding: 0;
-}
-li {
-margin-bottom: 10px;
-}
 
-# Personal Information
+# Job Title: 3D Artist
 
-# Identity Proof
+# Job Description:
 
-- Name: John Doe
-- Date of Birth: January 1, 1990
-- Type: Passport
-- Passport Number: A1234567
-- Issued By: Government of USA
-- Issue Date: January 1, 2022
-- Expiry Date: January 1, 2032
+We are seeking a creative individual to join our team as a 3D Artist. In this role, you will be responsible for creating still and moving images using computers, designing 3D models of products, and managing multiple projects while adhering to deadlines. The ideal candidate will be detail-oriented, flexible, and an excellent team player.
 
-# Address Proof
+# Responsibilities:
 
-- Type: Utility Bill
-- Utility Bill Number: UB987654
-- Issued By: Utility Company XYZ
-- Issue Date: June 1, 2024
+- Utilize 3D modeling, texturing, mapping, and other techniques to create graphics, visual effects, and animations.
+- Collaborate with animators and other artists, attending meetings to discuss ongoing projects.
+- Understand project requirements and conceptualize creative ideas.
+- Create storyboards to visualize scenes and create realistic environments for movies, games, and other visual effects.
+- Receive feedback from directors, animators, designers, and clients, and edit creations based on comments received.
+- Review 3D art and recommend improvements.
+- Create 3D sculpts and assets to meet artistic standards.
+- Troubleshoot any problems that arise during work on a project.
+- Meet with clients, designers, and directors to discuss and review projects and deadlines.
 
-# Income Proof
+# Requirements:
 
-- Type: Pay Stubs
-- Employer: ABC Corporation
-- Position: Software Engineer
-- Monthly Income: $5,000
-- Pay Period: June 2024
-
-# Educational Certificates
-
-- Degree: Bachelor of Science in Computer Science
-- Institution: University of ABC
-- Dates of Study: September 2010 - May 2014
-
-# Employment History
-
-1. Employer: XYZ Technologies
-
-Position: Intern
-2. Employment Dates: May 2013 - August 2013
-3.
-4. Employer: ABC Corporation
-
-Position: Software Engineer
-5. Employment Dates: September 2014 - Present
-6.
+- Certificate, associate's degree, or bachelor's degree in graphic design or a related field.
+- For medical illustration, a working knowledge of biology is required.
+- A strong portfolio of previous work and completed projects.
+- Strong working knowledge of industry-standard software, including 3ds Max, V-Ray, SketchUp, and Maya.
+- Excellent creativity and artistic skills.
+- An eye for composition, realism, texture, color, and lighting.
+- Good communication and teamwork skills.
+- Excellent time management skills.
+- Willingness to stay updated on the latest creative software and hardware.

@@ -1,20 +1,34 @@
 import os
 import streamlit as st
-from langchain_community.document_loaders import PyPDFLoader
+#from langchain_community.document_loaders import PyPDFLoader
+import base64
+
+def displayPDF(file):
+    # Opening file from file path
+    with open(file, "rb") as f:
+        base64_pdf = base64.b64encode(f.read()).decode('utf-8')
+
+    # Embedding PDF in HTML
+    pdf_display = F'<embed src="data:application/pdf;base64,{base64_pdf}" width="700" height="1000" type="application/pdf">'
+
+    # Displaying File
+    st.markdown(pdf_display, unsafe_allow_html=True)
 
 # Function to view PDF content in a dialog
-@st.dialog("View PDF")
+@st.dialog("View PDF", width="large")
 def view_pdf(file_path):
     try:
-        # Load the PDF using PyPDFLoader
-        loader = PyPDFLoader(file_path)
-        pages = loader.load_and_split()
+        # # Load the PDF using PyPDFLoader
+        # loader = PyPDFLoader(file_path)
+        # pages = loader.load_and_split()
 
-        print("pages", pages)
+        # print("pages", pages)
         
-        # Display the content of each page
-        for page in pages:
-            st.write(page.page_content)  # Assuming page_content holds the text content
+        # # Display the content of each page
+        # for page in pages:
+        #     st.write(page.page_content)  # Assuming page_content holds the text content
+        
+        displayPDF(file_path)
             
     except Exception as e:
         st.error(f"An error occurred while reading the PDF: {str(e)}")
@@ -31,7 +45,7 @@ def display_uploaded_files(index, folder_path, file_extension):
 
     # Display files with an eye icon for PDFs
     if files:
-        st.sidebar.subheader(f"{file_extension.upper()} Files:")
+        # st.sidebar.subheader(f"{file_extension.upper()} Files:")
         for file in files:
             col1, col2 = st.sidebar.columns([3, 1])  # Two columns layout
             with col1:

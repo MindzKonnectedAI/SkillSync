@@ -190,7 +190,7 @@ if(view=="User"):
         container.empty()
 
 
-    display_uploaded_files.display_uploaded_files("1","./ruleData",".pdf")
+    display_uploaded_files.display_uploaded_files("1","./pdf",".pdf")
 
     # Use a lambda to delay the function call until the button is clicked
     buttonVal = st.sidebar.button(
