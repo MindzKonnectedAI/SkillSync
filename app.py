@@ -509,23 +509,23 @@ def filter_names(table):
     return names
 
 
+# Send Emails Dialog Box
 @st.dialog("Send Emails")
-def view_pdf(table):
+def send_emails(table):
     print("table aaya :",table)
     options=filter_names(table)
     print("options :",options)
     try:
-        with st.form("send_email_form", clear_on_submit=True):
-            selectbox_send_email = st.selectbox(
-                "Select users to send emails",options=options
+        with st.form(key=str(uuid.uuid4()), clear_on_submit=True):
+            # selectbox_send_email = st.selectbox(
+            #     "Select users to send emails",options=options
+            # )
+            multiselect_send_email = st.multiselect(
+                "Select users to send emails", options=options,key=str(uuid.uuid4())
             )
             form_submitted = st.form_submit_button("Submit")
-
-        # displayPDF(file_path)
-        # pass
     except Exception as e:
         st.error(f"An error occurred while reading the PDF: {str(e)}")
-
 
 
 # Conversation History
@@ -536,24 +536,32 @@ if 'chat_history' in st.session_state:
                 st.markdown(message.content)
         elif isinstance(message, AIMessage) and message.name == agent_name_to_filter:
             with st.chat_message("AI"):
-                st.markdown(message.content)
-                buf = extract_required_preferred_fields(message.content)
-                unique_key = f"download_button_{int(time.time())}_{index}"
-                unique_file_name = f"{int(time.time())}.csv"
-                col1,col2 = st.columns([0.2,0.8])
-                with col1:
-                    st.download_button(
-                        label="Export as CSV",
-                        data=buf.getvalue(),
-                        file_name=unique_file_name,
-                        mime='text/csv',
-                        key=uuid.uuid4()
-                    )
-                with col2:
-                    st.button("Send Email", key=uuid.uuid4(),on_click=view_pdf)
+                print("**********************************************************************")
+                print("message.content in chat history :",message.content)
+                table = extract_table_from_text(message.content)
+                print("table in chat history :",table)
+                if len(table) > 0:
+                    st.markdown(message.content)
+                    buf = extract_required_preferred_fields(message.content)
+                    unique_key = f"download_button_{int(time.time())}_{index}"
+                    unique_file_name = f"{int(time.time())}.csv"
+                    col1,col2 = st.columns([0.2,0.8])
+                    with col1:
+                        st.download_button(
+                            label="Export as CSV",
+                            data=buf.getvalue(),
+                            file_name=unique_file_name,
+                            mime='text/csv',
+                            key=uuid.uuid4()
+                        )
+                    with col2:
+                        st.button("Send Email", key=uuid.uuid4(),on_click=lambda:send_emails(table))
+                else:
+                    st.markdown(message.content)
 
 
 
+# Check for existence of table in a text
 def checkForTable(tableText):
     table = extract_table_from_text(tableText)
         
@@ -582,12 +590,7 @@ def checkForTable(tableText):
                                 key=uuid.uuid4()
                             )
                         with col2:
-                            st.button("Send Email", key=uuid.uuid4(),on_click=lambda:view_pdf(table))
-
-                            # st.button("Send Email", key=uuid.uuid4())
-                            # # Trigger PDF view in dialog
-                            # view_pdf(table)  # Full file path
-
+                            st.button("Send Email", key=uuid.uuid4(),on_click=lambda:send_emails(table))
 
     else:
         if 'chat_history' in st.session_state:
@@ -600,7 +603,6 @@ def checkForTable(tableText):
                 if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
                     with st.chat_message("AI"):
                         st.markdown(last_message.content)
-
 
 prompt = st.chat_input("Find your next superstar")
 if prompt is not None and prompt != "" :
