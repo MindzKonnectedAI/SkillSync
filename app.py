@@ -703,24 +703,23 @@ if(buttonVal):
         st.markdown(question)
     
     st.session_state.chat_history.append(HumanMessage(content=question, name=get_agent_name(agent_name)))
-    with st.chat_message("AI"):
-        # create_image_func.create_graph_image(super_graph, "super_graph")
-        holder = st.empty()
-        with st.spinner("Processing your query..."):
-            try:
-                if(get_agent_name(agent_name) == "SQLTeam Agent"):
-                    config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-                    res = sql_chain.invoke(question, config)
-                    print("AI response :",res["messages"])
-                    aiRes = res["messages"][-1].content
-                    holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-                else:
-                    config={"configurable": {"thread_id": "2"},"recursion_limit":40}
-                    res = github_chain.invoke(question,config)
-                    print("AI response :",res["messages"])
-                    aiRes = res["messages"][-1].content
-                    holder.write(aiRes)            
-                    st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-            except GraphRecursionError:
-                st.info("Graph recursion limit exceeded , try again!")
+    # create_image_func.create_graph_image(super_graph, "super_graph")
+    holder = st.empty()
+    with st.spinner("Processing your query..."):
+        try:
+            if(get_agent_name(agent_name) == "SQLTeam Agent"):
+                config={"configurable": {"thread_id": "1"},"recursion_limit":40}
+                res = sql_chain.invoke(question, config)
+                print("AI response :",res["messages"])
+                aiRes = res["messages"][-1].content
+                st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
+                checkForTable(aiRes)
+            else:
+                config={"configurable": {"thread_id": "2"},"recursion_limit":40}
+                res = github_chain.invoke(question,config)
+                print("AI response :",res["messages"])
+                aiRes = res["messages"][-1].content
+                holder.write(aiRes)            
+                st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
+        except GraphRecursionError:
+            st.info("Graph recursion limit exceeded , try again!")
