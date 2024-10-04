@@ -385,28 +385,70 @@ agent_name_to_filter = get_agent_name(agent_name)  # Adjust this parameter as ne
 #         if col5.button(f"Send Email to {row[0]}", key=f"email_button_{index}"):
 #             st.write(f"Email sent to {row[0]}")
 
+# def extract_table_from_text(text):
+#     print("***************************extract_table_from_text*********************************")
+#     print("text :",text)
+#     # Extract the table part of the text using regular expression
+#     table_match = re.search(r'\|.*\n(\|.*\n)+', text)
+#     print("table_match :",table_match)
+#     if not table_match:
+#         return []
+    
+#     table_text = table_match.group(0)
+#     print("table_text :",table_text)
+#     # Split the extracted table text into lines
+#     lines = table_text.strip().split('\n')
+#     print("lines :",lines)
+#     # Extract the header and rows
+#     header = [col.strip() for col in lines[0].split('|') if col.strip()]
+#     print("header :",header)
+#     rows = []
+#     for line in lines[2:]:  # Skip the separator line
+#         row = [col.strip() for col in line.split('|') if col.strip()]
+#         rows.append(row)
+#     print("rows :",rows)
+#     # Combine header and rows into a table (list of lists)
+#     table = [header] + rows
+#     print("final table to be returned:",table)
+#     return table
+
 def extract_table_from_text(text):
-    print("text :",text)
-    # Extract the table part of the text using regular expression
-    table_match = re.search(r'\|.*\n(\|.*\n)+', text)
+    print("***************************extract_table_from_text*********************************")
+    print("text :", text)
+    
+    # Updated regular expression to include the last row
+    table_match = re.search(r'\|.*\n(\|.*\n)*\|.*', text)
+    print("table_match :", table_match)
+    
     if not table_match:
         return []
     
     table_text = table_match.group(0)
+    print("table_text :", table_text)
     
     # Split the extracted table text into lines
     lines = table_text.strip().split('\n')
+    print("lines :", lines)
     
     # Extract the header and rows
     header = [col.strip() for col in lines[0].split('|') if col.strip()]
+    print("header :", header)
+    
     rows = []
     for line in lines[2:]:  # Skip the separator line
+        # Skip any separator lines (those with "---")
+        if '---' in line:
+            continue
+        
         row = [col.strip() for col in line.split('|') if col.strip()]
         rows.append(row)
-    print("rows :",rows)
+    
+    print("rows :", rows)
+    
     # Combine header and rows into a table (list of lists)
     table = [header] + rows
-    print("final table :",table)
+    print("final table to be returned:", table)
+    
     return table
 
 
@@ -480,7 +522,7 @@ def extract_required_preferred_fields(tableText):
     if len(table) > 0:
         
         # Create a DataFrame from the table for export
-        df = pd.DataFrame(table, columns=table[0])  # Skip header for data
+        df = pd.DataFrame(table[1:], columns=table[0])  # Skip header for data
         
         # Display 'Export' button and allow CSV download
         csv = df.to_csv(index=False)
@@ -488,13 +530,6 @@ def extract_required_preferred_fields(tableText):
         buf = io.StringIO(csv)  # Use StringIO to handle CSV in memory
         print("CSV :",csv)
         print("buf :",buf)
-        # st.download_button(
-        #     label="Export as CSV",
-        #     data=buf.getvalue(),
-        #     file_name=unique_file_name,
-        #     mime='text/csv',
-        #     key=unique_key
-        # )
         return buf 
 
     else:
@@ -543,7 +578,6 @@ if 'chat_history' in st.session_state:
                 if len(table) > 0:
                     st.markdown(message.content)
                     buf = extract_required_preferred_fields(message.content)
-                    unique_key = f"download_button_{int(time.time())}_{index}"
                     unique_file_name = f"{int(time.time())}.csv"
                     col1,col2 = st.columns([0.2,0.8])
                     with col1:
@@ -566,8 +600,7 @@ def checkForTable(tableText):
     table = extract_table_from_text(tableText)
         
     if len(table) > 0:
-        unique_key = f"download_button_{int(time.time())}"
-        unique_file_name = f"latest_{int(time.time())}.csv"
+        unique_file_name = f"{int(time.time())}.csv"
         buf = extract_required_preferred_fields(aiRes)
         if 'chat_history' in st.session_state:
             # Check if chat_history is not empty
