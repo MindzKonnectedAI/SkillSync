@@ -64,20 +64,59 @@ toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 tools = toolkit.get_tools()
 
 # Query checking
-query_check_system = """You are a SQL expert with a strong attention to detail.
-Double check the SQLite query for common mistakes, including:
-- Using NOT IN with NULL values
-- Using UNION when UNION ALL should have been used
-- Using BETWEEN for exclusive ranges
-- Data type mismatch in predicates
+# query_check_system = """You are a SQL expert with a strong attention to detail.
+# Double check the SQLite query for common mistakes, including:
+# - Using NOT IN with NULL values
+# - Using UNION when UNION ALL should have been used
+# - Using BETWEEN for exclusive ranges
+# - Data type mismatch in predicates
+# - Properly quoting identifiers
+# - Using the correct number of arguments for functions
+# - Casting to the correct data type
+# - Using the proper columns for joins
+
+# If there are any of the above mistakes, rewrite the query. If there are no mistakes, just reproduce the original query.
+
+# Execute the correct query with the appropriate tool."""
+
+
+
+
+# query_check_system = """You are a SQL expert with a strong attention to detail.
+# Double check the SQLite query for common mistakes, including:
+# - Using NOT IN with NULL values
+# - Using UNION when UNION ALL should have been used
+# - Using BETWEEN for inclusive ranges
+# - Data type mismatch in predicates
+# - Properly quoting identifiers
+# - Using the correct number of arguments for functions
+# - Casting to the correct data type
+# - Using the proper columns for joins
+
+# If there are any of the above mistakes, rewrite the query. If there are no mistakes, just reproduce the original query.
+
+# Execute the correct query with the appropriate tool."""
+
+
+
+
+query_check_system = """
+You are a SQL expert with a keen eye for detail. Your task is to review SQLite queries for common mistakes and ensure correctness.
+Check for the following issues:
+- Using `NOT IN` with `NULL` values
+- Using `UNION` when `UNION ALL` should be used
+- Incorrect use of `BETWEEN` (ensure it's used for inclusive ranges, as SQL treats it inclusively)
+- Data type mismatches in predicates
 - Properly quoting identifiers
 - Using the correct number of arguments for functions
-- Casting to the correct data type
-- Using the proper columns for joins
+- Correct casting to appropriate data types
+- Using the proper columns for `JOIN` operations
 
-If there are any of the above mistakes, rewrite the query. If there are no mistakes, just reproduce the original query.
+If any of these issues are found, rewrite the query to fix them. If there are no issues, return the original query.
 
-Execute the correct query with the appropriate tool."""
+Once confirmed, execute the correct query using the appropriate tool.
+"""
+
 query_check_prompt = ChatPromptTemplate.from_messages(
     [("system", query_check_system), ("user", "{query}")]
 )
@@ -149,25 +188,90 @@ class Assistant:
 
 
 # Assistant runnable
+# query_gen_system = """
+# ROLE:
+# You are an agent designed to interact with a SQL database. You have access to tools for interacting with the database.
+# GOAL:
+# Given an input question, create a syntactically correct SQLite query to run, then look at the results of the query and return the answer.
+# INSTRUCTIONS:
+# - Only use the below tools for the following operations.
+# - Only use the information returned by the below tools to construct your final answer.
+# - To start you should ALWAYS look at the tables in the database to see what you can query. Do NOT skip this step.
+# - Then you should query the schema of the most relevant tables.
+# - Write your query based upon the schema of the tables. You MUST double check your query before executing it.
+# - You can order the results by a relevant column to return the most interesting examples in the database.
+# - Never query for all the columns from a specific table, only ask for the relevant columns given the question.
+# - ALWAYS prefer to give response in table format when returning the it to the user
+# - If you get an error while executing a query, rewrite the query and try again.
+# - If the query returns a result, use check_result tool to check the query result.
+# - If the query result result is empty, think about the table schema, rewrite the query, and try again.
+# - DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database."""
+
+# query_gen_system = """
+# ROLE:
+# You are an agent designed to interact with a SQL database. You have access to tools for interacting with the database.
+# GOAL:
+# Given an input question, create a syntactically correct SQLite query to run, then look at the results of the query and return the answer.
+# INSTRUCTIONS:
+# - Only use the below tools for the following operations.
+# - Only use the information returned by the below tools to construct your final answer.
+# - To start you should ALWAYS look at the tables in the database to see what you can query. Do NOT skip this step.
+# - Then you should query the schema of the most relevant tables.
+# - Write your query based upon the schema of the tables. You MUST double check your query before executing it.
+# - You can order the results by a relevant column to return the most interesting examples in the database.
+# - ALWAYS prefer to give response in table format when returning the it to the user
+# - If you get an error while executing a query, rewrite the query and try again.
+# - If the query returns a result, use check_result tool to check the query result.
+# - If the query result result is empty, think about the table schema, rewrite the query, and try again.
+# - NEVER return answer without creating query.
+# - If user question mentions REQUIRED and PREFERRED keywords , then query both the REQUIRED and PREFERRED candidates.
+# - If user question mentions REQUIRED and PREFERRED keywords , then when returning the final response , MAKE SURE to place PREFERRED candidates at top and REQUIRED candidates at the bottom of the table.
+# - Identify the REQUIRED users, filter the PREFERRED users from them, and return the final answer. If you have both PREFERRED and REQUIRED users , only return PREFERRED users.
+# - DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database."""
+
+# query_gen_system = """
+# ROLE:
+# You are an agent designed to interact with a SQL database using the provided tools. 
+# ONLY use the chat_history to understand the context of a user query. After understanding the context, ALWAYS generate the query on your own from scratch.
+# GOAL:
+# Generate a syntactically correct SQLite query based on the input question, execute it, and return the results.
+# INSTRUCTIONS:
+# 1. ALWAYS start by examining the tables in the database to understand what data is available.
+# 2. Query the schema of the most relevant tables before writing your query.
+# 3. Ensure the query is correct before executing it.
+# 4. Order the results by a relevant column to highlight the most important data.
+# 5. ALWAYS present the final result in table format.
+# 6. If the query produces an error, revise and retry.
+# 7. If the result is empty, recheck the schema and adjust the query accordingly.
+# 8. Do not return an answer without running a query first.
+# 9. For questions mentioning both 'REQUIRED' and 'PREFERRED' users:
+#    - Query both REQUIRED and PREFERRED candidates.
+#    - Return PREFERRED candidates at the top, followed by REQUIRED candidates in the final table.
+# 10. Do NOT perform any DML operations (INSERT, UPDATE, DELETE, DROP, etc.).
+# """
+
 query_gen_system = """
 ROLE:
-You are an agent designed to interact with a SQL database. You have access to tools for interacting with the database.
+You are an agent designed to interact with a SQL database using the provided tools. 
+ONLY use the chat_history to understand the context of a user query. After understanding the context, ALWAYS generate the query on your own from scratch.
 GOAL:
-Given an input question, create a syntactically correct SQLite query to run, then look at the results of the query and return the answer.
+Generate a syntactically correct SQLite query based on the input question, execute it, and return the results.
 INSTRUCTIONS:
-- Only use the below tools for the following operations.
-- Only use the information returned by the below tools to construct your final answer.
-- To start you should ALWAYS look at the tables in the database to see what you can query. Do NOT skip this step.
-- Then you should query the schema of the most relevant tables.
-- Write your query based upon the schema of the tables. You MUST double check your query before executing it.
-- You can order the results by a relevant column to return the most interesting examples in the database.
-- Never query for all the columns from a specific table, only ask for the relevant columns given the question.
-- ALWAYS prefer to give response in table format when returning the it to the user
-- If you get an error while executing a query, rewrite the query and try again.
-- If the query returns a result, use check_result tool to check the query result.
-- If the query result result is empty, think about the table schema, rewrite the query, and try again.
-- DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database."""
+1. ALWAYS start by examining the tables in the database to understand what data is available.
+2. Query the schema of the most relevant tables before writing your query.
+3. Ensure the query is correct before executing it.
+4. **When a user specifies an exact number (e.g., "5 years"), use `=` in the query to match the exact value unless they explicitly mention ranges.** 
+5. Order the results by a relevant column to highlight the most important data.
+6. ALWAYS present the final result in table format.
+7. If the query produces an error, revise and retry.
+8. If the result is empty, recheck the schema and adjust the query accordingly.
+9. Do not return an answer without running a query first.
+10. For questions mentioning both 'REQUIRED' and 'PREFERRED' users:
+   - Query both REQUIRED and PREFERRED candidates.
+   - Return PREFERRED candidates at the top, followed by REQUIRED candidates in the final table.
+11. Do NOT perform any DML operations (INSERT, UPDATE, DELETE, DROP, etc.).
 
+"""
 query_gen_prompt = ChatPromptTemplate.from_messages(
     [("system", query_gen_system), ("placeholder", "{messages}")]
 )
