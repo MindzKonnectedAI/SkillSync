@@ -589,7 +589,7 @@ if 'chat_history' in st.session_state:
                             key=uuid.uuid4()
                         )
                     with col2:
-                        st.button("Send Email", key=uuid.uuid4(),on_click=lambda:send_emails(table))
+                        st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
                 else:
                     st.markdown(message.content)
 
@@ -623,7 +623,7 @@ def checkForTable(tableText):
                                 key=uuid.uuid4()
                             )
                         with col2:
-                            st.button("Send Email", key=uuid.uuid4(),on_click=lambda:send_emails(table))
+                            st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
 
     else:
         if 'chat_history' in st.session_state:
@@ -655,37 +655,8 @@ if prompt is not None and prompt != "" :
                 res = sql_chain.invoke(prompt, config)
                 print("AI response :",res["messages"])
                 aiRes = res["messages"][-1].content
-                # tableLength = extract_table_from_text(aiRes)
-                # newAIRes = extract_required_preferred_fields(aiRes)
-                # if len(tableLength)>0:
-                #     holder.write(aiRes)
-                #     st.button("eXport",key=random.randint(1,10000))
-                # else:
-                #     holder.write(aiRes)
                 st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
                 checkForTable(aiRes)
-                # unique_key = f"download_button_{int(time.time())}"
-                # unique_file_name = f"latest_{int(time.time())}.csv"
-                # buf = extract_required_preferred_fields(aiRes)
-                # if 'chat_history' in st.session_state:
-                #     # Check if chat_history is not empty
-                #     if st.session_state.chat_history:
-                #         # Get the last message in the chat_history
-                #         last_message = st.session_state.chat_history[-1]
-                        
-                #         # Check if the last message is an AIMessage and filter by agent name
-                #         if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
-                #             with st.chat_message("AI"):
-                #                 st.markdown(last_message.content)
-                #                 # st.button("export", key=random.randint(1, 10000))
-                #                 st.download_button(
-                #                     label="Export as CSV",
-                #                     data=buf.getvalue(),
-                #                     file_name=unique_file_name,
-                #                     mime='text/csv',
-                #                     key=unique_key
-                #                 )
-
             else:
                 config={"configurable": {"thread_id": "2"},"recursion_limit":40}
                 res = github_chain.invoke(prompt,config)
