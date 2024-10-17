@@ -11,7 +11,7 @@ from langchain_openai.chat_models import ChatOpenAI
 from typing_extensions import TypedDict
 import sql.sql_agent_team_supervisor as sql_agent_team_supervisor
 import github.github_team_supervisor as github_team_supervisor
-from langchain_core.prompts import PromptTemplate,ChatPromptTemplate,FewShotChatMessagePromptTemplate
+from langchain_core.prompts import PromptTemplate
 import utils.csv_to_sql as csv_to_sql
 import utils.create_image_func as create_image_func
 import utils.create_team_supervisor_func as create_team_supervisor_func
@@ -140,75 +140,8 @@ def get_agent_name(agent_name_here):
 # Filter for messages from SQLTeam Agent
 agent_name_to_filter = get_agent_name(agent_name)  # Adjust this parameter as needed
 
-
-examples = [
-    {
-        "question": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
-        - 2-4 years of experience in software development (required)
-        - Bachelor’s degree in Computer Science (required)
-        - Proficiency in JavaScript (required)
-        - Strong understanding of Git (required)
-        - Master’s degree (preferred)
-        - PhD (preferred)
-        - Experience with cloud platforms such as AWS (preferred)
-        - Knowledge of Agile methodologies (preferred)""",
-        "answer": """
-        {"Required": {"Experience": [2], "Skills": ["JavaScript", "Git"], "Graduation": ["Bachelor's"]}, "Preferred": {"Post Graduation": ["Master's"], "PhD": ["PhD"], "Skills":["AWS", "Agile methodologies"]}}
-        """,
-    },
-    {
-        "question": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
-        - 3 years of experience in software development (required)
-        - Bachelor’s degree in Computer Science (required)
-        - Proficiency in Python (required)
-        - Proficiency in SQL (required)
-        - Proficiency in Hadoop (required)
-        - Master’s degree (preferred)
-        - Knowledge of Agile methodologies (preferred)""",
-        "answer": """
-        {"Required": {"Experience": [3], "Skills": ["Python","SQL","Hadoop"], "Graduation": ["Bachelor's"]}, "Preferred": {"Post Graduation": ["Master's"], "Skills": ["Agile methodologies"]}}
-        """,
-    }
-]
-
-# prompt_template = """
-# You are given a job description with specific required and preferred qualifications, along with a table of headers. 
-# Your task is to extract and categorize the qualifications as either "Required" or "Preferred", using the table headers as a guide. 
-# Ensure that no required fields from the job description are missed. 
-# The output should be a dictionary with two keys: "Required" and "Preferred" 
-# Under each key, list the relevant headers mentioned in the job description.
-
-# Job Description:
-# {job_description}
-
-# Table Headers:
-# {table}
-
-# # Instructions:
-# 1. Extract the qualifications from the job description.
-# 2. Categorize them according to the table headers.
-# 3. List "Preferred" qualifications under "Preferred" and all others under "Required."
-# 4. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
-# 5. Ensure numeric values are presented as numbers only, without additional strings.
-# 6. Ensure each section is clearly labeled, ordered, and separated by commas.
-# 7. Experience column always has 1 point , ignore all others.
-# 8. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
-# 9. ENSURE that the format strictly follows the provided example. Every field must exactly match the structure and format of the example, without exceptions.
-# Output: 
-# Ensure all table headers are addressed in the output.
-# Only return dictionary nothing else.
-
-# # Nerver forgot output format and must be dictionary:
-# Output format: 
-# dictionary: "{{"Required": {{}},"Preferred": {{}}}}"
-# """
-
-# Create a prompt with the correct input variable
-# matchPrompt = PromptTemplate(template=prompt_template, input_variables=["job_description", "table"])
-
-matchPrompt = ChatPromptTemplate(messages=[
-    ("system","""
-You are given a job description with specific required and preferred qualifications, along with a table of headers. 
+prompt_template = """
+You are given a job description with specific requirements and preferred qualifications, along with a table of headers. 
 Your task is to extract and categorize the qualifications as either "Required" or "Preferred", using the table headers as a guide. 
 Ensure that no required fields from the job description are missed. 
 The output should be a dictionary with two keys: "Required" and "Preferred" 
@@ -227,10 +160,7 @@ Table Headers:
 4. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
 5. Ensure numeric values are presented as numbers only, without additional strings.
 6. Ensure each section is clearly labeled, ordered, and separated by commas.
-7. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
-8. ENSURE that the 'Experience' field is always a list with exactly one element. If there are multiple elements in the list, keep only the first one and ignore the rest.
-9. PhD should only appear under the PhD key and NOT under Post Graduation. Deduplicate "PhD" from the Post Graduation list if it appears there.
-
+7. Experience column always has 1 point , ignore all others.
 Output: 
 Ensure all table headers are addressed in the output.
 Only return dictionary nothing else.
@@ -238,13 +168,10 @@ Only return dictionary nothing else.
 # Nerver forgot output format and must be dictionary:
 Output format: 
 dictionary: "{{"Required": {{}},"Preferred": {{}}}}"
-""")
-],input_variables=["job_description","table"])
+"""
 
-few_shot_prompt = FewShotChatMessagePromptTemplate(
-    example_prompt=matchPrompt,
-    examples=examples,
-)
+# Create a prompt with the correct input variable
+matchPrompt = PromptTemplate(template=prompt_template, input_variables=["job_description", "table"])
 
 matchChain = matchPrompt | llm | JsonOutputParser()
 
@@ -427,9 +354,6 @@ def checkForTable(tableText,question):
     table = extract_table_from_text(tableText)
         
     if len(table) > 0:
-        print("JOB DESCRIPTION :",question)
-        print("TABLE :",table)
-
         matchChainResponse = matchChain.invoke({"job_description": question, "table": table})
         print("matchChainResponse :",matchChainResponse)
         # Convert the string to a dictionary
