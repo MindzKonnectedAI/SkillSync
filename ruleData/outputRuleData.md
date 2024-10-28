@@ -1,26 +1,39 @@
-# Job Title: Solution Architect
+# Job Title: Senior Software Engineer (Java Developer)
 
-**Location:** Gurugram, India
-**Employment Type:** Full Time
+**Location:** Remote
+**Duration:** 12 months
 
-## Key Responsibilities:
-- Define, document, and promote the high-level design and software architecture to fulfill Wink’s business objectives and unique customer needs.
-- Provide architectural guidance and direction to the technology team building the solution and review deliverables for design compliance.
-- Evaluate technology alternatives and make recommendations for specific technology components, frameworks, and third-party open-source libraries for the given solution.
-- Define the Non-Functional Requirements for the solution and review the final implementation to ensure compliance.
-- Help define the operational and customer onboarding models for the solution.
-- Collaborate with colleagues in Wink’s product teams to define market-leading solutions for unmet client needs, addressing questions like “Can this be done? How hard is it?”
-- Support sales efforts as a client-facing Wink Platform Expert, advising on integration with the Wink platform and addressing questions on security, scalability, etc.
-- Assist in IP development and patent filing document preparations, providing inputs and serving as a reviewer.
+## Responsibilities:
+- Understand and implement requirements independently without relying on other team members or leads.
+- Develop Java EE applications with well-designed, reusable, maintainable, and efficient code.
+- Demonstrate excellent problem-solving and code debugging abilities.
+- Apply knowledge of Java design patterns and implement them as needed.
+- Write Javadoc for every method and class with detailed explanations.
+- Develop data service layers using JPA.
+- Complete daily tasks on time and deliver as promised.
+- Write SQL queries, including DDL and DML.
+- Experience in writing JUnit tests.
+- Perform technical troubleshooting and performance tuning.
+- Exhibit a strong aptitude for learning and adapting to new technologies.
+- Communicate clearly with all levels within the organization.
+- Possess excellent interpersonal skills and the ability to work collaboratively in a team environment.
 
-## What You Need:
-- Mastery of .NET Core with significant experience as a developer, designer, and software architect is a MUST.
-- Significant expertise in Cloud Native, Microservices, and API-based web applications.
-- Demonstrable experience with at least one large cloud computing provider (preferably Azure).
-- Strong skill set in Azure Communication Protocols and scalability.
-- Prior experience in building and launching a new product or platform, rather than updating or maintaining an existing system, is a MUST.
-- Familiarity with information security principles, high availability designs, and high-performance patterns, along with diagnosing and eliminating bottlenecks.
-- Creativity and a passion for tackling challenging software problems, with a willingness to work in a start-up environment.
-- Strong communication and collaboration skills are a MUST.
-- Ability to write clear documentation, effectively whiteboard, and create simple, easy-to-understand diagrams for complex systems.
-- University degree in Computer Science or equivalent; an advanced degree is preferred.
+## Qualifications:
+- Bachelor’s degree in Computer Science, Engineering (or a related field), or equivalent relevant work experience.
+- 5-8 years of hands-on experience in Java/JEE, including Spring Batch and Spring Boot, with an understanding of time-critical projects with strict deadlines.
+- Excellent knowledge of Java design patterns and their implementation.
+- 5-8 years of experience developing User Interface pages using PrimeFaces and creating data service layers with JPA, writing JUnit tests, and SQL queries, including creating views and stored procedures as needed.
+- 5-8 years of experience with Core Java / J2EE backend development.
+# Desired Skills
+
+- **Excellent ability to understand the requirements** and implement as directed with less or no dependency on others.
+- **Experience working in the Public Sector domain.**
+- **Experience in Azure DevOps.**
+
+----
+
+# Boolean String
+
+```
+(jpa OR “java persistence api”) AND junit AND sql AND java AND (j2ee OR jee) AND (“stored procedures” OR “stored procedure”) AND (springboot OR “spring boot”) AND spring AND (ddl OR dml)
+```

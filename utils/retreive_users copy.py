@@ -44,7 +44,7 @@ def get_prompt():
 
     # print("template: ", load_markdown("./data/defaultPrompt.md"))
 
-    prompt = PromptTemplate(template=template, input_variables=["requirements","column_headers","table_schema"])
+    prompt = PromptTemplate(template=template, input_variables=["requirements","column_headers","example_rows"])
 
     return prompt
 
@@ -156,7 +156,7 @@ def retreive_users_fnc():
     # print("requirements: ", requirements)
 
     querychain = prompt | llm
-    queryres = querychain.invoke({"requirements": requirements,"column_headers":column_headers,"table_schema":table_schema})
+    queryres = querychain.invoke({"requirements": requirements,"column_headers":column_headers,"example_rows":example_rows})
 
     user_query = queryres.content
     # if user_query is not None and user_query != "":
