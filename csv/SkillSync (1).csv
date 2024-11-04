@@ -1,0 +1,17 @@
+Name,Location,Experience,Skills,Graduation,Post Graduation,PhD
+Ashish Kumar,"Gurugram, India",6,"microsoft dynamics, Microsoft Azure, CRM,  DevOps , pipeline, azure data factory, github, power apps, flows",B.Tech Computer Science ,N/A,N/A
+Naina Rawat,"Gurugram, India",3,".NET Core, Azure, Springboot, Microservice, Cloud Native, API based Web Applications",B.Tech Computer Science,M.Tech Computer Science,Yes
+Tanmay Narang,,8,"Debugging, Java Springboot, SQL, Azure DevOps, J2EE Backend Development, Java persistence api, Stored Procedure",B.Tech Computer Science,N/A,N/A
+Vishesh Togra,"Denver, CO",6,"Modern Cloud Native development (Docker, Kubernetes, Knative), Git, RESTful Web Services, CI/CD, AWS, Kafka, Express.js, Node.js",B.E IT,N/A,N/A
+Rashika Mittal,"Taylor, TX",5,"HTML, CSS, Javascript, Jquery, Java, J2EE, Spring, Struts, SQL Hibernate, PL/SQL, Param Query, Pggrid, Jasper",B.E IT,M.Tech IT,N/A
+Keshav Nayyar,"Folsom, CA ",3,"IT Service Management, UFT, vbscript , Confluence, Selenium, istqb, SQL",B.Tech Electrical Engineering,Master's in Electrical Engineering,N/A
+Kartik Singh,Tallahassee FL,5,"OData Services, Front end Fiori application development, ABAP Rest Programming Model, SAP ,ABAP procedural and object-oriented programming, ABAP Core Data Services, odata , Hana, Migration, Implementations, Badis, CRM",B.Tech Computer Science,N/A,N/A
+Rishabh Gupta,Taylor TX,7,"Identity and access management, active directory, tcp/ip , redhat, Linux",B.Tech Computer Science,,N/A
+Geoffery Hinton,"Los Angeles, CA",3,"Identity and access management, Azure, CRM, DevOps",B.E IT,N/A,Yes
+Parth Singh,"Los Angeles, CA",5,"HTML, CSS, Java, Springboot",Bsc. Computer Science,N/A,N/A
+Khushagara Rawat,"Folsom, CA ",2,"Debugging, SQL, Azure, Kafka",Bsc. Computer Science,Msc. Computer Science,N/A
+Aman Girdhar,"Gurugram, India",7,"Node.js, Express.js, CI/CD",B.Tech IT,N/A,N/A
+Manu Chaudhry,"Denver, CO",1,"IT Service Management, Azure, SQL, TCP/IP",B.Tech Computer Science,N/A,N/A
+Aryan Chaudhry,"Taylor, TX",4,"Modern Cloud Native development (Docker, Kubernetes, Knative), J2EE, Springboot",B.Tech IT,N/A,N/A
+Raman Singh,"Denver, CO",6,"CI/CD Pipeline, modern cloud native development (Docker, Kubernetes, Knative), Git, RESTful web services, Design pattern, Kafka, Express.js, Node.js",B.Tech Computer Science,N/A,N/A
+Biswa Mitra,"Taylor, TX",5,"Java, J2EE, Spring, Struts, SQL, HTML, CSS, JavaScript, Jquery, Hibernate, PLSQL, param query, pggrid, Jasper",B.Tech Computer Science ,N/A,N/A
