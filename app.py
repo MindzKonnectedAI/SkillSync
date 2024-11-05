@@ -535,29 +535,93 @@ def checkForTable1(tableText):
 # Define the path to your JSON configuration file
 CONFIG_PATH = os.path.join('knowledge_base_json', 'knowledge_base.json')  # Adjust the path as needed
 
+# @st.dialog("Query Filters")
+# def query_filters_modal(matchChainResponse=None):
+#     try:
+#         # Load the JSON configuration
+#         print("matchChainResponse :",matchChainResponse)
+#         with open(CONFIG_PATH, 'r') as f:
+#             form_config = json.load(f)
+
+#         with st.form(key=str(uuid.uuid4()), clear_on_submit=True):
+#             user_inputs = {}  # Dictionary to store user selections
+
+#             # Create a multiselect for each key in the JSON file
+#             for field_name, options in form_config.items():
+#                 print("options :",options)
+#                 print("field_name :",field_name)
+#                 # if(type(matchChainResponse.get(field_name, []))==bool):
+#                 #     default_values=[options[0]]
+#                 # Check if the field is Graduation or Post Graduation
+#                 if field_name in ["Graduation", "Post Graduation"]:
+#                     # Set default to the first option if the value in matchChainResponse is True
+#                     default_values = [options[0]] if matchChainResponse.get(field_name, False) is True else []
+
+#                 else:
+#                     default_values = [
+#                         str(value) for value in matchChainResponse.get(field_name, [])
+#                         if str(value) in options
+#                     ]
+
+#                 print("default_values :",default_values)
+
+#                 user_inputs[field_name] = st.multiselect(
+#                     label=field_name,
+#                     options=options,
+#                     default=default_values,
+#                     key=str(uuid.uuid4())
+#                 )
+
+#             form_submitted = st.form_submit_button("Apply")
+
+#             if form_submitted:
+#                 st.success("Filters applied successfully!")
+#                 st.write("Selected Filters:", user_inputs)
+
+#     except FileNotFoundError:
+#         st.error(f"Configuration file not found at path: {CONFIG_PATH}")
+#     except json.JSONDecodeError:
+#         st.error("Error decoding the JSON configuration file. Please check the file format.")
+#     except Exception as e:
+#         st.error(f"An error occurred while opening the Query Filters modal: {str(e)}")
+
+def match_skills(ai_skills, options):
+    # Convert both lists to lowercase for comparison
+    ai_skills_lower = [str(skill).lower() for skill in ai_skills]
+    options_lower = [option.lower() for option in options]
+
+    # Find matches and return them in their original form
+    matched_skills = [options[i] for i, option in enumerate(options_lower) if option in ai_skills_lower]
+    return matched_skills
+
 @st.dialog("Query Filters")
 def query_filters_modal(matchChainResponse=None):
     try:
         # Load the JSON configuration
+        print("matchChainResponse:", matchChainResponse)
         with open(CONFIG_PATH, 'r') as f:
             form_config = json.load(f)
 
-        with st.form(key=str(uuid.uuid4()), clear_on_submit=True):
+        with st.form(key="my_key", clear_on_submit=True):
             user_inputs = {}  # Dictionary to store user selections
-
+            print("user_inputs :",user_inputs)
             # Create a multiselect for each key in the JSON file
             for field_name, options in form_config.items():
-                print("field_name :",field_name)
-                if(type(matchChainResponse.get(field_name, []))==bool):
-                    default_values[options[0]]
+                # Set default values based on matchChainResponse
+                if field_name in ["Graduation", "Post Graduation"]:
+                    # Check if the value in matchChainResponse is True
+
+                    if matchChainResponse.get(field_name) is True:
+                        default_values = [options[0]]  # First option if True
+                    else:
+                        default_values = []  # No default if not True
                 else:
-                    default_values = [
-                        str(value) for value in matchChainResponse.get(field_name, [])
-                        if str(value) in options
-                    ]
+                    # For other fields, filter default values based on matchChainResponse
+                    default_values = match_skills(matchChainResponse.get(field_name, []),options)
+                
+                print(f"default_values for {field_name}:", default_values)
 
-                print("default_values :",default_values)
-
+                # Create the multiselect widget
                 user_inputs[field_name] = st.multiselect(
                     label=field_name,
                     options=options,
@@ -565,11 +629,13 @@ def query_filters_modal(matchChainResponse=None):
                     key=str(uuid.uuid4())
                 )
 
-            form_submitted = st.form_submit_button("Apply")
+            form_submitted = st.form_submit_button(label="Apply")
 
             if form_submitted:
                 st.success("Filters applied successfully!")
-                st.write("Selected Filters:", user_inputs)
+                print("user_inputs :",user_inputs)
+                st.write(user_inputs)  # Display selected filters
+
 
     except FileNotFoundError:
         st.error(f"Configuration file not found at path: {CONFIG_PATH}")
@@ -577,6 +643,7 @@ def query_filters_modal(matchChainResponse=None):
         st.error("Error decoding the JSON configuration file. Please check the file format.")
     except Exception as e:
         st.error(f"An error occurred while opening the Query Filters modal: {str(e)}")
+
 
 examples = [
     {
@@ -590,7 +657,7 @@ examples = [
         - Experience with cloud platforms such as AWS
         - Knowledge of Agile methodologies""",
         "answer": """
-        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": TRUE, "Post Graduation": TRUE}
+        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": True, "Post Graduation": True}
         """,
     },
     {
@@ -602,7 +669,7 @@ examples = [
         - Proficiency in Hadoop 
         - Knowledge of Agile methodologies""",
         "answer": """
-        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": TRUE, "Post Graduation": FALSE}
+        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": True, "Post Graduation": False}
         """,
     }
 ]
@@ -683,7 +750,6 @@ if prompt is not None and prompt != "" :
         print(type(csv_headers))
         print(type(str(csv_headers)))
         matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
-        print("matchChainResponse", matchChainResponse)
         print(type(matchChainResponse))
         # Pass matchChainResponse to query_filters_modal
         query_filters_modal(matchChainResponse=matchChainResponse)
