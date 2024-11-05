@@ -23,6 +23,7 @@ from langgraph.errors import GraphRecursionError
 import utils.display_uploaded_files as display_uploaded_files
 import utils.upload_csv as upload_csv
 import utils.calculate_user_percentage as calculate_user_percentage
+import utils.knowledge_base as knowledge_base
 import time
 import re
 import json
@@ -131,6 +132,18 @@ if(view=="Admin"):
 
     display_uploaded_files.display_uploaded_files("2","./csv",".csv")
 
+    with st.sidebar.form("knowledge_base", clear_on_submit=True):
+        uploaded_file_knowledge_base = st.file_uploader("Upload knowledge base CSV File", type=["csv"], key="csv_uploader_knowledge_base")
+        file_submitted_knowledge_base = st.form_submit_button("Submit")
+
+    if file_submitted_knowledge_base and (uploaded_file_knowledge_base is not None):
+        container = st.empty()
+        container.write("Processing the uploaded file...")
+        knowledge_base.upload_csv(uploaded_file_knowledge_base,container)
+        time.sleep(2)
+        container.empty()
+
+    display_uploaded_files.display_uploaded_files("3","./knowledge_base_csv",".csv")
 def get_agent_name(agent_name_here):
     if(agent_name_here=="ATS"):
         return "SQLTeam Agent"
@@ -519,58 +532,209 @@ def checkForTable1(tableText):
                     with st.chat_message("AI"):
                         st.markdown(last_message.content)
 
+# Define the path to your JSON configuration file
+CONFIG_PATH = os.path.join('knowledge_base_json', 'knowledge_base.json')  # Adjust the path as needed
+
+@st.dialog("Query Filters")
+def query_filters_modal(matchChainResponse=None):
+    try:
+        # Load the JSON configuration
+        with open(CONFIG_PATH, 'r') as f:
+            form_config = json.load(f)
+
+        with st.form(key=str(uuid.uuid4()), clear_on_submit=True):
+            user_inputs = {}  # Dictionary to store user selections
+
+            # Create a multiselect for each key in the JSON file
+            for field_name, options in form_config.items():
+                print("field_name :",field_name)
+                if(type(matchChainResponse.get(field_name, []))==bool):
+                    default_values[options[0]]
+                else:
+                    default_values = [
+                        str(value) for value in matchChainResponse.get(field_name, [])
+                        if str(value) in options
+                    ]
+
+                print("default_values :",default_values)
+
+                user_inputs[field_name] = st.multiselect(
+                    label=field_name,
+                    options=options,
+                    default=default_values,
+                    key=str(uuid.uuid4())
+                )
+
+            form_submitted = st.form_submit_button("Apply")
+
+            if form_submitted:
+                st.success("Filters applied successfully!")
+                st.write("Selected Filters:", user_inputs)
+
+    except FileNotFoundError:
+        st.error(f"Configuration file not found at path: {CONFIG_PATH}")
+    except json.JSONDecodeError:
+        st.error("Error decoding the JSON configuration file. Please check the file format.")
+    except Exception as e:
+        st.error(f"An error occurred while opening the Query Filters modal: {str(e)}")
+
+examples = [
+    {
+        "question": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
+        - 2-4 years of experience in software development
+        - Bachelor’s degree in Computer Science
+        - Proficiency in JavaScript
+        - Strong understanding of Git
+        - Master’s degree 
+        - PhD
+        - Experience with cloud platforms such as AWS
+        - Knowledge of Agile methodologies""",
+        "answer": """
+        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": TRUE, "Post Graduation": TRUE}
+        """,
+    },
+    {
+        "question": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
+        - 3 years of experience in software development
+        - Bachelor’s degree in Computer Science 
+        - Proficiency in Python 
+        - Proficiency in SQL
+        - Proficiency in Hadoop 
+        - Knowledge of Agile methodologies""",
+        "answer": """
+        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": TRUE, "Post Graduation": FALSE}
+        """,
+    }
+]
+
+matchPrompt_kownledge_base = ChatPromptTemplate(messages=[
+    ("system","""
+You are given a job description with specific required and preferred qualifications, along with a table of headers. 
+Your task is to extract and categorize the qualifications, using the table headers as a guide. 
+Ensure that no required fields from the job description are missed. 
+The output should be a dictionary Under each key, list the relevant headers mentioned in the job description.
+
+Job Description:
+{job_description}
+
+Table Headers:
+{table}
+
+# Instructions:
+1. Extract the qualifications from the job description.
+2. Categorize them according to the table headers.
+3. List qualifications
+4. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
+5. Ensure numeric values are presented as numbers only, without additional strings.
+6. Ensure each section is clearly labeled, ordered, and separated by commas.
+7. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
+
+Format:
+"Skills": List[string], "Experience": List[string], "Location": List[string], "Graduation": bool, "Post Graduation": bool
+
+Output: 
+Ensure all table headers are addressed in the output.
+""")
+],input_variables=["job_description","table"])
+
+few_shot_prompt = FewShotChatMessagePromptTemplate(
+    example_prompt=matchPrompt_kownledge_base,
+    examples=examples,
+)
+
+ai_filter = matchPrompt_kownledge_base | llm | JsonOutputParser()
+
+import pandas as pd
+
+def get_csv_headers(folder_path):
+    """
+    Retrieves the headers (column names) for each CSV file in the specified folder.
+
+    Args:
+        folder_path (str): Path to the folder containing CSV files.
+
+    Returns:
+        dict: A dictionary where the keys are CSV file names and the values are lists of column headers.
+    """
+    headers_dict = {}
+    
+    # Get all CSV file names in the folder
+    csv_files = [f for f in os.listdir(folder_path) if f.endswith('.csv')]
+    
+    # Loop through each CSV file and get headers
+    for csv_file in csv_files:
+        file_path = os.path.join(folder_path, csv_file)
+        try:
+            df = pd.read_csv(file_path)
+            headers_dict = df.columns.tolist()
+        except Exception as e:
+            print(f"Error reading {csv_file}: {e}")
+    
+    return headers_dict
+
+
 prompt = st.chat_input("Find your next superstar")
 if prompt is not None and prompt != "" :
     with st.chat_message("Human"):
         st.markdown(prompt)
-    
-    st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
-        # create_image_func.create_graph_image(super_graph, "super_graph")
-    holder = st.empty()
-    with st.spinner("Processing your query..."):
-        print("the final prompt  :",prompt)
-        try:
-            if(get_agent_name(agent_name) == "SQLTeam Agent"):
-                config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-                res = sql_chain.invoke(prompt, config)
-                print("AI response :",res["messages"])
-                tableText = res["messages"][-1].content
-                st.session_state.chat_history.append(AIMessage(content=tableText, name=get_agent_name(agent_name)))
-                checkForTable1(tableText)
-            else:
-                config={"configurable": {"thread_id": "2"},"recursion_limit":40}
-                res = github_chain.invoke(prompt,config)
-                print("AI response :",res["messages"])
-                aiRes = res["messages"][-1].content
-                holder.write(aiRes)            
-                st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-        except GraphRecursionError:
-            st.info("Graph recursion limit exceeded , try again!")
+        folder_path = 'knowledge_base_csv'
+        csv_headers = get_csv_headers(folder_path)
+        print(csv_headers)
+        print(type(csv_headers))
+        print(type(str(csv_headers)))
+        matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
+        print("matchChainResponse", matchChainResponse)
+        print(type(matchChainResponse))
+        # Pass matchChainResponse to query_filters_modal
+        query_filters_modal(matchChainResponse=matchChainResponse)
+
+#     st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
+#         # create_image_func.create_graph_image(super_graph, "super_graph")
+#     holder = st.empty()
+#     with st.spinner("Processing your query..."):
+#         print("the final prompt  :",prompt)
+#         try:
+#             if(get_agent_name(agent_name) == "SQLTeam Agent"):
+#                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
+#                 res = sql_chain.invoke(prompt, config)
+#                 print("AI response :",res["messages"])
+#                 tableText = res["messages"][-1].content
+#                 st.session_state.chat_history.append(AIMessage(content=tableText, name=get_agent_name(agent_name)))
+#                 checkForTable1(tableText)
+#             else:
+#                 config={"configurable": {"thread_id": "2"},"recursion_limit":40}
+#                 res = github_chain.invoke(prompt,config)
+#                 print("AI response :",res["messages"])
+#                 aiRes = res["messages"][-1].content
+#                 holder.write(aiRes)            
+#                 st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
+#         except GraphRecursionError:
+#             st.info("Graph recursion limit exceeded , try again!")
 
 
-if(buttonVal):
-    question = retreive_users.retreive_users_fnc()
-    with st.chat_message("Human"):
-        st.markdown(question)
+# if(buttonVal):
+#     question = retreive_users.retreive_users_fnc()
+#     with st.chat_message("Human"):
+#         st.markdown(question)
     
-    st.session_state.chat_history.append(HumanMessage(content=question, name=get_agent_name(agent_name)))
-    # create_image_func.create_graph_image(super_graph, "super_graph")
-    holder = st.empty()
-    with st.spinner("Processing your query..."):
-        try:
-            if(get_agent_name(agent_name) == "SQLTeam Agent"):
-                config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-                res = sql_chain.invoke(question, config)
-                print("AI response :",res["messages"])
-                tableText = res["messages"][-1].content
-                # st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-                checkForTable(tableText,question)
-            else:
-                config={"configurable": {"thread_id": "2"},"recursion_limit":40}
-                res = github_chain.invoke(question,config)
-                print("AI response :",res["messages"])
-                aiRes = res["messages"][-1].content
-                holder.write(aiRes)            
-                st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-        except GraphRecursionError:
-            st.info("Graph recursion limit exceeded , try again!")
+#     st.session_state.chat_history.append(HumanMessage(content=question, name=get_agent_name(agent_name)))
+#     # create_image_func.create_graph_image(super_graph, "super_graph")
+#     holder = st.empty()
+#     with st.spinner("Processing your query..."):
+#         try:
+#             if(get_agent_name(agent_name) == "SQLTeam Agent"):
+#                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
+#                 res = sql_chain.invoke(question, config)
+#                 print("AI response :",res["messages"])
+#                 tableText = res["messages"][-1].content
+#                 # st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
+#                 checkForTable(tableText,question)
+#             else:
+#                 config={"configurable": {"thread_id": "2"},"recursion_limit":40}
+#                 res = github_chain.invoke(question,config)
+#                 print("AI response :",res["messages"])
+#                 aiRes = res["messages"][-1].content
+#                 holder.write(aiRes)            
+#                 st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
+#         except GraphRecursionError:
+#             st.info("Graph recursion limit exceeded , try again!")
