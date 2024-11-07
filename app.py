@@ -632,9 +632,18 @@ def query_filters_modal(matchChainResponse=None):
             form_submitted = st.form_submit_button(label="Apply")
 
             if form_submitted:
-                st.success("Filters applied successfully!")
+                # st.success("Filters applied successfully!")
                 print("user_inputs :",user_inputs)
-                st.write(user_inputs)  # Display selected filters
+                # st.write(user_inputs)  # Display selected filters
+                config={"configurable": {"thread_id": "1"},"recursion_limit":40}
+                with st.spinner("Processing your query..."):
+                    res = sql_chain.invoke(prompt, config)
+                    print("AI response :",res["messages"])
+
+                    st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
+                    st.rerun()
+
+                return user_inputs
 
 
     except FileNotFoundError:
@@ -695,7 +704,7 @@ Table Headers:
 5. Ensure numeric values are presented as numbers only, without additional strings.
 6. Ensure each section is clearly labeled, ordered, and separated by commas.
 7. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
-
+8. Extract only the technical skill names from the following job posting, ignoring any descriptive text, conditions, or requirements.
 Format:
 "Skills": List[string], "Experience": List[string], "Location": List[string], "Graduation": bool, "Post Graduation": bool
 
@@ -744,6 +753,7 @@ prompt = st.chat_input("Find your next superstar")
 if prompt is not None and prompt != "" :
     with st.chat_message("Human"):
         st.markdown(prompt)
+        st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
         folder_path = 'knowledge_base_csv'
         csv_headers = get_csv_headers(folder_path)
         print(csv_headers)
@@ -752,7 +762,9 @@ if prompt is not None and prompt != "" :
         matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
         print(type(matchChainResponse))
         # Pass matchChainResponse to query_filters_modal
-        query_filters_modal(matchChainResponse=matchChainResponse)
+        query = query_filters_modal(matchChainResponse=matchChainResponse)
+
+        print("quert", query)
 
 #     st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
 #         # create_image_func.create_graph_image(super_graph, "super_graph")
@@ -778,29 +790,39 @@ if prompt is not None and prompt != "" :
 #             st.info("Graph recursion limit exceeded , try again!")
 
 
-# if(buttonVal):
-#     question = retreive_users.retreive_users_fnc()
-#     with st.chat_message("Human"):
-#         st.markdown(question)
-    
-#     st.session_state.chat_history.append(HumanMessage(content=question, name=get_agent_name(agent_name)))
-#     # create_image_func.create_graph_image(super_graph, "super_graph")
-#     holder = st.empty()
-#     with st.spinner("Processing your query..."):
-#         try:
-#             if(get_agent_name(agent_name) == "SQLTeam Agent"):
-#                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
-#                 res = sql_chain.invoke(question, config)
-#                 print("AI response :",res["messages"])
-#                 tableText = res["messages"][-1].content
-#                 # st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-#                 checkForTable(tableText,question)
-#             else:
-#                 config={"configurable": {"thread_id": "2"},"recursion_limit":40}
-#                 res = github_chain.invoke(question,config)
-#                 print("AI response :",res["messages"])
-#                 aiRes = res["messages"][-1].content
-#                 holder.write(aiRes)            
-#                 st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-#         except GraphRecursionError:
-#             st.info("Graph recursion limit exceeded , try again!")
+if(buttonVal):
+    question = retreive_users.retreive_users_fnc()
+    requirements = retreive_users.load_markdown("./data/summarizeOutputRuleData.md") 
+    with st.chat_message("Human"):
+        st.markdown(requirements)
+    st.session_state.chat_history.append(HumanMessage(content=requirements, name=get_agent_name(agent_name)))
+    # create_image_func.create_graph_image(super_graph, "super_graph")
+    holder = st.empty()
+    with st.spinner("Processing your query..."):
+        try:
+            if(get_agent_name(agent_name) == "SQLTeam Agent"):
+                folder_path = 'knowledge_base_csv'
+                csv_headers = get_csv_headers(folder_path)
+                print(csv_headers)
+                print(type(csv_headers))
+                print(type(str(csv_headers)))
+                
+                matchChainResponse = ai_filter.invoke({"job_description": requirements, "table": csv_headers})
+                query = query_filters_modal(matchChainResponse=matchChainResponse)
+
+
+                # config={"configurable": {"thread_id": "1"},"recursion_limit":40}
+                # res = sql_chain.invoke(question, config)
+                # print("AI response :",res["messages"])
+                # tableText = res["messages"][-1].content
+                # # st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
+                # checkForTable(tableText,question)
+            else:
+                config={"configurable": {"thread_id": "2"},"recursion_limit":40}
+                res = github_chain.invoke(question,config)
+                print("AI response :",res["messages"])
+                aiRes = res["messages"][-1].content
+                holder.write(aiRes)            
+                st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
+        except GraphRecursionError:
+            st.info("Graph recursion limit exceeded , try again!")
