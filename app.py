@@ -594,6 +594,28 @@ def match_skills(ai_skills, options):
     matched_skills = [options[i] for i, option in enumerate(options_lower) if option in ai_skills_lower]
     return matched_skills
 
+
+promptForGenerateQuestion = ChatPromptTemplate(messages=[
+    ("system", """
+    As a recruiter using an AI SQL agent to search a candidate database, generate a concise question that can help retrieve candidates who meet the following criteria:
+
+    - Criteria: {parameter}
+
+    Phrase the question in a way that it’s both concise and can be easily translated into a SQL query by the AI agent, focusing on each specified criterion. The question should prompt the candidate (or filter results) to confirm or specify relevant details about each requirement.
+    """)
+], input_variables=["parameter"])
+
+
+
+# few_shot_prompt = FewShotChatMessagePromptTemplate(
+#     example_prompt=matchPrompt,
+#     examples=examples,
+# )
+
+generate_question_AI = promptForGenerateQuestion | llm 
+
+
+
 @st.dialog("Query Filters")
 def query_filters_modal(matchChainResponse=None):
     try:
@@ -637,7 +659,10 @@ def query_filters_modal(matchChainResponse=None):
                 # st.write(user_inputs)  # Display selected filters
                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 with st.spinner("Processing your query..."):
-                    res = sql_chain.invoke(prompt, config)
+                    print("prompt :",prompt)
+                    ques = generate_question_AI.invoke({"parameter": user_inputs})
+                    print("Generated question :",ques.content)
+                    res = sql_chain.invoke(ques.content, config)
                     print("AI response :",res["messages"])
 
                     st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
