@@ -113,22 +113,22 @@ def retreive_users_fnc():
     # Run the PRAGMA query to get the column headers
     query = f"PRAGMA table_info({tableName});"
     result = db.run(query)
-    print("result :",result)
+    # print("result :",result)
     newresult = ast.literal_eval(result)
-    print("newresult :",newresult)
-    print("type of newresult :",type(newresult))
-    print("newresult logged :",newresult)
+    # print("newresult :",newresult)
+    # print("type of newresult :",type(newresult))
+    # print("newresult logged :",newresult)
     # # Extract the column names from the result
     column_headers = [row[1] for row in newresult]  
 
-    print(f"Column Headers for {tableName}: {column_headers}")
+    # print(f"Column Headers for {tableName}: {column_headers}")
 
-    print("table_schema :",table_schema)
+    # print("table_schema :",table_schema)
     # Extract only the example rows
     example_rows = table_schema.split("/*")[-1].strip("*/").strip()
-    print("example_rows :",example_rows)
-    print("column_headers :",column_headers)
-    print("valHere :",valHere)
+    # print("example_rows :",example_rows)
+    # print("column_headers :",column_headers)
+    # print("valHere :",valHere)
     
     # valhere = db.get_table_info_no_throw(
     #         [t.strip() for t in tableName.split(",")]
