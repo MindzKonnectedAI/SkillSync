@@ -231,7 +231,7 @@ def should_continue(state: State) -> Literal[END, "correct_query", "query_gen"]:
 # and the state of the research sub-graph
 # this makes it so that the states of each graph don't get intermixed
 def enter_chain(message: str):
-    print("message", message)
+    # print("message", message)
     results = {
         "messages": [HumanMessage(content=message)],
     }

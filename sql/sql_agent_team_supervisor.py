@@ -55,8 +55,8 @@ db_path = os.path.join(db_folder, "employee.db")
 
 db = SQLDatabase.from_uri(f"sqlite:///{db_path}")
 
-print(db.dialect)
-print(db.get_usable_table_names())
+# print(db.dialect)
+# print(db.get_usable_table_names())
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 # SQL toolkit
@@ -128,7 +128,7 @@ def check_query_tool(query: str) -> str:
     """
     Use this tool to double check if your query is correct before executing it.
     """
-    print("query logged :",query)
+    # print("query logged :",query)
     return query_check.invoke({"query": query}).content
 
 
@@ -274,30 +274,52 @@ class Assistant:
 
 # """
 
+
+# Assistant runnable
 query_gen_system = """
 ROLE:
-You are an agent designed to interact with a SQL database using the provided tools. 
-ONLY use the chat_history to understand the context of a user query. After understanding the context, ALWAYS generate the query on your own from scratch.
+You are an agent designed to interact with a SQL database. You have access to tools for interacting with the database.
 GOAL:
-Generate a syntactically correct SQLite query based on the input question, execute it, and return the results.
+Given an input question, create a syntactically correct SQLite query to run, then look at the results of the query and return the answer.
 INSTRUCTIONS:
-1. ALWAYS start by examining the tables in the database to understand what data is available.
-2. Query the schema of the most relevant tables before writing your query.
-3. Ensure the query is correct before executing it.
-4. **When a user specifies an exact number (e.g., "5 years"), use `=` in the query to match the exact value unless they explicitly mention ranges.** 
-5. Order the results by a relevant column to highlight the most important data.
-6. ALWAYS present the final result in table format.
-7. If the query produces an error, revise and retry.
-8. If the result is empty, recheck the schema and adjust the query accordingly.
-9. Do not return an answer without running a query first.
-10. NOTE that 1.0 and 1 are same , similarly 2.0 and 2 and so on.
-11. For questions mentioning both 'REQUIRED' and 'PREFERRED' users:
-   - Query both REQUIRED and PREFERRED candidates.
-   - Return PREFERRED candidates at the top, followed by REQUIRED candidates in the final table.
-   - Make sure to return both types of candidates.
-   - ALWAYS return ONLY 1 table.
-12. Do NOT perform any DML operations (INSERT, UPDATE, DELETE, DROP, etc.).
-"""
+- Only use the below tools for the following operations.
+- Only use the information returned by the below tools to construct your final answer.
+- To start you should ALWAYS look at the tables in the database to see what you can query. Do NOT skip this step.
+- Then you should query the schema of the most relevant tables.
+- Write your query based upon the schema of the tables. You MUST double check your query before executing it.
+- Unless the user specifies a specific number of examples they wish to obtain, always limit your query to at most 5 results.
+- You can order the results by a relevant column to return the most interesting examples in the database.
+- Never query for all the columns from a specific table, only ask for the relevant columns given the question.
+- If you get an error while executing a query, rewrite the query and try again.
+- If the query returns a result, use check_result tool to check the query result.
+- If the query result result is empty, think about the table schema, rewrite the query, and try again.
+- DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database."""
+
+
+# query_gen_system = """
+# ROLE:
+# You are an agent designed to interact with a SQL database using the provided tools. 
+# ONLY use the chat_history to understand the context of a user query. After understanding the context, ALWAYS generate the query on your own from scratch.
+# GOAL:
+# Generate a syntactically correct SQLite query based on the input question, execute it, and return the results.
+# INSTRUCTIONS:
+# 1. ALWAYS start by examining the tables in the database to understand what data is available.
+# 2. Query the schema of the most relevant tables before writing your query.
+# 3. Ensure the query is correct before executing it.
+# 4. **When a user specifies an exact number (e.g., "5 years"), use `=` in the query to match the exact value unless they explicitly mention ranges.** 
+# 5. Order the results by a relevant column to highlight the most important data.
+# 6. ALWAYS present the final result in table format.
+# 7. If the query produces an error, revise and retry.
+# 8. If the result is empty, recheck the schema and adjust the query accordingly.
+# 9. Do not return an answer without running a query first.
+# 10. NOTE that 1.0 and 1 are same , similarly 2.0 and 2 and so on.
+# 11. For questions mentioning both 'REQUIRED' and 'PREFERRED' users:
+#    - Query both REQUIRED and PREFERRED candidates.
+#    - Return PREFERRED candidates at the top, followed by REQUIRED candidates in the final table.
+#    - Make sure to return both types of candidates.
+#    - ALWAYS return ONLY 1 table.
+# 12. Do NOT perform any DML operations (INSERT, UPDATE, DELETE, DROP, etc.).
+# """
 
 # query_gen_system = """
 # ROLE:
@@ -352,7 +374,7 @@ def handle_tool_error(state) -> dict:
 
 
 def enter_chain(message: str):
-    print("message", message)
+    # print("message", message)
     results = {
         "messages": [HumanMessage(content=message)],
     }

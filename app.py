@@ -262,26 +262,26 @@ few_shot_prompt = FewShotChatMessagePromptTemplate(
 matchChain = matchPrompt | llm | JsonOutputParser()
 
 def extract_table_from_text(text):
-    print("***************************extract_table_from_text*********************************")
-    print("text :", text)
+    # print("***************************extract_table_from_text*********************************")
+    # print("text :", text)
     
     # Updated regular expression to include the last row
     table_match = re.search(r'\|.*\n(\|.*\n)*\|.*', text)
-    print("table_match :", table_match)
+    # print("table_match :", table_match)
     
     if not table_match:
         return []
     
     table_text = table_match.group(0)
-    print("table_text :", table_text)
+    # print("table_text :", table_text)
     
     # Split the extracted table text into lines
     lines = table_text.strip().split('\n')
-    print("lines :", lines)
+    # print("lines :", lines)
     
     # Extract the header and rows
     header = [col.strip() for col in lines[0].split('|') if col.strip()]
-    print("header :", header)
+    # print("header :", header)
     
     rows = []
     for line in lines[2:]:  # Skip the separator line
@@ -292,11 +292,11 @@ def extract_table_from_text(text):
         row = [col.strip() for col in line.split('|') if col.strip()]
         rows.append(row)
     
-    print("rows :", rows)
+    # print("rows :", rows)
     
     # Combine header and rows into a table (list of lists)
     table = [header] + rows
-    print("final table to be returned:", table)
+    # print("final table to be returned:", table)
     
     return table
 
@@ -364,7 +364,7 @@ def update_table_in_res(res, user_data):
 
 def extract_required_preferred_fields(tableText):
     table = extract_table_from_text(tableText)
-    print("table", table)
+    # print("table", table)
     
     if len(table) > 0:
         
@@ -375,8 +375,8 @@ def extract_required_preferred_fields(tableText):
         csv = df.to_csv(index=False)
         # Generate a unique key using current Unix epoch time
         buf = io.StringIO(csv)  # Use StringIO to handle CSV in memory
-        print("CSV :",csv)
-        print("buf :",buf)
+        # print("CSV :",csv)
+        # print("buf :",buf)
         return buf 
 
     else:
@@ -393,9 +393,9 @@ def filter_names(table):
 # Send Emails Dialog Box
 @st.dialog("Send Emails")
 def send_emails(table):
-    print("table aaya :",table)
+    # print("table aaya :",table)
     options=filter_names(table)
-    print("options :",options)
+    # print("options :",options)
     try:
         with st.form(key=str(uuid.uuid4()), clear_on_submit=True):
             multiselect_send_email = st.multiselect(
@@ -413,10 +413,10 @@ if 'chat_history' in st.session_state:
                 st.markdown(message.content)
         elif isinstance(message, AIMessage) and message.name == agent_name_to_filter:
             with st.chat_message("AI"):
-                print("**********************************************************************")
-                print("message.content in chat history :",message.content)
+                # print("**********************************************************************")
+                # print("message.content in chat history :",message.content)
                 table = extract_table_from_text(message.content)
-                print("table in chat history :",table)
+                # print("table in chat history :",table)
                 if len(table) > 0:
                     st.markdown(message.content)
                     buf = extract_required_preferred_fields(message.content)
@@ -440,17 +440,17 @@ def checkForTable(tableText,question):
     table = extract_table_from_text(tableText)
         
     if len(table) > 0:
-        print("JOB DESCRIPTION :",question)
-        print("TABLE :",table)
+        # print("JOB DESCRIPTION :",question)
+        # print("TABLE :",table)
 
         matchChainResponse = matchChain.invoke({"job_description": question, "table": table})
-        print("matchChainResponse :",matchChainResponse)
+        # print("matchChainResponse :",matchChainResponse)
         # Convert the string to a dictionary
         # dict_obj = json.loads(matchChainResponse)
         myres = calculate_user_percentage.calculate_user_percentage(table,matchChainResponse)
-        print("myres :",myres)
+        # print("myres :",myres)
         updatedRes = update_table_in_res(tableText,myres)
-        print("updatedRes :",updatedRes)
+        # print("updatedRes :",updatedRes)
         st.session_state.chat_history.append(AIMessage(content=updatedRes, name=get_agent_name(agent_name)))
 
         unique_file_name = f"{int(time.time())}.csv"
@@ -617,7 +617,7 @@ generate_question_AI = promptForGenerateQuestion | llm
 
 
 @st.dialog("Query Filters")
-def query_filters_modal(matchChainResponse=None):
+def query_filters_modal(matchChainResponse=None, requirements=None):
     try:
         # Load the JSON configuration
         print("matchChainResponse:", matchChainResponse)
@@ -626,7 +626,7 @@ def query_filters_modal(matchChainResponse=None):
 
         with st.form(key="my_key", clear_on_submit=True):
             user_inputs = {}  # Dictionary to store user selections
-            print("user_inputs :",user_inputs)
+            # print("user_inputs :",user_inputs)
             # Create a multiselect for each key in the JSON file
             for field_name, options in form_config.items():
                 # Set default values based on matchChainResponse
@@ -659,11 +659,14 @@ def query_filters_modal(matchChainResponse=None):
                 # st.write(user_inputs)  # Display selected filters
                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 with st.spinner("Processing your query..."):
-                    print("prompt :",prompt)
+                    # print("prompt :",prompt)
                     ques = generate_question_AI.invoke({"parameter": user_inputs})
                     print("Generated question :",ques.content)
-                    res = sql_chain.invoke(ques.content, config)
-                    print("AI response :",res["messages"])
+
+                    qq= requirements + """use this information for correct spellings at the time of create query -> """ + str(user_inputs)
+                    print("Generated question :",qq)
+                    res = sql_chain.invoke(qq, config)
+                    # print("AI response :",res["messages"])
 
                     st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
                     st.rerun()
@@ -781,15 +784,15 @@ if prompt is not None and prompt != "" :
         st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
         folder_path = 'knowledge_base_csv'
         csv_headers = get_csv_headers(folder_path)
-        print(csv_headers)
-        print(type(csv_headers))
-        print(type(str(csv_headers)))
+        # print(csv_headers)
+        # print(type(csv_headers))
+        # print(type(str(csv_headers)))
         matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
-        print(type(matchChainResponse))
+        # print(type(matchChainResponse))
         # Pass matchChainResponse to query_filters_modal
         query = query_filters_modal(matchChainResponse=matchChainResponse)
 
-        print("quert", query)
+        # print("quert", query)
 
 #     st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
 #         # create_image_func.create_graph_image(super_graph, "super_graph")
@@ -828,12 +831,12 @@ if(buttonVal):
             if(get_agent_name(agent_name) == "SQLTeam Agent"):
                 folder_path = 'knowledge_base_csv'
                 csv_headers = get_csv_headers(folder_path)
-                print(csv_headers)
-                print(type(csv_headers))
-                print(type(str(csv_headers)))
+                # print(csv_headers)
+                # print(type(csv_headers))
+                # print(type(str(csv_headers)))
                 
                 matchChainResponse = ai_filter.invoke({"job_description": requirements, "table": csv_headers})
-                query = query_filters_modal(matchChainResponse=matchChainResponse)
+                query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=requirements)
 
 
                 # config={"configurable": {"thread_id": "1"},"recursion_limit":40}

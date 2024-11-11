@@ -104,18 +104,8 @@ def detect_encoding(file_path):
     result = chardet.detect(raw_data)
     return result["encoding"]
 
-prompt_template = """
-Write a concise summary of the following text, delimited by triple backquotes. Extract and include all key elements such as dates, numbers, symbols, strings, and specific points. It is crucial to explicitly mention any "and" or "or" conditions present in the text.
-
-Return your response as bullet points, using titles and headings to categorize each element effectively. The summary should be optimized for a large language model like GPT-4o-mini.
-
-```{text}```
-
-**BULLET POINT SUMMARY:**
-"""
-
 # prompt_template = """
-# Write a detailed summary of the following text, delimited by triple backquotes. Extract and include all key elements such as dates, numbers, symbols, strings, and specific points. It is crucial to explicitly mention any "and" or "or" conditions present in the text.
+# Write a concise summary of the following text, delimited by triple backquotes. Extract and include all key elements such as dates, numbers, symbols, strings, and specific points. It is crucial to explicitly mention any "and" or "or" conditions present in the text.
 
 # Return your response as bullet points, using titles and headings to categorize each element effectively. The summary should be optimized for a large language model like GPT-4o-mini.
 
@@ -123,6 +113,16 @@ Return your response as bullet points, using titles and headings to categorize e
 
 # **BULLET POINT SUMMARY:**
 # """
+
+prompt_template = """
+Write a detailed summary of the following text, delimited by triple backquotes. Extract and include all key elements such as dates, numbers, symbols, strings, and specific points. It is crucial to explicitly mention any "and" or "or" conditions present in the text.
+
+Return your response as bullet points, using titles and headings to categorize each element effectively. The summary should be optimized for a large language model like GPT-4o-mini.
+
+```{text}```
+
+**BULLET POINT SUMMARY:**
+"""
 
 
 summarize_prompt = PromptTemplate(template=prompt_template, input_variables=["text"])
