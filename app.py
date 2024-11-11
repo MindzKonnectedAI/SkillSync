@@ -620,7 +620,7 @@ generate_question_AI = promptForGenerateQuestion | llm
 def query_filters_modal(matchChainResponse=None, requirements=None):
     try:
         # Load the JSON configuration
-        print("matchChainResponse:", matchChainResponse)
+        # print("matchChainResponse:", matchChainResponse)
         with open(CONFIG_PATH, 'r') as f:
             form_config = json.load(f)
 
@@ -630,10 +630,11 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
             # Create a multiselect for each key in the JSON file
             for field_name, options in form_config.items():
                 # Set default values based on matchChainResponse
-                if field_name in ["Graduation", "Post Graduation"]:
+                if field_name.strip() in ["Graduation", "Post Graduation"]:
                     # Check if the value in matchChainResponse is True
-
-                    if matchChainResponse.get(field_name) is True:
+                    if matchChainResponse.get(field_name.strip()) is True:
+                        print("matchChainResponse.get(field_name) :",matchChainResponse.get(field_name))
+                        print("options[0] :",options[0])
                         default_values = [options[0]]  # First option if True
                     else:
                         default_values = []  # No default if not True
@@ -641,7 +642,7 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                     # For other fields, filter default values based on matchChainResponse
                     default_values = match_skills(matchChainResponse.get(field_name, []),options)
                 
-                print(f"default_values for {field_name}:", default_values)
+                # print(f"default_values for {field_name}:", default_values)
 
                 # Create the multiselect widget
                 user_inputs[field_name] = st.multiselect(
@@ -655,7 +656,7 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
 
             if form_submitted:
                 # st.success("Filters applied successfully!")
-                print("user_inputs :",user_inputs)
+                # print("user_inputs :",user_inputs)
                 # st.write(user_inputs)  # Display selected filters
                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 with st.spinner("Processing your query..."):
@@ -682,9 +683,9 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
         st.error(f"An error occurred while opening the Query Filters modal: {str(e)}")
 
 
-examples = [
+jd_examples = [
     {
-        "question": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
+        "job_description": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
         - 2-4 years of experience in software development
         - Bachelor’s degree in Computer Science
         - Proficiency in JavaScript
@@ -694,11 +695,11 @@ examples = [
         - Experience with cloud platforms such as AWS
         - Knowledge of Agile methodologies""",
         "answer": """
-        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": True, "Post Graduation": True}
+        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": true, "Post Graduation": true}
         """,
     },
     {
-        "question": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
+        "job_description": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
         - 3 years of experience in software development
         - Bachelor’s degree in Computer Science 
         - Proficiency in Python 
@@ -706,48 +707,96 @@ examples = [
         - Proficiency in Hadoop 
         - Knowledge of Agile methodologies""",
         "answer": """
-        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": True, "Post Graduation": False}
+        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": true, "Post Graduation": false}
         """,
     }
 ]
 
-matchPrompt_kownledge_base = ChatPromptTemplate(messages=[
-    ("system","""
-You are given a job description with specific required and preferred qualifications, along with a table of headers. 
-Your task is to extract and categorize the qualifications, using the table headers as a guide. 
-Ensure that no required fields from the job description are missed. 
-The output should be a dictionary Under each key, list the relevant headers mentioned in the job description.
 
+matchPrompt_kownledge_base = ChatPromptTemplate.from_messages([
+("human","""
+Job Description:
+{job_description}
+"""),
+("ai","{answer}")
+])
+
+few_shot_prompt = FewShotChatMessagePromptTemplate(
+    example_prompt=matchPrompt_kownledge_base,
+    examples=jd_examples,
+)
+
+# print("few_shot_prompt :",few_shot_prompt.format())
+
+
+# final_prompt = ChatPromptTemplate.from_messages(
+# [("system","""
+# You are given a job description with specific required and preferred qualifications, along with a table of headers. 
+# Your task is to extract and categorize the qualifications, using the table headers as a guide. 
+# Ensure that no required fields from the job description are missed. 
+# The output should be a dictionary Under each key, list the relevant headers mentioned in the job description.
+
+# # Instructions:
+# 1. Extract the qualifications from the job description.
+# 2. Check the job description line by line and word by word.
+# 3. Categorize them according to the table headers.
+# 4. List qualifications
+# 5. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
+# 6. Ensure numeric values are presented as numbers only, without additional strings.
+# 7. Ensure each section is clearly labeled, ordered, and separated by commas.
+# 8. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
+# 9. Extract only the technical skill names from the following job posting, ignoring any descriptive text, conditions, or requirements.
+# 10. ALWAYS double check any information missing corresponding to table header. 
+# Format:
+# "Skills": List[string], "Experience": List[string], "Location": List[string], "Graduation": bool, "Post Graduation": bool
+
+# Output: 
+# Ensure all table headers are addressed in the output.
+# """),
+# few_shot_prompt,
+# ("human","""
+# Job Description:
+# {job_description}
+
+# Table Headers:
+# {table}
+# """)]
+# )
+
+final_prompt = ChatPromptTemplate.from_messages(
+[("system","""
+You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
+
+- **Experience**: Provide the years of experience as a list. Include relevant years if mentioned explicitly in the job description (e.g., '6', '8', '2', '3').
+- **Skills**: List all skills and technologies mentioned in the job description. Include programming languages, platforms, tools, and methodologies.
+- **Location**: Extract the location(s) mentioned for this role.
+- **Graduation**: Return `True` if a bachelor’s degree is required, otherwise `False`.
+- **Post Graduation**: Return `True` if a post-graduate degree is required, otherwise `False`.
+
+Format your response as follows:
+
+```json
+{{
+  "Experience": ["..."],
+  "Skills": ["..."],
+  "Location": ["..."],
+  "Graduation": true/false,
+  "Post Graduation": true/false
+}}
+
+"""),
+few_shot_prompt,
+("human","""
 Job Description:
 {job_description}
 
 Table Headers:
 {table}
-
-# Instructions:
-1. Extract the qualifications from the job description.
-2. Categorize them according to the table headers.
-3. List qualifications
-4. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
-5. Ensure numeric values are presented as numbers only, without additional strings.
-6. Ensure each section is clearly labeled, ordered, and separated by commas.
-7. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
-8. Extract only the technical skill names from the following job posting, ignoring any descriptive text, conditions, or requirements.
-Format:
-"Skills": List[string], "Experience": List[string], "Location": List[string], "Graduation": bool, "Post Graduation": bool
-
-Output: 
-Ensure all table headers are addressed in the output.
-""")
-],input_variables=["job_description","table"])
-
-few_shot_prompt = FewShotChatMessagePromptTemplate(
-    example_prompt=matchPrompt_kownledge_base,
-    examples=examples,
+""")]
 )
 
-ai_filter = matchPrompt_kownledge_base | llm | JsonOutputParser()
-
+ai_filter = final_prompt | llm | JsonOutputParser()
+# print("ai_filter logged :",ai_filter)
 import pandas as pd
 
 def get_csv_headers(folder_path):
