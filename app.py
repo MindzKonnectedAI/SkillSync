@@ -118,6 +118,82 @@ if(view=="User"):
         key="retreive_users",
     )
 
+def read_prompt(custom_prompt_path, default_prompt_path):
+
+    try:
+        # Check if customprompt.md file has text
+        with open(custom_prompt_path, "r",encoding="utf-8") as custom_file:
+            custom_text = custom_file.read().strip()
+
+            if custom_text:
+                return custom_text
+            else:
+                # If customprompt.md is empty, read from defaultprompt.md
+                with open(default_prompt_path, "r",encoding="utf-8") as default_file:
+                    default_text = default_file.read().strip()
+                    return default_text
+    except FileNotFoundError as e:
+        # If customprompt.md doesn't exist, read from defaultprompt.md
+        with open(default_prompt_path, "r",encoding="utf-8") as default_file:
+            default_text = default_file.read().strip()
+            return default_text
+
+# Function to clear the custom prompt file
+def clear_custom_prompt(custom_path):
+    with open(custom_path, "w") as file:
+        file.write("")  # Clear the file by writing an empty string
+
+# Function to update the default prompt file with the latest changes
+def update_default_prompt(default_path, content):
+    try:
+        # Open the file with 'utf-8' encoding to handle special characters
+        with open(default_path, "w", encoding="utf-8") as file:
+            file.write(content)  # Write the latest content to the file
+    except Exception as e:
+        st.error(f"An error occurred while updating the file: {str(e)}")
+        
+@st.dialog("Prompt")
+def jsonFilterPrompt():
+    custom_prompt_path = "./filterPrompt/customPrompt.md"
+    default_prompt_path = "./filterPrompt/defaultPrompt.md"
+
+    try:
+        # Read the template content
+        template = read_prompt(custom_prompt_path, default_prompt_path)
+        # st.write("Loaded template:", template)  # Debug print to confirm content loading
+
+        # Start form
+        with st.form(key="prompt_form"):
+            # Display the template content in a text area
+            updated_content = st.text_area("Template Content", template, height=200, key="template_text_area")
+
+            # Create columns to place Submit and Reset buttons on the same line
+            col1, col2 = st.columns([0.3, 1])
+
+            # Place buttons in the respective columns
+            with col1:
+                submit_button = st.form_submit_button("Submit")
+            with col2:
+                reset_button = st.form_submit_button("Reset")
+
+            # Check which button was clicked
+            if submit_button:
+                update_default_prompt(custom_prompt_path, updated_content)
+                st.success("Template content updated successfully!")
+                st.rerun()  # Close modal by reloading the app
+
+
+            if reset_button:
+                clear_custom_prompt(custom_prompt_path)
+                st.success("Custom prompt file cleared!")
+                st.rerun()  # Close modal by reloading the app
+
+
+    except Exception as e:
+        st.error(f"An error occurred: {str(e)}")
+
+
+
 if(view=="Admin"):
     with st.sidebar.form("csv_upload_form", clear_on_submit=True):
         uploaded_file = st.file_uploader("Upload CSV File", type=["csv"],key="csv_uploader")
@@ -144,6 +220,13 @@ if(view=="Admin"):
         container.empty()
 
     display_uploaded_files.display_uploaded_files("3","./knowledge_base_csv",".csv")
+
+    filterButton = st.sidebar.button(
+        "Fliter Prompt",
+        on_click=jsonFilterPrompt,  # Note the lack of parentheses here
+        key="Prompt",
+    )
+
 def get_agent_name(agent_name_here):
     if(agent_name_here=="ATS"):
         return "SQLTeam Agent"
@@ -436,101 +519,101 @@ if 'chat_history' in st.session_state:
                     st.markdown(message.content)
 
 # Check for existence of table in a text
-def checkForTable(tableText,question):
-    table = extract_table_from_text(tableText)
+# def checkForTable(tableText,question):
+#     table = extract_table_from_text(tableText)
         
-    if len(table) > 0:
-        # print("JOB DESCRIPTION :",question)
-        # print("TABLE :",table)
+#     if len(table) > 0:
+#         # print("JOB DESCRIPTION :",question)
+#         # print("TABLE :",table)
 
-        matchChainResponse = matchChain.invoke({"job_description": question, "table": table})
-        # print("matchChainResponse :",matchChainResponse)
-        # Convert the string to a dictionary
-        # dict_obj = json.loads(matchChainResponse)
-        myres = calculate_user_percentage.calculate_user_percentage(table,matchChainResponse)
-        # print("myres :",myres)
-        updatedRes = update_table_in_res(tableText,myres)
-        # print("updatedRes :",updatedRes)
-        st.session_state.chat_history.append(AIMessage(content=updatedRes, name=get_agent_name(agent_name)))
+#         matchChainResponse = matchChain.invoke({"job_description": question, "table": table})
+#         # print("matchChainResponse :",matchChainResponse)
+#         # Convert the string to a dictionary
+#         # dict_obj = json.loads(matchChainResponse)
+#         myres = calculate_user_percentage.calculate_user_percentage(table,matchChainResponse)
+#         # print("myres :",myres)
+#         updatedRes = update_table_in_res(tableText,myres)
+#         # print("updatedRes :",updatedRes)
+#         st.session_state.chat_history.append(AIMessage(content=updatedRes, name=get_agent_name(agent_name)))
 
-        unique_file_name = f"{int(time.time())}.csv"
-        buf = extract_required_preferred_fields(updatedRes)
-        if 'chat_history' in st.session_state:
-            # Check if chat_history is not empty
-            if st.session_state.chat_history:
-                # Get the last message in the chat_history
-                last_message = st.session_state.chat_history[-1]
+#         unique_file_name = f"{int(time.time())}.csv"
+#         buf = extract_required_preferred_fields(updatedRes)
+#         if 'chat_history' in st.session_state:
+#             # Check if chat_history is not empty
+#             if st.session_state.chat_history:
+#                 # Get the last message in the chat_history
+#                 last_message = st.session_state.chat_history[-1]
                 
-                # Check if the last message is an AIMessage and filter by agent name
-                if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
-                    with st.chat_message("AI"):
-                        st.markdown(last_message.content)
-                        # st.button("export", key=random.randint(1, 10000))
-                        col1,col2 = st.columns([0.2,0.8])
-                        with col1:
-                            st.download_button(
-                                label="Export as CSV",
-                                data=buf.getvalue(),
-                                file_name=unique_file_name,
-                                mime='text/csv',
-                                key=uuid.uuid4()
-                            )
-                        with col2:
-                            st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
+#                 # Check if the last message is an AIMessage and filter by agent name
+#                 if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
+#                     with st.chat_message("AI"):
+#                         st.markdown(last_message.content)
+#                         # st.button("export", key=random.randint(1, 10000))
+#                         col1,col2 = st.columns([0.2,0.8])
+#                         with col1:
+#                             st.download_button(
+#                                 label="Export as CSV",
+#                                 data=buf.getvalue(),
+#                                 file_name=unique_file_name,
+#                                 mime='text/csv',
+#                                 key=uuid.uuid4()
+#                             )
+#                         with col2:
+#                             st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
 
-    else:
-        if 'chat_history' in st.session_state:
-            # Check if chat_history is not empty
-            if st.session_state.chat_history:
-                # Get the last message in the chat_history
-                last_message = st.session_state.chat_history[-1]
+#     else:
+#         if 'chat_history' in st.session_state:
+#             # Check if chat_history is not empty
+#             if st.session_state.chat_history:
+#                 # Get the last message in the chat_history
+#                 last_message = st.session_state.chat_history[-1]
                 
-                # Check if the last message is an AIMessage and filter by agent name
-                if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
-                    with st.chat_message("AI"):
-                        st.markdown(last_message.content)
+#                 # Check if the last message is an AIMessage and filter by agent name
+#                 if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
+#                     with st.chat_message("AI"):
+#                         st.markdown(last_message.content)
 
 # Check for existence of table in a text
-def checkForTable1(tableText):
-    table = extract_table_from_text(tableText)
+# def checkForTable1(tableText):
+#     table = extract_table_from_text(tableText)
         
-    if len(table) > 0:
-        unique_file_name = f"{int(time.time())}.csv"
-        buf = extract_required_preferred_fields(tableText)
-        if 'chat_history' in st.session_state:
-            # Check if chat_history is not empty
-            if st.session_state.chat_history:
-                # Get the last message in the chat_history
-                last_message = st.session_state.chat_history[-1]
+#     if len(table) > 0:
+#         unique_file_name = f"{int(time.time())}.csv"
+#         buf = extract_required_preferred_fields(tableText)
+#         if 'chat_history' in st.session_state:
+#             # Check if chat_history is not empty
+#             if st.session_state.chat_history:
+#                 # Get the last message in the chat_history
+#                 last_message = st.session_state.chat_history[-1]
                 
-                # Check if the last message is an AIMessage and filter by agent name
-                if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
-                    with st.chat_message("AI"):
-                        st.markdown(last_message.content)
-                        # st.button("export", key=random.randint(1, 10000))
-                        col1,col2 = st.columns([0.2,0.8])
-                        with col1:
-                            st.download_button(
-                                label="Export as CSV",
-                                data=buf.getvalue(),
-                                file_name=unique_file_name,
-                                mime='text/csv',
-                                key=uuid.uuid4()
-                            )
-                        with col2:
-                            st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
+#                 # Check if the last message is an AIMessage and filter by agent name
+#                 if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
+#                     with st.chat_message("AI"):
+#                         st.markdown(last_message.content)
+#                         # st.button("export", key=random.randint(1, 10000))
+#                         col1,col2 = st.columns([0.2,0.8])
+#                         with col1:
+#                             st.download_button(
+#                                 label="Export as CSV",
+#                                 data=buf.getvalue(),
+#                                 file_name=unique_file_name,
+#                                 mime='text/csv',
+#                                 key=uuid.uuid4()
+#                             )
+#                         with col2:
+#                             st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
 
-    else:
-        if 'chat_history' in st.session_state:
-            # Check if chat_history is not empty
-            if st.session_state.chat_history:
-                # Get the last message in the chat_history
-                last_message = st.session_state.chat_history[-1]
+#     else:
+#         if 'chat_history' in st.session_state:
+#             # Check if chat_history is not empty
+#             if st.session_state.chat_history:
+#                 # Get the last message in the chat_history
+#                 last_message = st.session_state.chat_history[-1]
                 
-                # Check if the last message is an AIMessage and filter by agent name
-                if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
-                    with st.chat_message("AI"):
-                        st.markdown(last_message.content)
+#                 # Check if the last message is an AIMessage and filter by agent name
+#                 if isinstance(last_message, AIMessage) and last_message.name == agent_name_to_filter:
+#                     with st.chat_message("AI"):
+#                         st.markdown(last_message.content)
 
 # Define the path to your JSON configuration file
 CONFIG_PATH = os.path.join('knowledge_base_json', 'knowledge_base.json')  # Adjust the path as needed
@@ -595,15 +678,15 @@ def match_skills(ai_skills, options):
     return matched_skills
 
 
-promptForGenerateQuestion = ChatPromptTemplate(messages=[
-    ("system", """
-    As a recruiter using an AI SQL agent to search a candidate database, generate a concise question that can help retrieve candidates who meet the following criteria:
+# promptForGenerateQuestion = ChatPromptTemplate(messages=[
+#     ("system", """
+#     As a recruiter using an AI SQL agent to search a candidate database, generate a concise question that can help retrieve candidates who meet the following criteria:
 
-    - Criteria: {parameter}
+#     - Criteria: {parameter}
 
-    Phrase the question in a way that it’s both concise and can be easily translated into a SQL query by the AI agent, focusing on each specified criterion. The question should prompt the candidate (or filter results) to confirm or specify relevant details about each requirement.
-    """)
-], input_variables=["parameter"])
+#     Phrase the question in a way that it’s both concise and can be easily translated into a SQL query by the AI agent, focusing on each specified criterion. The question should prompt the candidate (or filter results) to confirm or specify relevant details about each requirement.
+#     """)
+# ], input_variables=["parameter"])
 
 
 
@@ -612,7 +695,7 @@ promptForGenerateQuestion = ChatPromptTemplate(messages=[
 #     examples=examples,
 # )
 
-generate_question_AI = promptForGenerateQuestion | llm 
+# generate_question_AI = promptForGenerateQuestion | llm 
 
 
 
@@ -620,7 +703,7 @@ generate_question_AI = promptForGenerateQuestion | llm
 def query_filters_modal(matchChainResponse=None, requirements=None):
     try:
         # Load the JSON configuration
-        # print("matchChainResponse:", matchChainResponse)
+        print("matchChainResponse:", matchChainResponse)
         with open(CONFIG_PATH, 'r') as f:
             form_config = json.load(f)
 
@@ -633,8 +716,8 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                 if field_name.strip() in ["Graduation", "Post Graduation"]:
                     # Check if the value in matchChainResponse is True
                     if matchChainResponse.get(field_name.strip()) is True:
-                        print("matchChainResponse.get(field_name) :",matchChainResponse.get(field_name))
-                        print("options[0] :",options[0])
+                        # print("matchChainResponse.get(field_name) :",matchChainResponse.get(field_name))
+                        # print("options[0] :",options[0])
                         default_values = [options[0]]  # First option if True
                     else:
                         default_values = []  # No default if not True
@@ -661,8 +744,8 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 with st.spinner("Processing your query..."):
                     # print("prompt :",prompt)
-                    ques = generate_question_AI.invoke({"parameter": user_inputs})
-                    print("Generated question :",ques.content)
+                    # ques = generate_question_AI.invoke({"parameter": user_inputs})
+                    # print("Generated question :",ques.content)
 
                     qq= requirements + """use this information for correct spellings at the time of create query -> """ + str(user_inputs)
                     print("Generated question :",qq)
@@ -763,6 +846,35 @@ few_shot_prompt = FewShotChatMessagePromptTemplate(
 # """)]
 # )
 
+# final_prompt = ChatPromptTemplate.from_messages(
+# [("system","""
+# You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
+
+# - **Experience**: Provide the years of experience as a list. Include relevant years if mentioned explicitly in the job description (e.g., '6', '8', '2', '3').
+# - **Skills**: List all skills and technologies mentioned in the job description. Include programming languages, platforms, tools, and methodologies.
+# - **Location**: Extract the location(s) mentioned for this role.
+# - **Graduation**: Return `True` if a bachelor’s degree is required, otherwise `False`.
+# - **Post Graduation**: Return `True` if a post-graduate degree is required, otherwise `False`.
+
+# Format your response as follows:
+
+# ```json
+# {{
+#   "Experience": ["..."],
+#   "Skills": ["..."],
+#   "Location": ["..."],
+#   "Graduation": true/false,
+#   "Post Graduation": true/false
+# }}
+
+# """),
+# few_shot_prompt,
+# ("human","""Job Description: {job_description}
+
+# Table Headers: {table}
+# """)]
+# )
+
 final_prompt = ChatPromptTemplate.from_messages(
 [("system","""
 You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
@@ -784,14 +896,9 @@ Format your response as follows:
   "Post Graduation": true/false
 }}
 
-"""),
-few_shot_prompt,
-("human","""
-Job Description:
-{job_description}
+Job Description: {job_description}
 
-Table Headers:
-{table}
+Table Headers: {table}
 """)]
 )
 
