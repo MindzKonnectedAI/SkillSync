@@ -23,6 +23,7 @@ from langgraph.errors import GraphRecursionError
 import utils.display_uploaded_files as display_uploaded_files
 import utils.upload_csv as upload_csv
 import utils.calculate_user_percentage as calculate_user_percentage
+import utils.create_boolean_query as create_boolean_query
 import utils.knowledge_base as knowledge_base
 import time
 import re
@@ -84,6 +85,26 @@ view = st.sidebar.selectbox(
     0
 )
 
+# def load_markdown(path):
+#     with open(path, "r",encoding="utf-8") as default_file:
+#         default_text = default_file.read().strip()
+#         return default_text
+
+# @st.dialog("Boolean Query")
+# def booleanQuery():
+#     jd_path = "./data/summarizeOutputRuleData.md"
+
+#     try:
+#         # Read the template content
+#         jd = load_markdown(jd_path)
+#         st.write("Loaded template:", jd)  # Debug print to confirm content loading
+
+#         # Start form
+#         with st.form(key="prompt_form"):
+#             # Display the template content in a text area
+#     except Exception as e:
+#         st.error(f"An error occurred: {str(e)}")
+
 buttonVal = False   
 agent_name = None
 
@@ -116,6 +137,12 @@ if(view=="User"):
         "Retrieve Users",
         on_click=retrive,  # Note the lack of parentheses here
         key="retreive_users",
+    )
+
+    boolean = st.sidebar.button(
+        "Create boolean query",
+        on_click=create_boolean_query.booleanQuery,  # Note the lack of parentheses here
+        key="boolean",
     )
 
 def read_prompt(custom_prompt_path, default_prompt_path):
@@ -151,7 +178,7 @@ def update_default_prompt(default_path, content):
             file.write(content)  # Write the latest content to the file
     except Exception as e:
         st.error(f"An error occurred while updating the file: {str(e)}")
-        
+
 @st.dialog("Prompt")
 def jsonFilterPrompt():
     custom_prompt_path = "./filterPrompt/customPrompt.md"
@@ -946,7 +973,7 @@ if prompt is not None and prompt != "" :
         matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
         # print(type(matchChainResponse))
         # Pass matchChainResponse to query_filters_modal
-        query = query_filters_modal(matchChainResponse=matchChainResponse)
+        query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=prompt)
 
         # print("quert", query)
 
