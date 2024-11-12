@@ -706,18 +706,19 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
         print("matchChainResponse:", matchChainResponse)
         with open(CONFIG_PATH, 'r') as f:
             form_config = json.load(f)
+        
+        # Initialize session state for user inputs if not already set
+        if "user_inputs" not in st.session_state:
+            st.session_state.user_inputs = {}
 
-        with st.form(key="my_key", clear_on_submit=True):
+        with st.form(key="my_key"):
             user_inputs = {}  # Dictionary to store user selections
-            # print("user_inputs :",user_inputs)
             # Create a multiselect for each key in the JSON file
             for field_name, options in form_config.items():
                 # Set default values based on matchChainResponse
                 if field_name.strip() in ["Graduation", "Post Graduation"]:
                     # Check if the value in matchChainResponse is True
                     if matchChainResponse.get(field_name.strip()) is True:
-                        # print("matchChainResponse.get(field_name) :",matchChainResponse.get(field_name))
-                        # print("options[0] :",options[0])
                         default_values = [options[0]]  # First option if True
                     else:
                         default_values = []  # No default if not True
@@ -725,32 +726,30 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                     # For other fields, filter default values based on matchChainResponse
                     default_values = match_skills(matchChainResponse.get(field_name, []),options)
                 
-                # print(f"default_values for {field_name}:", default_values)
+                # Use session state to store and retrieve user inputs
+                if field_name not in st.session_state.user_inputs:
+                    st.session_state.user_inputs[field_name] = default_values
 
                 # Create the multiselect widget
                 user_inputs[field_name] = st.multiselect(
                     label=field_name,
                     options=options,
-                    default=default_values,
-                    key=str(uuid.uuid4())
+                    default=st.session_state.user_inputs[field_name],
+                    key=field_name
                 )
 
             form_submitted = st.form_submit_button(label="Apply")
 
             if form_submitted:
-                # st.success("Filters applied successfully!")
-                # print("user_inputs :",user_inputs)
-                # st.write(user_inputs)  # Display selected filters
+                # Update session state with the latest user inputs
+                st.session_state.user_inputs = user_inputs
+                print("st.session_state.user_inputs after form submitted :",st.session_state.user_inputs)
                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 with st.spinner("Processing your query..."):
-                    # print("prompt :",prompt)
-                    # ques = generate_question_AI.invoke({"parameter": user_inputs})
-                    # print("Generated question :",ques.content)
+                    qq= requirements + """\n\n ALWAYS include these details at the time of generating SQL query-> """ + str(user_inputs)
 
-                    qq= requirements + """use this information for correct spellings at the time of create query -> """ + str(user_inputs)
                     print("Generated question :",qq)
                     res = sql_chain.invoke(qq, config)
-                    # print("AI response :",res["messages"])
 
                     st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
                     st.rerun()
