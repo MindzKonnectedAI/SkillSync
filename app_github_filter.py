@@ -23,7 +23,6 @@ from langgraph.errors import GraphRecursionError
 import utils.display_uploaded_files as display_uploaded_files
 import utils.upload_csv as upload_csv
 import utils.calculate_user_percentage as calculate_user_percentage
-import utils.create_boolean_query as create_boolean_query
 import utils.knowledge_base as knowledge_base
 import time
 import re
@@ -85,26 +84,6 @@ view = st.sidebar.selectbox(
     0
 )
 
-# def load_markdown(path):
-#     with open(path, "r",encoding="utf-8") as default_file:
-#         default_text = default_file.read().strip()
-#         return default_text
-
-# @st.dialog("Boolean Query")
-# def booleanQuery():
-#     jd_path = "./data/summarizeOutputRuleData.md"
-
-#     try:
-#         # Read the template content
-#         jd = load_markdown(jd_path)
-#         st.write("Loaded template:", jd)  # Debug print to confirm content loading
-
-#         # Start form
-#         with st.form(key="prompt_form"):
-#             # Display the template content in a text area
-#     except Exception as e:
-#         st.error(f"An error occurred: {str(e)}")
-
 buttonVal = False   
 agent_name = None
 
@@ -137,12 +116,6 @@ if(view=="User"):
         "Retrieve Users",
         on_click=retrive,  # Note the lack of parentheses here
         key="retreive_users",
-    )
-
-    boolean = st.sidebar.button(
-        "Create boolean query",
-        on_click=create_boolean_query.booleanQuery,  # Note the lack of parentheses here
-        key="boolean",
     )
 
 def read_prompt(custom_prompt_path, default_prompt_path):
@@ -178,7 +151,7 @@ def update_default_prompt(default_path, content):
             file.write(content)  # Write the latest content to the file
     except Exception as e:
         st.error(f"An error occurred while updating the file: {str(e)}")
-
+        
 @st.dialog("Prompt")
 def jsonFilterPrompt():
     custom_prompt_path = "./filterPrompt/customPrompt.md"
@@ -738,9 +711,6 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
         if "user_inputs" not in st.session_state:
             st.session_state.user_inputs = {}
 
-        # Initialize a flag to detect if the form was submitted
-        form_submitted = False
-
         with st.form(key="my_key"):
             user_inputs = {}  # Dictionary to store user selections
             # Create a multiselect for each key in the JSON file
@@ -780,9 +750,8 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
 
                     print("Generated question :",qq)
                     res = sql_chain.invoke(qq, config)
+
                     st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
-                    st.session_state.user_inputs = {}
-                    user_inputs = {}
                     st.rerun()
 
                 return user_inputs
@@ -934,6 +903,232 @@ Table Headers: {table}
 
 ai_filter = final_prompt | llm | JsonOutputParser()
 # print("ai_filter logged :",ai_filter)
+
+# github_jd_examples = [
+#     {
+#         "job_description": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
+#         - 2-4 years of experience in software development
+#         - Bachelor’s degree in Computer Science
+#         - Proficiency in JavaScript
+#         - Strong understanding of Git
+#         - Master’s degree 
+#         - PhD
+#         - Experience with cloud platforms such as AWS
+#         - Knowledge of Agile methodologies""",
+#         "answer": """
+#         {"job_title": "Software Engineer", "language":["Javascript"], location:"Los Angeles"}
+#         """,
+#     },
+#     {
+#         "job_description": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
+#         - 3 years of experience in software development
+#         - Bachelor’s degree in Computer Science 
+#         - Proficiency in Python 
+#         - Proficiency in SQL
+#         - Proficiency in Hadoop 
+#         - Knowledge of Agile methodologies""",
+#         "answer": """
+#         {"job_title": "Software Engineer", "language":["Python","Hadoop","SQL"], location:"Austin"}
+#         """,
+#     }
+# ]
+
+# matchPrompt_knowledge_base_github = ChatPromptTemplate.from_messages([
+# ("human","""
+# Job Description:
+# {job_description}
+# """),
+# ("ai","{answer}")
+# ])
+
+# few_shot_prompt_github = FewShotChatMessagePromptTemplate(
+#     example_prompt=matchPrompt_knowledge_base_github,
+#     examples=github_jd_examples,
+# )
+
+# final_prompt_github = ChatPromptTemplate.from_messages(
+# [("system","""
+# You are a highly skilled AI that extracts details from job descriptions supported by the Github User Search API. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
+
+# Below are the fields supported by the GitHub User Search API:
+# 1. **Job Title**: Title or role of the candidate
+# 2. **Location**: Candidate’s location
+# 3. **Repositories**: Number of GitHub repositories the candidate has
+# 4. **Followers**: Number of GitHub followers the candidate has
+# 5. **Number of candidates**: How many candidates to retrieve
+# 6. **Language**: Programming languages used by the candidate
+# 7. **Email**: Candidate’s email address
+# 8. **Bio**: Information from the candidate's bio
+# 9. **Username**: Candidate’s GitHub username
+# 10. **Is Sponsorable**: Boolean indicating whether the candidate is sponsorable
+# 11. **Created**: Github Account Creation Date
+# 12. **Sort**: Can only contain one of 3 string type values i.e.followers,repositories,joined 
+  
+# All JSON fields with their corresponding value types are written below, return only those field in the final answer whose value you're able to extract :
+
+#   "job_title": string,
+#   "location": string,
+#   "language": List[string],
+#   "repositories": number,
+#   "followers": number,
+#   "per_page": number,
+#   "email": string,
+#   "bio": string,
+#   "username": string,
+#   "is_sponsorable": Boolean
+#   "created":YYYY-MM-DD 
+#   "sort"followers/repositories/joined
+# """),
+# few_shot_prompt_github,
+# ("human","""
+# Job Description:
+# {job_description}
+# """)]
+# )
+
+# ai_filter_github = final_prompt_github | llm | JsonOutputParser()
+
+# # Updated examples with clearer date handling
+# github_jd_examples = [
+#     {
+#         "job_description": """Hiring a 'Senior Software Engineer' based in San Francisco:
+#         - Must have experience in Java and TypeScript
+#         - GitHub account created before 2018
+#         - Email: seniorengineer@example.com
+#         - Minimum 300 followers
+#         - Bio includes 'Expert in cloud architecture'""",
+#         "answer": """{
+#             "job_title": "Senior Software Engineer",
+#             "location": "San Francisco",
+#             "language": ["Java", "TypeScript"],
+#             "email": "seniorengineer@example.com",
+#             "created": "2018-01-01",
+#             "followers": 300,
+#             "bio": "Expert in cloud architecture"
+#         }"""
+#     },
+#     {
+#         "job_description": """Looking for a 'Machine Learning Engineer' in New York:
+#         - Proficient in Python and TensorFlow
+#         - GitHub account created recently
+#         - 150+ repositories
+#         - Sponsorship is available""",
+#         "answer": """{
+#             "job_title": "Machine Learning Engineer",
+#             "location": "New York",
+#             "language": ["Python", "TensorFlow"],
+#             "is_sponsorable": true,
+#             "repositories": 150,
+#             "created": null
+#         }"""
+#     }
+# ]
+
+# # Optimized FewShot Prompt
+# few_shot_prompt_github = FewShotChatMessagePromptTemplate(
+#     example_prompt=ChatPromptTemplate.from_messages([
+#         ("human", "Job Description:\n{job_description}"),
+#         ("ai", "{answer}")
+#     ]),
+#     examples=github_jd_examples,
+# )
+
+# # Updated Final Prompt with Explicit Date Handling
+# final_prompt_github = ChatPromptTemplate.from_messages([
+#     ("system", """
+# You are an AI that extracts details from job descriptions for the GitHub User Search API. Analyze the job description and return the following fields in JSON format. Only include the fields you can clearly extract. If the date of account creation is not clearly mentioned (e.g., "created recently" or vague phrases), set the "created" field to null.
+
+# - "job_title": string
+# - "location": string
+# - "language": List[string]
+# - "repositories": integer
+# - "followers": integer
+# - "per_page": integer (number of candidates to retrieve)
+# - "email": string
+# - "bio": string
+# - "username": string
+# - "is_sponsorable": boolean
+# - "created": string (YYYY-MM-DD) or null if the date is not clear
+# - "sort": one of ["followers", "repositories", "joined"]
+# """),
+#     few_shot_prompt_github,
+#     ("human", "Job Description:\n{job_description}")
+# ])
+
+# # AI Filter for Extraction
+# ai_filter_github = final_prompt_github | llm | JsonOutputParser()
+
+# Updated examples to include complex location handling
+github_jd_examples = [
+    {
+        "job_description": """Hiring a 'Senior Software Engineer':
+        - Location: Remote with option to work from the Denver, CO office
+        - Experience with AWS, Postgres, Kafka, NodeJS, ExpressJS, Svelte, Docker, Kubernetes
+        - Minimum 200 followers
+        - Bio: 'Building scalable cloud systems'""",
+        "answer": """{
+            "job_title": "Senior Software Engineer",
+            "location": "Denver, CO",
+            "language": ["AWS", "Postgres", "Kafka", "NodeJS", "ExpressJS", "Svelte", "Docker", "Kubernetes"],
+            "followers": ">=200",
+            "bio": "Building scalable cloud systems"
+        }"""
+    },
+    {
+        "job_description": """Looking for a 'Frontend Developer':
+        - Location: Remote (Work from anywhere)
+        - Proficiency in React and TypeScript
+        - GitHub account must be created before 2019
+        - Email: frontenddev@example.com""",
+        "answer": """{
+            "job_title": "Frontend Developer",
+            "location": "Remote",
+            "language": ["React", "TypeScript"],
+            "created": "<2019-01-01",
+            "email": "frontenddev@example.com"
+        }"""
+    }
+]
+
+# Updated FewShot Prompt
+few_shot_prompt_github = FewShotChatMessagePromptTemplate(
+    example_prompt=ChatPromptTemplate.from_messages([
+        ("human", "Job Description:\n{job_description}"),
+        ("ai", "{answer}")
+    ]),
+    examples=github_jd_examples,
+)
+
+# Updated Final Prompt with Location Simplification
+final_prompt_github = ChatPromptTemplate.from_messages([
+    ("system", """
+You are an AI that extracts details from job descriptions for the GitHub User Search API. 
+Analyze the job description and return the fields in JSON format. 
+Extract only concise location names (e.g., "Denver, CO", "Remote", "Austin") and avoid lengthy descriptions. 
+If the location is vague (e.g., "Work from anywhere"), use "Remote".
+If it is mentioned 'more than' or 'less than' for some fields, add more than, less than operators besides the values as well.
+
+- "job_title": string
+- "location": string (e.g., "Denver, CO", "Austin", "Remote")
+- "language": List[string]
+- "repositories": integer or null
+- "followers": integer or null
+- "per_page": integer or null
+- "email": string or null
+- "bio": string or null
+- "username": string or null
+- "is_sponsorable": boolean or null
+- "created": string (YYYY-MM-DD) or null
+- "sort": one of ["followers", "repositories", "joined"] or null
+"""),
+    few_shot_prompt_github,
+    ("human", "Job Description:\n{job_description}")
+])
+
+# AI Filter for Extraction
+ai_filter_github = final_prompt_github | llm | JsonOutputParser()
+
+
 import pandas as pd
 
 def get_csv_headers(folder_path):
@@ -967,18 +1162,29 @@ prompt = st.chat_input("Find your next superstar")
 if prompt is not None and prompt != "" :
     with st.chat_message("Human"):
         st.markdown(prompt)
-        st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
-        folder_path = 'knowledge_base_csv'
-        csv_headers = get_csv_headers(folder_path)
-        # print(csv_headers)
-        # print(type(csv_headers))
-        # print(type(str(csv_headers)))
-        matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
-        # print(type(matchChainResponse))
-        # Pass matchChainResponse to query_filters_modal
-        query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=prompt)
+    st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
+    try:
+        if(get_agent_name(agent_name) == "SQLTeam Agent"):
 
-        # print("quert", query)
+            folder_path = 'knowledge_base_csv'
+            csv_headers = get_csv_headers(folder_path)
+            # print(csv_headers)
+            # print(type(csv_headers))
+            # print(type(str(csv_headers)))
+            matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
+            # print(type(matchChainResponse))
+            # Pass matchChainResponse to query_filters_modal
+            query = query_filters_modal(matchChainResponse=matchChainResponse)
+            # print("quert", query)
+        else:
+            matchChainResponse=ai_filter_github.invoke({"job_description":prompt})
+            print("github matchChainResponse :",matchChainResponse)
+            # query = query_filters_modal(matchChainResponse=matchChainResponse)
+
+    except Exception as e:
+        print("error :",e)
+        st.error("something went wrong :",e)
+
 
 #     st.session_state.chat_history.append(HumanMessage(content=prompt, name=get_agent_name(agent_name)))
 #         # create_image_func.create_graph_image(super_graph, "super_graph")
@@ -1006,7 +1212,9 @@ if prompt is not None and prompt != "" :
 
 if(buttonVal):
     question = retreive_users.retreive_users_fnc()
+    print("question logged :",question)
     requirements = retreive_users.load_markdown("./data/summarizeOutputRuleData.md") 
+    print("requirements logged :",requirements)
     with st.chat_message("Human"):
         st.markdown(requirements)
     st.session_state.chat_history.append(HumanMessage(content=requirements, name=get_agent_name(agent_name)))
@@ -1032,11 +1240,7 @@ if(buttonVal):
                 # # st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
                 # checkForTable(tableText,question)
             else:
-                config={"configurable": {"thread_id": "2"},"recursion_limit":40}
-                res = github_chain.invoke(question,config)
-                print("AI response :",res["messages"])
-                aiRes = res["messages"][-1].content
-                holder.write(aiRes)            
-                st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
-        except GraphRecursionError:
-            st.info("Graph recursion limit exceeded , try again!")
+                matchChainResponse=ai_filter_github.invoke({"job_description":requirements})
+                print("github matchChainResponse :",matchChainResponse)
+        except Exception as e:
+            st.error("something went wrong :",e)
