@@ -128,9 +128,8 @@ def check_query_tool(query: str) -> str:
     """
     Use this tool to double check if your query is correct before executing it.
     """
-    # print("query logged :",query)
+    print("query logged :",query)
     return query_check.invoke({"query": query}).content
-
 
 # Query result checking
 query_result_check_system = """You are grading the result of a SQL query from a DB.
@@ -278,6 +277,7 @@ class Assistant:
 
 
 # Assistant runnable
+
 query_gen_system = """
 ROLE:
 You are an agent designed to interact with a SQL database. You have access to tools for interacting with the database.

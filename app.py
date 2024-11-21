@@ -696,6 +696,8 @@ CONFIG_PATH = os.path.join('knowledge_base_json', 'knowledge_base.json')  # Adju
 #         st.error(f"An error occurred while opening the Query Filters modal: {str(e)}")
 
 def match_skills(ai_skills, options):
+    # print("ai_skills", ai_skills)
+    # print("options", options)
     # Convert both lists to lowercase for comparison
     ai_skills_lower = [str(skill).lower() for skill in ai_skills]
     options_lower = [option.lower() for option in options]
@@ -743,15 +745,17 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
             # Create a multiselect for each key in the JSON file
             for field_name, options in form_config.items():
                 # Set default values based on matchChainResponse
-                if field_name.strip() in ["Graduation", "Post Graduation"]:
+                if field_name.strip() in ["Graduation23", "Post Graduation23"]:
                     # Check if the value in matchChainResponse is True
                     if matchChainResponse.get(field_name.strip()) is True:
+                        print("[options[0]] ", [options[0]] )
                         default_values = [options[0]]  # First option if True
                     else:
                         default_values = []  # No default if not True
                 else:
                     # For other fields, filter default values based on matchChainResponse
                     default_values = match_skills(matchChainResponse.get(field_name, []),options)
+                    print("default values", default_values)
                 
                 # Use session state to store and retrieve user inputs
                 if field_name not in st.session_state.user_inputs:
@@ -804,7 +808,7 @@ jd_examples = [
         - Experience with cloud platforms such as AWS
         - Knowledge of Agile methodologies""",
         "answer": """
-        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": true, "Post Graduation": true}
+        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": True, "Post Graduation": False}
         """,
     },
     {
@@ -816,9 +820,35 @@ jd_examples = [
         - Proficiency in Hadoop 
         - Knowledge of Agile methodologies""",
         "answer": """
-        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": true, "Post Graduation": false}
+        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": True, "Post Graduation": False}
         """,
     }
+    # {
+    #     "job_description": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
+    #     - 2-4 years of experience in software development
+    #     - Bachelor’s degree in Computer Science
+    #     - Proficiency in JavaScript
+    #     - Strong understanding of Git
+    #     - Master’s degree 
+    #     - PhD
+    #     - Experience with cloud platforms such as AWS
+    #     - Knowledge of Agile methodologies""",
+    #     "answer": """
+    #     {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": Bachelor's, "Post Graduation": Master's}
+    #     """,
+    # },
+    # {
+    #     "job_description": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
+    #     - 3 years of experience in software development
+    #     - Bachelor’s degree in Computer Science 
+    #     - Proficiency in Python 
+    #     - Proficiency in SQL
+    #     - Proficiency in Hadoop 
+    #     - Knowledge of Agile methodologies""",
+    #     "answer": """
+    #     {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": Bachelor's, "Post Graduation": Master's}
+    #     """,
+    # }
 ]
 
 
@@ -901,26 +931,68 @@ few_shot_prompt = FewShotChatMessagePromptTemplate(
 # """)]
 # )
 
+# final_prompt = ChatPromptTemplate.from_messages(
+# [("system","""
+# You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
+
+# - **Experience**: Provide the total years of experience as a list. Include relevant years if mentioned explicitly in the job description (e.g., '6').
+# - **Skills**: List all skills and technologies mentioned in the job description. Include programming languages, platforms, tools, and methodologies.
+# - **Location**: Extract the location(s) mentioned for this role.
+# - **Graduation**: Return `True` if a bachelor’s degree is required, otherwise `False`.
+# - **Post Graduation**: Return `True` if a post-graduate degree is required, otherwise `False`.
+# - **Never forgot to follow output format 
+
+# Output Format your response as follows:
+
+# ```json
+# {{
+#   "Experience": ["..."],
+#   "Frontend": ["..."],
+#   "Backend": ["..."],
+#   "DB": ["..."],
+#   "Tools": ["..."],
+#   "Miscellaneous": ["..."],
+#   "Location": ["..."],
+#   "Graduation": true/false,
+#   "Post Graduation": true/false
+# }}
+
+# Job Description: {job_description}
+
+# Table Headers: {table}
+# """)]
+# )
+
 final_prompt = ChatPromptTemplate.from_messages(
-[("system","""
+[("system", """
 You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
 
-- **Experience**: Provide the years of experience as a list. Include relevant years if mentioned explicitly in the job description (e.g., '6', '8', '2', '3').
-- **Skills**: List all skills and technologies mentioned in the job description. Include programming languages, platforms, tools, and methodologies.
+- **Experience**: Provide the minimum years of experience as a list of single value. Include relevant years if mentioned explicitly in the job description (e.g., '6').
+- **Frontend**: List all frontend-related skills and technologies mentioned in the job description, such as frameworks, libraries, and tools specific to frontend development.
+- **Backend**: List all backend-related skills and technologies mentioned in the job description, such as programming languages, frameworks, and platforms specific to backend development.
+- **DB**: List all database-related technologies mentioned in the job description, including database systems, query languages, and relevant tools.
+- **Tools**: Include any additional tools or software mentioned in the job description that are not specific to frontend, backend, or database.
+- **Miscellaneous**: List any other skills, methodologies, or attributes mentioned in the job description that don't fall into the above categories.
 - **Location**: Extract the location(s) mentioned for this role.
-- **Graduation**: Return `True` if a bachelor’s degree is required, otherwise `False`.
-- **Post Graduation**: Return `True` if a post-graduate degree is required, otherwise `False`.
+- **Graduation**: Return a list containing `"Bachelor's"` if a bachelor’s degree is required, otherwise return an empty list (`[]`).
+- **Post Graduation**: Return a list containing `"Master's"` if a master’s degree is required, otherwise return an empty list (`[]`).
 
-Format your response as follows:
+
+Ensure the output strictly adheres to the following JSON format:
 
 ```json
 {{
   "Experience": ["..."],
-  "Skills": ["..."],
+  "Frontend": ["..."],
+  "Backend": ["..."],
+  "DB": ["..."],
+  "Tools": ["..."],
+  "Miscellaneous": ["..."],
   "Location": ["..."],
-  "Graduation": true/false,
-  "Post Graduation": true/false
+  "Graduation": ["Bachelor's"/null],
+  "Post Graduation": ["Master's"/null]
 }}
+
 
 Job Description: {job_description}
 
