@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(override=True)
 import streamlit as st
 import os
 from typing import Annotated, List
@@ -18,7 +18,6 @@ import utils.create_team_supervisor_func as create_team_supervisor_func
 from langchain_core.output_parsers.json import JsonOutputParser
 import utils.upload_job_description as upload_job_description
 import utils.retreive_users as retreive_users
-import os
 from langgraph.errors import GraphRecursionError
 import utils.display_uploaded_files as display_uploaded_files
 import utils.upload_csv as upload_csv
@@ -33,6 +32,7 @@ import io
 import time
 import random
 import uuid
+
 # Access the environment variables
 openai_api_key = os.getenv("OPENAI_API_KEY")
 tavily_api_key = os.getenv("TAVILY_API_KEY")

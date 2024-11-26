@@ -8,8 +8,6 @@ from langchain_community.agent_toolkits import SQLDatabaseToolkit
 import os
 from langchain_core.messages import AIMessage
 import ast
-openai_api_key = os.getenv("OPENAI_API_KEY")
-os.environ["OPENAI_API_KEY"] = openai_api_key
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
