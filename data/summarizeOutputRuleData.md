@@ -1,99 +1,60 @@
-### Job Title and Location
-- **Job Title:** Microsoft Dynamics Developer
-- **Location:** Gurgaon, NCR, India
-- **Employment Type:** Full-Time
+**Job Title and Location:**
+- **Title:** Solution Architect
+- **Location:** Gurugram, India
+- **Employment Type:** Full Time
 
-### Position Summary
-- **Role:** Intermediate-level participation in all phases of Microsoft Dynamics CRM development and maintenance at ALLDATA.
-- **Key Experience Requirements:** 
-  - Dynamics CRM customization
-  - C# programming 
-  - Configuration (UI/form development for web and unified client interface)
-  - Microsoft Flows 
-  - Custom development (Unified Service Desk)
-  - Web resources
-  - Data integrations
-  - CRM solution file management
-- **Skills Required:** Ability to manage and prioritize demands from a large user base across various departments.
-- **Knowledge Required:** Deep knowledge of Dynamics 365 CRM in all functional and technical areas.
+**Key Responsibilities:**
+- **High-Level Design & Architecture:**
+  - Define, document, and promote the high-level design and software architecture to fulfill Wink’s business objectives and unique customer needs.
+  
+- **Architectural Guidance:**
+  - Provide architectural guidance and direction to the technology team building the solution.
+  - Review deliverables for design compliance.
 
-### Key Responsibilities
-- **Design Sessions:** Participate in design sessions with business users to document processes and requirements.
-- **System Architecture:** Architect CRM system and related customizations.
-- **PowerApps Development:** Design and develop D365 CDS PowerApps model and automate business processes with Microsoft Flow.
-- **Azure Data Factory:** Design and develop Azure Data Factory pipelines and flows.
-- **CRM Configuration:** Build and configure CRM forms, views, dashboards, and workflows.
-- **Plugins and Debugging:** Build plugins, manage solution deployments, and perform debugging.
-- **Reporting:** Develop reports using FetchXML.
-- **User Request Management:** Balance user requests and requirements with technical constraints.
-- **Technical Collaboration:** Collaborate with internal support members to resolve technical issues.
-- **Code Repository Management:** Maintain code repository and knowledge of GitHub for source control.
-- **SDK Utilization:** Utilize SDK for administration of the CRM system.
-- **Application Support:** Provide support and fix application issues.
+- **Technology Evaluation:**
+  - Evaluate technology alternatives and make recommendations for specific technology components, frameworks, and third-party open-source libraries for the given solution.
 
-### Required Skills and Qualifications
-- **Hands-on Experience:** Microsoft Dynamics CRM customization and development.
-- **Programming Proficiency:** Proficient in C# programming.
-- **Experience with:** Dynamics 365 CRM (functional and technical aspects), Microsoft Flows, PowerApps, Azure Data Factory.
-- **CRM Configuration Skills:** Experience in building/configuring CRM forms, views, dashboards, and workflows.
-- **Problem-Solving Skills:** Strong ability to manage multiple demands and collaborate with teams.
+- **Non-Functional Requirements:**
+  - Define the Non-Functional Requirements for the solution.
+  - Review the final implementation to ensure compliance.
 
-### Job Position Overview
-#### Responsibilities
-- **Team Collaboration:** Work with scrum masters, product owners, and engineers (remote and local).
-- **Documentation and Implementation:** Document and lead technical feature implementations.
-- **Performance Enhancement:** Continuously seek opportunities for performance, quality, and efficiency improvements.
+- **Operational Models:**
+  - Help define the operational and customer onboarding models for the solution.
 
-#### Requirements
-- **Skills and Attributes:**
-  - **Systems Thinking:** Navigate between high-level concepts and detailed implementation.
-  - **Decision Making:** Data-driven decision-making under uncertainty.
-  - **Adaptability:** Quick learning of new technologies and organizational strategies.
-  - **Design and Development:** Strong experience with Microsoft Dynamics.
-  - **Industry Knowledge:** Best practices in integration, architecture, tools, and processes.
-  - **Client Interaction:** Translate client requirements into technical designs.
-  - **Agile Methodology Familiarity:** Understanding of engineering capabilities and architectural mindsets.
-  - **Communication Skills:** Strong oral and written skills for explaining technical decisions to non-engineers.
-  - **IT Concepts Understanding:** Thorough knowledge of IT concepts, business operations, and technical standards.
+- **Collaboration with Product Teams:**
+  - Collaborate with colleagues in Wink’s product teams to define market-leading solutions for unmet client needs, addressing questions like “Can this be done? How hard is it?”
 
-### Education and Experience
-- **Education:** Bachelor's Degree in Computer Science or STEM from an accredited university.
-- **Experience:**
-  - **6-8 years:** Software engineering experience with:
-    - C#
-    - Microsoft Dynamics 365 CE/CRM
-    - Plugin development, customizations, JavaScript, .NET, HTML, MVC, SQL Server
-    - CRM API, REST/ODATA, SOAP endpoints
-    - Visual Studio, Git source control, CRM SDK
-    - Configuration of security groups, roles, and teams.
-  - **2-3 years:** Software engineering experience with additional languages, tools, and technologies (details not specified).
+- **Sales Support:**
+  - Support sales efforts as a client-facing Wink Platform Expert.
+  - Advise on integration with the Wink platform and address questions on security, scalability, etc.
 
-### Summary
-- **Ideal Candidate Traits:** Systems thinker with strong technical skills in Microsoft Dynamics, collaborative mindset, adept at high-level design and detailed implementation, proven track record in software engineering and agile methodologies, strong communication skills essential for interacting with stakeholders.
+- **IP Development:**
+  - Assist in IP development and patent filing document preparations.
+  - Provide inputs and serve as a reviewer.
 
-### Technologies and Tools
-- **Microsoft Technologies:**
-  - Microsoft Power Apps
-  - Microsoft Flows
-- **ETL Technologies:**
-  - Scribe Online
-  - Microsoft Azure Data Factory
-  - KingswaySoft
-  - Azure SQL
-  - DevOps Pipelines
+**Requirements:**
+- **Technical Skills:**
+  - Mastery of .NET Core with significant experience as a developer, designer, and software architect is a MUST.
+  - Significant expertise in Cloud Native, Microservices, and API-based web applications.
+  - Demonstrable experience with at least one large cloud computing provider (preferably Azure).
 
-### Desired Skills
-- **O365 Platform Knowledge:** Understanding integration features with Dynamics CRM, including SharePoint and Mobility.
-- **Azure Development:** 
-  - Developing Azure Logic Apps
-  - Developing Azure Functions
-- **Data Management Familiarity:** 
-  - Data Export Service
-  - Azure SQL experience
-- **Certifications:** Microsoft Certifications on Dynamics 365 Customer Engagement (CE).
+- **Azure Proficiency:**
+  - Strong skill set in Azure Communication Protocols and scalability.
 
-### Boolean String
-- **Search String:** 
-  - (“microsoft dynamics” OR “ms dynamics” OR d365 OR “dynamics 365”) AND azure AND crm AND devops AND (pipeline OR pipelines) AND (adf OR “azure data factory”) AND (git OR github) AND (powerapps OR “power apps”) AND (flow OR flows) 
+- **Product Development Experience:**
+  - Prior experience in building and launching a new product or platform, rather than updating or maintaining an existing system, is a MUST.
 
-This structured summary provides a comprehensive overview of the job position, responsibilities, qualifications, technologies, desired skills, and a Boolean search string related to the Microsoft Dynamics Developer role.
+- **Information Security & Performance:**
+  - Familiarity with information security principles, high availability designs, and high-performance patterns.
+  - Ability to diagnose and eliminate bottlenecks.
+
+- **Soft Skills:**
+  - Creativity and a passion for tackling challenging software problems.
+  - Willingness to work in a start-up environment.
+  - Strong communication and collaboration skills are a MUST.
+
+- **Documentation Skills:**
+  - Ability to write clear documentation, effectively whiteboard, and create simple, easy-to-understand diagrams for complex systems.
+
+- **Educational Background:**
+  - University degree in Computer Science or equivalent; an advanced degree is preferred.
