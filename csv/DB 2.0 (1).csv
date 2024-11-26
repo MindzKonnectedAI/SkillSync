@@ -3,10 +3,10 @@ Tonya Garcia,Austin,6,Bachelor's,Master's,,,,,,
 Jennifer Garcia,New York,5,Bachelor's,Master's,,,,,,
 Brian Wilson,Wichita,4,Bachelor's,Master's,,,,,,
 Mark Henson,Boston,3,Bachelor's,Master's,,,,,,
-Thomas Lamb,Chicago,5,Bachelor's,Master's,PhD,,,,,
+Thomas Lamb,Chicago,5,Bachelor's,Master's,PhD,,Python,SQL,"Hadoop,AWS", machine learning
 Linda Schultz,Miami,2,Bachelor's,Master's,PhD,,,,,
 Destiny Wallace,Boston,3,Bachelor's,Master's,,,,,,
-Timothy Little,San Francisco,5,Bachelor's,Master's,PhD,,,,,
+Timothy Little,San Francisco,5,Bachelor's,Master's,PhD,,,,," Digital Marketing, SEO, Social Media"
 Barbara Willis,Fresno,3,Bachelor's,Master's,PhD,,,,,
 Thomas Fernandez,Raleigh,4,Bachelor's,Master's,PhD,,,,,
 Kristi Lopez,Louisville,5,Bachelor's,Master's,,,,,,
@@ -45,7 +45,7 @@ Anna Long,San Francisco,4,Bachelor's,Master's,PhD,,,,,
 Andre Hanson,Dallas,3,Bachelor's,Master's,,,,,,
 Nicole Stanley,Charlotte,6,Bachelor's,Master's,PhD,,,,,
 Christopher Holmes,Tucson,5,Bachelor's,Master's,PhD,,,,,
-Kathryn Williams,Chicago,2,Bachelor's,Master's,,,,,,
+Kathryn Williams,Chicago,2,Bachelor's,Master's,,,Python,SQL,"Hadoop,AWS", machine learning
 Whitney White,Madison,2,Bachelor's,Master's,,,,,,
 Glenda Nelson,El Paso,5,Bachelor's,Master's,,,,,,
 Charles Carter,Syracuse,2,Bachelor's,Master's,PhD,,,,,
@@ -62,7 +62,7 @@ Randy Murray,Anchorage,4,Bachelor's,Master's,PhD,,,,,
 Megan Jones,Omaha,3,Bachelor's,Master's,PhD,,,,,
 Judith Smith,Dallas,5,Bachelor's,Master's,,,,,,
 Jeremy Boone,New York,4,Bachelor's,Master's,PhD,,,,,
-Jeremy Gomez,Chicago,4,Bachelor's,Master's,,,,,,
+Jeremy Gomez,Chicago,4,Bachelor's,Master's,,,Python,SQL,"Hadoop,AWS, Azure", machine learning
 Michael Williams,Seattle,4,Bachelor's,Master's,PhD,,,,,
 Jennifer Moore,San Francisco,2,Bachelor's,Master's,,,,,,
 Jamie Chen,Louisville,3,Bachelor's,Master's,PhD,,,,,
@@ -75,7 +75,7 @@ Frederick Fields,Columbus,4,Bachelor's,Master's,PhD,,,,,
 Ryan Schultz,Albuquerque,6,Bachelor's,Master's,PhD,,,,,
 Penny Rodriguez,Detroit,2,Bachelor's,Master's,PhD,,,,,
 Patrick Lewis Jr.,Wichita,3,Bachelor's,Master's,,,,,,
-Steven Hood,Chicago,1,Bachelor's,Master's,,,,,,
+Steven Hood,Chicago,1,Bachelor's,Master's,,,Python,SQL,"Hadoop,  Azure", machine learning
 Robert Norris,Charlotte,3,Bachelor's,Master's,,,,,,
 Julie Martinez,Austin,5,Bachelor's,Master's,,,,,,
 Cynthia Lane,Charlotte,3,Bachelor's,Master's,PhD,,,,,
@@ -102,8 +102,8 @@ Kavita Sinha,"Gurgaon, NCR",8,Bachelor's,Master's,,"HTML, JavaScript, MVC (Model
 Rohan Sharma,"Taylor, TX",6,Bachelor's,Master's,,"HTML, CSS, JavaScript, JQuery, JSP, ParamQuery, PQGrid","Java/J2EE (Java 17+), Spring, Struts2, OOPS principles, Java application development, performance optimization, ORM, Hibernate","SQL, RDBMS, Oracle PL/SQL","Linux, Git, Maven, Jenkins, Jasper, JUnit, Jasper Reports, Tomcat, JBoss, Docker Containers","Self-starter, Team-player, Problem-solving, Communication skills"
 Priya Patel,"Taylor, TX",7,Bachelor's,Master's,,"HTML, CSS, JavaScript, JQuery, JSP, ParamQuery, PQGrid","Java/J2EE (Java 17+), Spring, Struts2, OOPS principles, Java application development, performance optimization, ORM, Hibernate","SQL, RDBMS, Oracle PL/SQL","Linux, Git, Maven, Jenkins, Jasper, JUnit, Jasper Reports, Tomcat, JBoss, Docker Containers","Self-starter, Team-player, Problem-solving, Communication skills"
 Rahul Mehta,"Taylor, TX",5,Bachelor's,Master's,,"HTML, CSS, JavaScript, JQuery, JSP, ParamQuery, PQGrid","Java/J2EE (Java 17+), Spring, Struts2, OOPS principles, Java application development, performance optimization, ORM, Hibernate","SQL, RDBMS, Oracle PL/SQL","Linux, Git, Maven, Jenkins, Jasper, JUnit, Jasper Reports, Tomcat, JBoss, Docker Containers","Self-starter, Team-player, Problem-solving, Communication skills"
-Neha Kapoor,"Taylor, TX",6,Bachelor's,Master's,,"HTML, CSS, JavaScript, JQuery, JSP, ParamQuery, PQGrid","Java/J2EE (Java 17+), Spring, Struts2, OOPS principles, Java application development, performance optimization, ORM, Hibernate","SQL, RDBMS, Oracle PL/SQL","Linux, Git, Maven, Jenkins, Jasper, JUnit, Jasper Reports, Tomcat, JBoss, Docker Containers","Self-starter, Team-player, Problem-solving, Communication skills"
-Arjun Verma,Austin,8,Bachelor's,Master's,,"Self-starter, Team-player, Problem-solving, Communication skills",,,,
+Neha Kapoor,"Taylor, TX",6,Bachelor's,Master's,,"HTML, CSS, Jquery","Java/J2EE (Java 17+), Spring, Struts2, OOPS principles,","SQL, RDBMS, Oracle PL/SQL","Linux, Git, Maven, Jenkins, Jasper, Junit","Self-starter, Team-player"
+Arjun Verma,Austin,8,Bachelor's,Master's,,,,,,
 Ananya Gupta,Remote,7,Bachelor's,Master's,,"PrimeFaces, User Interface (UI) development","Java EE, Core Java, Spring Boot, Spring Batch, Java design patterns, Backend development, Data service layer development, Technical troubleshooting, Code debugging, Performance tuning","SQL queries, DDL & DML, Views and stored procedures, JPA, Java Persistence API (JPA)","Azure DevOps, JUnit","Problem-solving, Interpersonal skills, Collaboration in a team environment, Adaptability to technology, Public Sector domain experience"
 Rahul Singh,Remote,6,Bachelor's,Master's,,"PrimeFaces, User Interface (UI) development","Java EE, Core Java, Spring Boot, Spring Batch, Java design patterns, Backend development, Data service layer development, Technical troubleshooting, Code debugging, Performance tuning","SQL queries, DDL & DML, Views and stored procedures, JPA, Java Persistence API (JPA)","Azure DevOps, JUnit","Problem-solving, Interpersonal skills, Collaboration in a team environment, Adaptability to technology, Public Sector domain experience"
 Neha Reddy,Remote,8,Bachelor's,Master's,,"PrimeFaces, User Interface (UI) development","Java EE, Core Java, Spring Boot, Spring Batch, Java design patterns, Backend development, Data service layer development, Technical troubleshooting, Code debugging, Performance tuning","SQL queries, DDL & DML, Views and stored procedures, JPA, Java Persistence API (JPA)","Azure DevOps, JUnit","Problem-solving, Interpersonal skills, Collaboration in a team environment, Adaptability to technology, Public Sector domain experience"
@@ -116,14 +116,14 @@ Brown maxel,"Folsom, CA",5,Bachelor's,,,JavaScript,"REST API, JSON, Kafka, VBS, 
 Dafur karmani,"Folsom, CA",6,Bachelor's,,,JavaScript,"REST API, JSON, Kafka, VBS, Python, XML, Perl",SQL,"UFT, Selenium, Load Runner, Parasoft SOA Test, SOAP-UI, HP Quality Center, SPLUNK SPL, Jira, Confluence, Microsoft Office Suite","Code reviews,Test engineering and product knowledge, Testing processes (security, performance, integration, functional), Test planning, Enterprise-level test framework architecture, QA practices, ISTQB certification, Adaptability, Communication skills, Problem-solving skills, Analytical skills, Team leadership, Facilitation, ITSM, Change Management, Configuration Management, Problem Management, Training development, Presentation skills, Hands-on testing skills"
 Sunita Shinde ,"Denver, CO",6,Bachelor's,,,,,,,
 Arjun Sharma ,Remote,5,Bachelor's,,,,,,,
-Bharti Kumar ,"San Francisco, CA",7,Bachelor's,,,,,,,
+Bharti Kumar ,San Francisco,7,Bachelor's,,,,,,,
 Parul Bhaghel,Remote,5,Bachelor's,,,,,,,
 Max Miller Green,"Denver, CO",8,Bachelor's,,,,,,,
 kharbindar Agarwal,"Gurugram, India",15,Bachelor's,Master's,,,".NET Core, Microservices, Spring Boot, .NET",,Azure,
 Mia Evans,Chicago,4,Bachelor's,,,,,,,
-Nathan Fisher,Chicago,5,Bachelor's,Master's,PhD,,,,,
+Nathan Fisher,Chicago,5,Bachelor's,Master's,PhD,,Python,SQL,"Hadoop, Azure", machine learning
 Olivia Garcia,Chicago,3,Bachelor's,,,,,,,
 Quinn Jackson,Chicago,6,Bachelor's,,,,,,,
 Uma Nelson,Chicago,1,Bachelor's,,,,,,,
 Victor Owen,Chicago,8,Bachelor's,,,,,,,
-Ryan Goslin ,Chicago,4,Bachelor's,Master's ,PhD,,,,,
+Ryan Goslin ,Chicago,4,Bachelor's,,,,Python,SQL,Hadoop,

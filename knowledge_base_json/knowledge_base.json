@@ -93,9 +93,6 @@
         "JSP",
         "ParamQuery",
         "PQGrid",
-        "JavaScript",
-        "HTML",
-        "JavaScript",
         "MVC (Model-View-Controller)",
         " "
     ],
@@ -106,7 +103,6 @@
         ".NET",
         "Java EE",
         "Core Java",
-        "Spring Boot",
         "Spring Batch",
         "Java design patterns",
         "Backend development",
@@ -151,7 +147,6 @@
         "Views and stored procedures",
         "JPA",
         "Java Persistence API (JPA)",
-        "SQL",
         "SQL Server",
         "Azure SQL"
     ],
@@ -164,7 +159,6 @@
         "Maven",
         "Jenkins",
         "Jasper",
-        "JUnit",
         "Jasper Reports",
         "Tomcat",
         "JBoss",
@@ -189,7 +183,10 @@
         "Azure Functions",
         "Data Export Service",
         "Azure Data Factory",
-        "ETL Technologies (Scribe Online, Microsoft Azure Data Factory, Kingswaysoft)"
+        "ETL Technologies (Scribe Online, Microsoft Azure Data Factory, Kingswaysoft)",
+        "AWS",
+        "Tableau",
+        "Hadoop"
     ],
     "Miscellaneous": [
         "Problem-solving",
@@ -199,7 +196,6 @@
         "Public Sector domain experience",
         "Self-starter",
         "Team-player",
-        "Problem-solving",
         "Communication skills",
         "Code reviews",
         "Test engineering and product knowledge",
@@ -209,7 +205,6 @@
         "QA practices",
         "ISTQB certification",
         "Adaptability",
-        "Communication skills",
         "Problem-solving skills",
         "Analytical skills",
         "Team leadership",
@@ -230,6 +225,7 @@
         "Architectural Mindset in Software Engineering",
         "Strong Oral and Written Communication Skills",
         "Decision Making Under Uncertainty",
-        "Systems Thinking (High-level and Detailed Thinking)"
+        "Systems Thinking (High-level and Detailed Thinking)",
+        " machine learning"
     ]
 }

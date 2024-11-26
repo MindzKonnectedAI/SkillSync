@@ -1,0 +1,53 @@
+Experience,Location,Graduation,Post Graduation,PhD,Frontend,Backend,DB,Tools,Miscellaneous
+1,Austin,Bachelor's,Master's,,PrimeFaces,.NET Core,SQL,Azure DevOps,Problem-solving
+2,New York,Bachelor of Science in Computer Science,,,User Interface (UI) development,Microservices,RDBMS,JUnit,Interpersonal skills
+3,Wichita,,,,HTML,Spring Boot,Oracle PL/SQL,Azure,Collaboration in a team environment
+4,Boston,,,,CSS,.NET,SQL queries,Linux,Adaptability to technology
+5,Chicago,,,,JavaScript,Java EE,DDL & DML,Git,Public Sector domain experience
+6,Miami,,,,JQuery,Core Java,Views and stored procedures,Maven,Self-starter
+7,San Francisco,,,,JSP,Spring Batch,JPA,Jenkins,Team-player
+8,Fresno,,,,ParamQuery,Java design patterns,Java Persistence API (JPA),Jasper,Communication skills
+9,Raleigh,,,,PQGrid,Backend development,SQL Server,Jasper Reports,Code reviews
+10,Louisville,,,,MVC (Model-View-Controller),Data service layer development,Azure SQL,Tomcat,Test engineering and product knowledge
+11,Charlotte,,,,,Technical troubleshooting,,JBoss,"Testing processes (security, performance, integration, functional)"
+12,Philadelphia,,,, ,Code debugging,,Docker Containers,Test planning
+13,Cheyenne,,,,,Performance tuning,,UFT,Enterprise-level test framework architecture
+14,Columbus,,,,,Java/J2EE (Java 17+),,Selenium,QA practices
+15,Houston,,,,,Spring,,Load Runner,ISTQB certification
+16,Madison,,,,,Struts2,,Parasoft SOA Test,Adaptability
+17,New Orleans,,,,,OOPS principles,,SOAP-UI,Problem-solving skills
+18,Los Angeles,,,,,Java application development,,HP Quality Center,Analytical skills
+19,Dallas,,,,,Performance optimization,,SPLUNK SPL,Team leadership
+20,Denver,,,,,ORM,,Jira,Facilitation
+,Detroit,,,,,Hibernate,,Confluence,ITSM
+,Tucson,,,,,REST API,,Microsoft Office Suite,Change Management
+,Cleveland,,,,,JSON,,Visual Studio,Configuration Management
+,Albuquerque,,,,,Kafka,,Git Source Control,Problem Management
+,Omaha,,,,,VBS,,CRM SDK,Training development
+,Tampa,,,,,Python,,Microsoft Power Apps,Presentation skills
+,Salt Lake City,,,,,XML,,Microsoft Flows,Hands-on testing skills
+,El Paso,,,,,Perl,,DevOps Pipelines,Microsoft Certifications on Dynamics 365 CE
+,Syracuse,,,,,C# Programming (C-Sharp),,Azure Logic Apps,FetchXML Report Development
+,Memphis,,,,,.NET Framework,,Azure Functions,Application Support and Issue Resolution
+,Atlanta,,,,,Plugin Development,,Data Export Service,Agile Engineering Methodologies
+,Buffalo,,,,,Microsoft Dynamics CRM,,Azure Data Factory,Scrum Collaboration
+,Milwaukee,,,,,Microsoft Dynamics 365 CE/CRM,,"ETL Technologies (Scribe Online, Microsoft Azure Data Factory, Kingswaysoft)",Client Requirements Translation into Technical Designs
+,Minneapolis,,,,,CRM API,,AWS,Architectural Mindset in Software Engineering
+,Anchorage,,,,,REST/ODATA and SOAP Endpoints,,Tableau,Strong Oral and Written Communication Skills
+,Seattle,,,,,PowerApps Model Design & Development,,Hadoop,Decision Making Under Uncertainty
+,"Gurugram, India",,,,,Building CRM Forms,,,Systems Thinking (High-level and Detailed Thinking)
+,"Bengaluru, India",,,,,Views,,, machine learning
+,"Pune, India",,,,,Dashboards,,,
+,"Noida, India",,,,,Workflows,,,
+,"Mumbai, India",,,,,,,,
+,"Chennai, India",,,,,,,,
+,"Hyderabad, India",,,,,,,,
+,"Gurgaon, NCR",,,,,,,,
+,Delhi,,,,,,,,
+,Noida,,,,,,,,
+,NCR Region,,,,,,,,
+,"Taylor, TX",,,,,,,,
+,Remote,,,,,,,,
+,"Folsom, CA",,,,,,,,
+,Denver,,,,,,,,
+,San Francisco,,,,,,,,

@@ -39,7 +39,7 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 langchain_api_key = os.getenv("LANGCHAIN_API_KEY")
 langchain_tracking_v2 = os.getenv("LANGCHAIN_TRACING_V2")
 langchain_endpoint = os.getenv("LANGCHAIN_ENDPOINT")
-langchain_project = os.getenv("LANGCHAIN_PROJECT1")
+langchain_project = os.getenv("LANGCHAIN_PROJECT")
 
 # Set them as environment variables if needed
 os.environ["OPENAI_API_KEY"] = openai_api_key
@@ -289,6 +289,7 @@ INSTRUCTIONS:
 - To start you should ALWAYS look at the tables in the database to see what you can query. Do NOT skip this step.
 - Then you should query the schema of the most relevant tables.
 - Write your query based upon the schema of the tables. You MUST double check your query before executing it.
+
 - You can order the results by a relevant column to return the most interesting examples in the database.
 - Never query for all the columns from a specific table, only ask for the relevant columns given the question.
 - If you get an error while executing a query, rewrite the query and try again.
@@ -296,7 +297,7 @@ INSTRUCTIONS:
 - If the query result result is empty, think about the table schema, rewrite the query, and try again.
 - DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database."""
 
-
+# - Unless the user specifies a specific number of examples they wish to obtain, always limit your query to at most 5 results.
 # query_gen_system = """
 # ROLE:
 # You are an agent designed to interact with a SQL database using the provided tools. 
