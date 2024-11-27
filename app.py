@@ -129,6 +129,7 @@ if(view=="User"):
         upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
         time.sleep(2)
         container.empty()
+        st.rerun()
 
 
     display_uploaded_files.display_uploaded_files("1","./pdf",".pdf")

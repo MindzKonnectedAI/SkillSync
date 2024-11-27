@@ -9,7 +9,7 @@ The Applications Developer will collaborate with ERCOT business partners to deve
 ## Job Summary
 - **Design and Development:**
 - Design, code, test, document, and maintain applications to meet ERCOT business needs based on the defined Software Development Life Cycle (SDLC).
-- Collaborate with customers, subject matter experts, team members, and other technical teams to develop and maintain complex ERCOT applications.
+- Collaborate with customers, business area subject matter experts, team members, and other internal technical teams to develop and maintain complex ERCOT applications.
 
 - **Technical Compliance:**
 - Utilize toolsets that adhere to the frameworks of the technical stack used across the Application Services division.
@@ -24,7 +24,8 @@ The Applications Developer will collaborate with ERCOT business partners to deve
 - Participate in component and data architecture design, performance monitoring, product evaluation, and buy vs. build recommendations.
 
 - **Documentation and Metrics:**
-- Provide input for product user manuals and development metrics (e.g., development cycle time).
+- Provide input for the development of product user manuals.
+- Supply code statistics and development metrics (e.g., development cycle time).
 - Assist in implementing and maintaining a standardized development methodology.
 
 - **Research and Innovation:**
@@ -48,7 +49,7 @@ The Applications Developer will collaborate with ERCOT business partners to deve
 - Hands-on experience in developing Java applications.
 
 - **Performance Optimization:**
-- Ability to determine the best performance optimization for specific requirements.
+- Ability to determine the best performance optimization for given requirements.
 
 - **Personal Attributes:**
 - Self-starter and motivated individual who enjoys working outside their comfort zone.
@@ -61,7 +62,7 @@ The Applications Developer will collaborate with ERCOT business partners to deve
 - **Analytical Skills**: Ability to identify patterns from problem definitions.
 - **Adaptability**: Ability to work in an environment that requires quick turnaround when troubleshooting production issues.
 
-## Technical Proficiencies
+## Technical Skills
 - **Operating Systems**: Linux
 - **Version Control**: Git
 - **Build Tools**: Maven
@@ -77,3 +78,8 @@ The Applications Developer will collaborate with ERCOT business partners to deve
 
 ## Experience
 - **Work Experience**: Requires a minimum of 5 years of related work experience in excess of degree requirements.
+
+## Boolean Search String
+```
+java AND j2ee AND spring AND struts AND sql AND (html OR css OR javascript OR jquery) AND hibernate AND (pl/sql OR plsql) AND (paramquery OR “param query” OR pqgrid OR jasper)
+```
