@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(override=True)
 import streamlit as st
 import os
 from typing import Annotated, List
