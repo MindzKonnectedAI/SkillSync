@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 # Load environment variables from .env file
-load_dotenv(override=True)
+load_dotenv()
 import streamlit as st
 import os
 from typing import Annotated, List
@@ -127,7 +127,6 @@ if 'chat_history' in st.session_state:
                         st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
                 else:
                     st.markdown(message.content)
-
 
 # prompt = st.chat_input("Find your next superstar")
 
