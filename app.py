@@ -23,7 +23,7 @@ import io
 import time
 import random
 import uuid
-import TaletScore.talentScore as talentScore
+import TaletScoreAgent.talent_score_agent as talent_score_agent
 
 # Access the environment variables
 openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -134,7 +134,7 @@ if(buttonVal):
     holder = st.empty()
     with st.spinner("Processing your query..."):
         try:
-            aiRes = talentScore.talent_score_agent()
+            aiRes = talent_score_agent.talent_score_agent()
             st.session_state.chat_history.append(AIMessage(content=aiRes["messages"][-1].content))
             holder.write(aiRes["messages"][-1].content) 
         except GraphRecursionError:
