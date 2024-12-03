@@ -101,31 +101,11 @@ buttonVal = st.sidebar.button(
 # Conversation History
 if 'chat_history' in st.session_state:
     for index, message in enumerate(st.session_state.chat_history):
-        if isinstance(message, HumanMessage) and message.name == agent_name_to_filter:
+        if isinstance(message, HumanMessage):
             with st.chat_message("Human"):
                 st.markdown(message.content)
-        elif isinstance(message, AIMessage) and message.name == agent_name_to_filter:
+        elif isinstance(message, AIMessage) :
             with st.chat_message("AI"):
-                # print("**********************************************************************")
-                # print("message.content in chat history :",message.content)
-                table = extract_table_from_text(message.content)
-                # print("table in chat history :",table)
-                if len(table) > 0:
-                    st.markdown(message.content)
-                    buf = extract_required_preferred_fields(message.content)
-                    unique_file_name = f"{int(time.time())}.csv"
-                    col1,col2 = st.columns([0.2,0.8])
-                    with col1:
-                        st.download_button(
-                            label="Export as CSV",
-                            data=buf.getvalue(),
-                            file_name=unique_file_name,
-                            mime='text/csv',
-                            key=uuid.uuid4()
-                        )
-                    with col2:
-                        st.button("Send Email", key=uuid.uuid4(),on_click=send_emails, args=(table,))
-                else:
                     st.markdown(message.content)
 
 # prompt = st.chat_input("Find your next superstar")
