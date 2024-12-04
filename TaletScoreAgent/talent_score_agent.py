@@ -16,7 +16,7 @@ import os
 from langchain.prompts import PromptTemplate
 from langchain_core.tools import tool
 
-llm = ChatOpenAI(model="gpt-4o-mini")
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
 
 
 # Define the state for the agent
@@ -239,7 +239,7 @@ def talent_score_agent():
     workflow.add_node("find_matching_and_not_matching_point", find_matching_and_not_matching_point)
     workflow.add_node("check_matching_and_not_matching_point", check_matching_and_not_matching_point)
     workflow.add_node("generate_final_point", generate_final_point_tool)
-    
+
     workflow.add_edge(START, "find_matching_and_not_matching_point")
     workflow.add_edge("find_matching_and_not_matching_point", "check_matching_and_not_matching_point")
     workflow.add_edge("check_matching_and_not_matching_point", "generate_final_point")
