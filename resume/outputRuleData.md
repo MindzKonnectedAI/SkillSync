@@ -1,107 +1,124 @@
-# Parshav Singla
+# Prateek Sharma's Resume
 
-**Contact Information:**
-- Email: parshav769@gmail.com
-- Phone: +91 9779092364
-- LinkedIn: [linkedin.com/in/parshavsingla](https://linkedin.com/in/parshavsingla)
-- GitHub: [github.com/Parshav14](https://github.com/Parshav14)
+body {
+font-family: Arial, sans-serif;
+line-height: 1.6;
+margin: 20px;
+}
+h1, h2, h3 {
+color: #333;
+}
+.contact-info, .skills, .experience, .projects {
+margin-bottom: 20px;
+}
+.skills ul, .experience ul, .projects ul {
+list-style-type: none;
+padding: 0;
+}
+.skills li, .experience li, .projects li {
+margin-bottom: 10px;
+}
 
-----
+# Prateek Sharma
 
-## Education
+Phone: (+91) 9643716090
 
-### B.E. in Computer Science & Engineering
-**Thapar Institute of Engineering and Technology, Patiala**
-09/2022 - Present
-**Courses:**
-- Data Structures & Algorithms
-- Artificial Intelligence
-- Machine Learning
-- Software Engineering
-- Database Management System
-- Computer Networks
+Email: sharma.prateek00000@gmail.com
 
-### Higher Secondary School
-**Radha Vatika Sr Sec School, Khanna**
-04/2021 - 07/2022
-**Percentage:** 94.6%
-**Courses:**
-- Physics
-- Chemistry
-- Maths
-- English
+Leetcode: Prateeksh7
 
-----
+LinkedIn: prateeksh007
 
-## Work Experience
+GitHub: PrateekSharma007
 
-### Machine Learning Engineer
-**Samsung**
-02/2024 - Present
-*Global leader in electronics, specializing in mobile devices, home appliances, and semiconductors*
-**Achievements:**
-- Enhanced Samsung’s AI capabilities by leading improvements in speech recognition technology.
-- Led the deployment of scalable ML algorithms, improving system performance and user satisfaction.
-- Refined AI models through a data-driven strategy, enhancing accuracy in voice/language processing using Colab.
+# About Me
 
-### Artificial Intelligence Researcher
-**Zeatpeak**
-08/2023 - 11/2023
-*Innovative consulting firm specializing in business development*
-**Achievements:**
-- Optimized daily issue triaging by implementing targeted solutions, boosting team efficiency and problem resolution.
-- Streamlined operational workflows with AI-driven methodologies, utilizing Python, TensorFlow, and PyTorch to enhance team performance.
+3rd-year B.Tech undergraduate with a passion for software engineering. Experience in MERN Stack technologies such as React, Node.js, and also in Generative AI. Good proficiency in Algorithms, Data Structures, AI & ML, and more. Currently working as an Intern with Mindz Konnected.
 
-### Machine Learning Developer
-**Coincent**
-05/2023 - 07/2023
-*India's premier Edtech powerhouse with industry partnerships to craft immersive online learning journeys*
-**Achievements:**
-- Developed a high-accuracy machine learning classifier to distinguish between canine and feline images, leveraging advanced algorithms and data analysis.
-- Efficiently deployed a robust machine learning model into production using Python, Keras, and OpenCV, demonstrating real-world efficacy and dependability.
+# Skills
 
-----
+- Languages: HTML, CSS, JavaScript, C++, Java, Python
+- Frameworks: Langchain, Flask, Express.js, React.js, Node.js, Firebase
+- Database: MySQL, MongoDB, Pinecone, ChromaDB
+- Model: Large Language Model (LLM)
+- Repository Tools: GitHub, GitLab
+- Other Tools: Jupyter Notebooks, Sublime Text, VS Code
+- Verbal Languages: English, German - A1 and A2 Level proficiency
 
-## Technical Skills
+# Experience
 
-- **Languages:** Python, Java, Kotlin, Dart, C/C++, SQL (Postgres, Oracle), JavaScript, HTML/CSS, R
-- **Frameworks & Libraries:** TensorFlow, PyTorch, Keras, Pandas, OpenCV, Scikit-learn, Android SDK, Firebase, Google Play Services, Node.js, React.js, Material Design, WordPress
-- **Developer Tools:** Jupyter Notebook, Git/GitHub, Google Cloud Platform, Android Studio IDE, Gradle, VS Code, Visual Studio, Ubuntu, Linux, PyCharm, Docker, Figma, MATLAB, AutoCAD
-- **Soft Skills:** Leadership, Marketing, Problem Solving, Teamwork, Sponsorship
+# Intern | Mindz Konnected
 
-----
+Mar 2024 - Present
 
-## Selected Projects
+- Developed a Chatbot platform where users can chat with the bot on the defined context given by the user.
+- Implemented the Large Language Model solution to generate responses based on data stored in a vector database.
 
-### TechTag (03/2024 - 05/2024)
-- Architected an all-encompassing bus management platform, offering intuitive ticket booking and robust payment systems to enhance the efficiency of public transit services using Android Studio.
+# Intern | Mindz Konnected
 
-### Snake Adventure (01/2024 - 03/2024)
-- Conceived and launched a captivating mobile game built with Android Studio and Java, now available on Google Play, delivering a classic gaming experience with a modern twist.
+Aug 2023 - Oct 2023
 
-### Emotion Face Detection (07/2023 - 08/2023)
-- Developed a neural network-based system for real-time emotion recognition using OpenCV, displaying results live on-screen.
+- Created the user authentication flow using OAuth 2.0 for our application.
+- Integrated the Zoho mail delivery system to send the latest newsletters to subscribed users.
+- Improved the application by addressing & fixing open issues.
 
-### Trivia Application (04/2023 - 05/2023)
-- Crafted a feature-rich Android trivia app with an intuitive UI, leveraging Java and Android SDKs in Android Studio IDE, now hosted on Google Play for enhanced user engagement.
+# Side Projects
 
-----
+# Project: PDF Chatbot
 
-## Positions of Responsibility
+- Designed & Developed a PDF chatbot using Langchain LLM in Python.
+- Enhances document processing efficiency and user experience, ensuring accurate interpretation of user queries and extraction of relevant information from PDF documents.
+- Collaborated with cross-functional teams to seamlessly integrate the chatbot into existing systems and workflows.
+- Conducted rigorous testing to ensure product quality, accuracy, and reliability.
 
-### The Institution of Electronics and Telecommunication Engineers, TIET
-**Head of Marketing and Public Relations**
-07/2023 - Present
+# Project: MCQ-Generator
 
-----
+- Engineered an MCQ (Multiple Choice Questions) auto generator based on the given context by the user.
+- Capable of generating questions on various parameters like difficulty level, number of questions, etc.
+# Profile
 
-## Achievements
+body {
+font-family: Arial, sans-serif;
+margin: 20px;
+}
+h1, h2 {
+color: #333;
+}
+.section {
+margin-bottom: 20px;
+}
+.education, .sports {
+border: 1px solid #ccc;
+padding: 10px;
+border-radius: 5px;
+}
+.education table, .sports table {
+width: 100%;
+border-collapse: collapse;
+}
+.education th, .sports th {
+background-color: #f2f2f2;
+padding: 8px;
+text-align: left;
+}
+.education td, .sports td {
+padding: 8px;
+border-bottom: 1px solid #ddd;
+}
 
-- **Cognizant (02/2024)**: Demonstrated practical application skills in AI.
-- **Smart India Hackathon (10/2023)**: Winner in college-wide internal hackathon, competing across all academic years.
-- **Microsoft Certified: Azure AI Fundamentals (06/2023)**: Gained knowledge of machine learning and AI concepts and related Microsoft Azure services.
-- **AEEE (06/2022)**: Among the top 0.04% successful candidates.
+# Profile
 
-----
+# Sports Achievements
 
-This structured format provides a clear overview of Parshav Singla's education, work experience, technical skills, projects, positions of responsibility, and achievements.
+- Captain of the College Tennis Team currently ranked 3rd in the university.
+- Active member of Udaan Sports Club MAIT.
+- Runner-up in District level Tennis competition 2018.
+- Represented school & college in district level tournaments during 2018 - 2023.
+
+# Education
+
+|Institution|Duration|Degree/Grade|CGPA/Percentage|
+|---|---|---|---|
+|Maharaja Agrasen Institute of Technology|2021 - 2025|BTech - Information Technology|CGPA: 8.3|
+|Abhinav Public School, Pitampura, Delhi|2018 - 2020|Grade: XII|86%|
+|Delhi Public School, Greater Noida|2012 - 2018|Grade: X|91%|

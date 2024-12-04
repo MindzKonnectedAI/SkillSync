@@ -14,14 +14,14 @@ import nltk
 llamaparse_api_key = os.getenv("LLAMAPARSE_API_KEY")
 llm = ChatOpenAI(model="gpt-4o-mini")
 
-# Create the upload directory if it doesn't exist
-folder_path = "./ruleData"
-if not os.path.exists(folder_path):
-    os.makedirs(folder_path)
+# # Create the upload directory if it doesn't exist
+# folder_path = "./ruleData"
+# if not os.path.exists(folder_path):
+#     os.makedirs(folder_path)
 
-folder_path = "./data"
-if not os.path.exists(folder_path):
-    os.makedirs(folder_path)
+# folder_path = "./data"
+# if not os.path.exists(folder_path):
+#     os.makedirs(folder_path)
 
 def create_pkl_string(filename):
     file_name, extension = os.path.splitext(filename)
@@ -114,16 +114,25 @@ def detect_encoding(file_path):
 # **BULLET POINT SUMMARY:**
 # """
 
-prompt_template = """
-Write a detailed summary of the following text, delimited by triple backquotes. Extract and include all key elements such as dates, numbers, symbols, strings, and specific points. It is crucial to explicitly mention any "and" or "or" conditions present in the text.
+# prompt_template = """
+# Write a detailed summary of the following text, delimited by triple backquotes. Extract and include all key elements such as dates, numbers, symbols, strings, and specific points. It is crucial to explicitly mention any "and" or "or" conditions present in the text.
 
-Return your response as bullet points, using titles and headings to categorize each element effectively. The summary should be optimized for a large language model like GPT-4o-mini.
+# Return your response as bullet points, using titles and headings to categorize each element effectively. The summary should be optimized for a large language model like GPT-4o-mini.
+
+# ```{text}```
+
+# **BULLET POINT SUMMARY:**
+# """
+
+prompt_template = """
+Write a concise summary of the following text, delimited by triple backquotes. Extract all key details, such as dates, numbers, symbols, strings, and important points.
+
+Return your response as bullet points, keeping the information compact but comprehensive, while maintaining clarity and essential meaning.
 
 ```{text}```
 
 **BULLET POINT SUMMARY:**
 """
-
 
 summarize_prompt = PromptTemplate(template=prompt_template, input_variables=["text"])
 
@@ -201,9 +210,14 @@ def upload_rule_data(uploaded_file,container,folder_path, view_pdf_path):
     # Perform additional processing
     try:
         find_file_name_and_extract_text(folder_path, "outputRuleData.md")
-        summarize_data(
-            "./ruleData/outputRuleData.md", "./data/summarizeOutputRuleData.md"
-        )
+
+        input_md_pdf_path = os.path.join(folder_path, "outputRuleData.md")
+        output_md_pdf_path = os.path.join(folder_path, "summary.md")
+
+        summarize_data(input_md_pdf_path, output_md_pdf_path)
+        # summarize_data(
+        #     "./ruleData/outputRuleData.md", "./data/summarizeOutputRuleData.md"
+        # )
         container.success("Data processed successfully")
     except Exception as e:
         container.error(f"Error in processing data: {str(e)}")

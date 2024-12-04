@@ -14,6 +14,7 @@ import utils.create_image_func as create_image_func
 from langchain_community.document_loaders import UnstructuredMarkdownLoader
 import os
 from langchain.prompts import PromptTemplate
+from langchain_core.tools import tool
 
 llm = ChatOpenAI(model="gpt-4o-mini")
 
@@ -68,14 +69,16 @@ def get_file_content(file_name, folder_name):
         return f"An error occurred: {e}"
 
 
-def find_matching_point(state):
-    print("state", state)
+def find_matching_and_not_matching_point(state):
+    # print("find_matching_point_state", state)
 
-    job_description_file_content = get_file_content('outputRuleData.md', 'job_description')
-    print(job_description_file_content)
+    # job_description_file_content = get_file_content('outputRuleData.md', 'job_description')
+    job_description_file_content = get_file_content('summary.md', 'job_description')
+    # print(job_description_file_content)
 
-    resume_file_content = get_file_content('outputRuleData.md', 'resume')
-    print(resume_file_content)
+    # resume_file_content = get_file_content('outputRuleData.md', 'resume')
+    resume_file_content = get_file_content('summary.md', 'resume')
+    # print(resume_file_content)
 
     # Define a PromptTemplate
     template="""
@@ -99,86 +102,148 @@ def find_matching_point(state):
         list of points where the resume aligns with the job description.
         **Not Match**
         list of points where the resume don't aligns with the job description.
+        """
+
+    prompt = PromptTemplate(template=template, input_variables=["job_description","resume"])
+
+    matching_points_llm = prompt | llm
+    response = matching_points_llm.invoke({"job_description": job_description_file_content, "resume": resume_file_content})
+    # print("response: ", response)
+    return {"messages": response}
+
+def check_matching_point():
+    # print("check_matching_point_state", state)
+
+    # template="""
+
+    #     You are an expert assistant with knowledge of resume analysis and job description matching. Your task is to verify if all the matching and not matching points between the resume and job description have been correctly identified. Follow these instructions:
+
+    #     Input Details:
+
+    #     Resume: {resume}
+    #     Job Description: {job_description}
+    #     Identified Matches and Not Matches: {points}
+
+    #     Your Tasks:
+
+    #     Cross-check the Matches with both the Resume and the Job Description to ensure no matching points are missing.
+    #     Cross-check the Not Matches with both the Resume and the Job Description to ensure no mismatched points are missing.
+    #     Identify any points in the Resume that could align with the Job Description but are not listed in Matches.
+    #     Identify any requirements in the Job Description that are unmet by the Resume and are not listed in Not Matches.
+
+    #     """
+    template="""
+
+        You are an expert assistant with knowledge of resume analysis and job description matching. Your task is to verify if all the matching and not matching points between the resume and job description have been correctly identified. Follow these instructions:
+
+            Input Details:
+
+            Resume: {resume}
+            Job Description: {job_description}
+            Identified Matches and Not Matches: {points}
+
+            Your Tasks:
+
+            1. Cross-check the **Matches** with both the **Resume** and the **Job Description** to ensure no matching points are missing.
+            2. Cross-check the **Not Matches** with both the **Resume** and the **Job Description** to ensure no mismatched points are missing.
+            3. Identify any points in the **Resume** that could align with the **Job Description** but are not listed in **Matches**.
+            4. Identify any requirements in the **Job Description** that are unmet by the **Resume** and are not listed in **Not Matches**.
+
+            If any matching or not matching points are missing, please add them to the corresponding list:
+
+            - Add any missing points where the **Resume** aligns with the **Job Description** to the **Matches** list.
+            - Add any missing points where the **Resume** does not meet the **Job Description**'s requirements to the **Not Matches** list.
+
+        """
+
+    prompt = PromptTemplate(template=template, input_variables=["job_description","resume", "points"])
+
+    matching_points_llm = prompt | llm
+    # response = matching_points_llm.invoke({"job_description": job_description_file_content, "resume": resume_file_content})
+    # # print("response: ", response)
+    # return {"messages": [AIMessage(content=response.content)]}
+    return matching_points_llm
+    
+
+# @tool
+def check_matching_and_not_matching_point(state):
+    """
+    Use this tool to double check if matching and not mathcing point.
+    """
+    # print("query logged :",state)
+    # print("points[messages][-1].content :",state["messages"][-1])
+    
+    # job_description_file_content = get_file_content('outputRuleData.md', 'job_description')
+    job_description_file_content = get_file_content('summary.md', 'job_description')
+    # print(job_description_file_content)
+
+    # resume_file_content = get_file_content('outputRuleData.md', 'resume')
+    resume_file_content = get_file_content('summary.md', 'resume')
+    # print(resume_file_content)
+
+    res = check_matching_point().invoke({
+        "job_description": job_description_file_content, 
+        "resume": resume_file_content,
+        "points": state["messages"][-1].content})
+    print("res", res)
+    return {"messages": res}
+
+
+def generate_final_point_tool(state):
+    """
+    Use this tool to to generate final awsner.
+    """
+    template="""
+        You have a cross-checked document that compares a resume to a job description. Your task is to generate the following:
+
+        A list of matched points, where the resume aligns with the job description.
+        A list of not matched points, where the resume does not align with the job description.
+        Evaluate the overall profile match: classify it as Bad, Average, or Good based on the alignment.
+        Provide the score, which represents how well the resume aligns with the job description.
+        Input:
+        Cross-Checked Document: Contains the comparison between the resume and job description.
+        {cross-checked-document}
+        Instructions:
+        Extract points that match: List all the points where the resume aligns with the job description.
+        Extract points that don't match: List all the points where the resume does not align with the job description.
+        Evaluate profile match:
+        Bad: If there is little to no alignment.
+        Average: If there is moderate alignment.
+        Good: If the alignment is strong.
+        
+        ***Never forgot to follow output format.***
+        Output Format:
+        **Match**
+        list of points where the resume aligns with the job description.
+        **Not Match**
+        list of points where the resume don't aligns with the job description.
         Profile match: Bad, Average or Good.
         Score: score resume align with job description.
 
         """
-    
+        # Calculate the alignment score: Provide a score representing the percentage of alignment between the resume and job description.
 
-    prompt = PromptTemplate(template=template, input_variables=["job_description","resume"])
+    prompt = PromptTemplate(template=template, input_variables=["cross-checked-document"])
 
-    matching_points_llm = prompt | llm
-    response = matching_points_llm.invoke({"job_description": job_description_file_content, "resume": resume_file_content})
-    # print("response: ", response)
-    return {"messages": [AIMessage(content=response.content)]}
+    generateFinalAwsner = prompt | llm
 
-def check_matching_point(state):
-    print("state", state)
+    res = generateFinalAwsner.invoke({"cross-checked-document": state["messages"][-1].content})
 
-    job_description_file_content = get_file_content('outputRuleData.md', 'job_description')
-    print(job_description_file_content)
-
-    resume_file_content = get_file_content('outputRuleData.md', 'resume')
-    print(resume_file_content)
-
-    # Define a PromptTemplate
-    # template="""
-    #     You are given a Job Description and a Resume. Your task is to identify every single piece of information that matches and does not match between the two documents. Separate the output into two sections: one for matching information and another for non-matching information. Simply list the items as numbered lists without providing additional details or context.
-
-    #     Input:
-    #     Job Description:
-    #     {job_description}
-
-    #     Resume:
-    #     {resume}
-
-    #     Output:
-    #     Matching Information:
-    #     [List all matching information as a numbered list]
-
-    #     Non-Matching Information:
-    #     [List all non-matching information as a numbered list]
-    #     """
-    template="""
-
-        Task:
-        Analyze the resume against the job description and categorize the findings into:
-
-        Match: Points where the resume aligns with the job description.
-        Not Match: Points where the resume does not meet the job description's requirements.
-
-        ***Never forgot to follow output format.***
-        Output Format:
-        **Match**
-        list of points where the resume aligns with the job description
-        **Not Match**
-        list of points where the resume don't aligns with the job description
-
-        Input:
-
-        Job Description:
-        {job_description}
-
-        Resume:
-        {resume}
-        """
-    
-
-    prompt = PromptTemplate(template=template, input_variables=["job_description","resume"])
-
-    matching_points_llm = prompt | llm
-    response = matching_points_llm.invoke({"job_description": job_description_file_content, "resume": resume_file_content})
-    # print("response: ", response)
-    return {"messages": [AIMessage(content=response.content)]}
+    return {"messages": res}
 
 def talent_score_agent():
 
 # Define a new graph
     workflow = StateGraph(State)
 
-    workflow.add_node("find_matching_point", find_matching_point)
-    workflow.add_edge(START, "find_matching_point")
-    workflow.add_edge("find_matching_point", END)
+    workflow.add_node("find_matching_and_not_matching_point", find_matching_and_not_matching_point)
+    workflow.add_node("check_matching_and_not_matching_point", check_matching_and_not_matching_point)
+    workflow.add_node("generate_final_point", generate_final_point_tool)
+    
+    workflow.add_edge(START, "find_matching_and_not_matching_point")
+    workflow.add_edge("find_matching_and_not_matching_point", "check_matching_and_not_matching_point")
+    workflow.add_edge("check_matching_and_not_matching_point", "generate_final_point")
+    # workflow.add_edge("generate_final_point", END)
 
     chain = workflow.compile()
 
@@ -191,7 +256,7 @@ def talent_score_agent():
     # Invoke the chain with the correct input
     response = chain.invoke(input_state)
 
-    print("response:", response)
+    # print("response:", response)
     return response
 
     

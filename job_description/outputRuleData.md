@@ -31,20 +31,20 @@
 # Job Responsibilities and Requirements
 
 ## Key Responsibilities:
-- **Test Automation Input**: Provide insights on high-value optimal scope for test automation.
+- **Test Automation Inputs**: Provide insights on high-value optimal scope for test automation.
 
 - **Test Planning and Execution**:
 - Plan and execute Security, Integration, and Performance Tests.
-- Assess test results and make recommendations for prioritization and performance tuning.
-- Collaborate with the Quality Assurance Lead to present recommendations to the QRB.
+- Assess test results and make recommendations for addressing variances and performance tuning.
+- Collaborate with the Quality Assurance Lead to provide inputs to the QRB (Quality Review Board).
 
 - **Product Baseline Tests**:
 - Establish and maintain ISO’s product baseline tests and incremental test labs/cases.
-- Ensure evidence for software security, performance, and integration is documented, with input from the Quality Assurance Lead.
+- Ensure evidence for software security, performance, and integration is documented, with inputs from the Quality Assurance Lead.
 
 - **Performance and Test Automation Framework**:
 - Establish and maintain the Performance and Test Automation framework.
-- Conduct code reviews and maintain related scripts, with input from the Quality Assurance Lead.
+- Conduct code reviews and maintain related scripts, with inputs from the Quality Assurance Lead.
 
 - **Collaboration and Best Practices**:
 - Attend business meetings and collaborate with ISO colleagues to develop best practices, policies, and procedures.
@@ -55,7 +55,7 @@
 
 - **Core Values and Safety Compliance**:
 - Adhere to and support the Core Values of the ISO.
-- Implement the policies and procedures of the ISO Safety Program.
+- Follow and implement the safety policies and programs of the ISO, ensuring compliance with the ISO Safety Program.
 
 ## Working Conditions and Physical Requirements:
 - **Work Environment**:
@@ -67,7 +67,7 @@
 
 - **Physical Activity**:
 - Daily activities involve sitting comfortably with regular opportunities to move.
-- May require occasional stooping or lifting of materials or equipment weighing up to 25 pounds.
+- May require occasional stooping, lifting, or handling materials/equipment weighing up to 25 pounds.
 
 - **Dexterity and Coordination**:
 - Normal manual dexterity and eye-hand coordination required.
@@ -83,7 +83,8 @@ This structured format provides a clear overview of the job responsibilities, wo
 # Job Requirements Overview
 
 ## Education
-- **Degree**: A Bachelor's degree (BA, BS) or equivalent education, training, or experience in:
+- **Degree**:
+- A Bachelor's degree (BA, BS) or equivalent education, training, or experience in:
 - Information Technology
 - Management of Information Systems
 - Computer Science
@@ -100,29 +101,30 @@ This structured format provides a clear overview of the job responsibilities, wo
 
 ## Type of Experience
 - **Software Quality Assurance**:
-- Experience in software performance testing, UI test automation tools, or web service testing.
-- Strong background in IT software development and maintenance, with an emphasis on:
+- Experience in one or more areas of:
+- Software performance testing
+- UI test automation tools
+- Web service testing
+- **IT Environment**:
+- Strong background in IT software development and maintenance with an emphasis on:
 - Test automation
 - Tool selections
 - Software quality assurance
 - Familiarity with IT best practices.
-
 - **IT Service Management**:
 - Knowledge of Change, Configuration, Problem Management, or Process management concepts.
-
 - **Technical Proficiency**:
 - Demonstrated proficiency in:
 - Test automation tools and VBS for UFT
 - Python, SQL, Python for Selenium or equivalent
-- Proficiency in performance testing tools and web service testing.
-- Expertise in:
+- Proficiency in:
+- Performance testing tools
+- Web service testing
 - Security Testing
-- Performance testing
-- Transaction analysis
-- Integrating automated tests within HP ALM.
-
+- Performance testing and transaction analysis
+- Integrating automated tests within HP ALM
 - **Tools Experience**:
-- Familiarity with tools such as:
+- Experience with:
 - ALM
 - Jira
 - Confluence
@@ -147,9 +149,12 @@ This structured format provides a clear overview of the job responsibilities, wo
 - Kafka
 
 ## Additional Skills and Abilities
+- **Management and Leadership**:
 - Demonstrates fundamental management and leadership skills.
 - Ability to work effectively in a team environment as a leader, facilitator, and team member.
-- Capability to provide practical and feasible solutions to problems, considering multiple conflicting factors.
+- **Problem Solving**:
+- Ability to provide practical and feasible solutions to problems, considering multiple conflicting considerations.
+- **Communication Skills**:
 - Excellent interpersonal, communication, and writing skills required.
 # Job Requirements
 
