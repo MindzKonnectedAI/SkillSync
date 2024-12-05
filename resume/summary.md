@@ -1,48 +1,9 @@
-- **Name:** Prateek Sharma  
-- **Contact Information:**  
-  - Phone: (+91) 9643716090  
-  - Email: sharma.prateek00000@gmail.com  
-  - Leetcode: Prateeksh7  
-  - LinkedIn: prateeksh007  
-  - GitHub: PrateekSharma007  
-- **About Me:**  
-  - 3rd-year B.Tech undergraduate in Information Technology  
-  - Passion for software engineering  
-  - Experience in MERN Stack (React, Node.js) and Generative AI  
-  - Proficient in Algorithms, Data Structures, AI & ML  
-  - Current internship at Mindz Konnected  
+- **Name:** Jane Smith  
+- **Location:** Chicago  
+- **Experience:** 5 years  
+- **Education:** Bachelor’s degree in Information Technology  
 - **Skills:**  
-  - **Languages:** HTML, CSS, JavaScript, C++, Java, Python  
-  - **Frameworks:** Langchain, Flask, Express.js, React.js, Node.js, Firebase  
-  - **Databases:** MySQL, MongoDB, Pinecone, ChromaDB  
-  - **Model:** Large Language Model (LLM)  
-  - **Repository Tools:** GitHub, GitLab  
-  - **Other Tools:** Jupyter Notebooks, Sublime Text, VS Code  
-  - **Verbal Languages:** English, German (A1 and A2 Level)  
-- **Experience:**  
-  - **Intern at Mindz Konnected (Mar 2024 - Present)**  
-    - Developed a Chatbot platform utilizing a vector database  
-    - Implemented LLM for response generation  
-  - **Intern at Mindz Konnected (Aug 2023 - Oct 2023)**  
-    - Created user authentication flow with OAuth 2.0  
-    - Integrated Zoho mail for newsletters  
-    - Addressed and fixed application issues  
-- **Side Projects:**  
-  - **PDF Chatbot:**  
-    - Developed using Langchain LLM in Python  
-    - Focused on document processing and user query interpretation  
-  - **MCQ-Generator:**  
-    - Auto-generates MCQs based on user-defined context  
-    - Parameters include difficulty and number of questions  
-- **Sports Achievements:**  
-  - Captain of College Tennis Team (ranked 3rd in university)  
-  - Member of Udaan Sports Club MAIT  
-  - Runner-up in District level Tennis (2018)  
-  - Represented school & college in tournaments (2018 - 2023)  
-- **Education:**  
-  - **Maharaja Agrasen Institute of Technology (2021 - 2025)**  
-    - Degree: BTech - Information Technology, CGPA: 8.3  
-  - **Abhinav Public School, Delhi (2018 - 2020)**  
-    - Grade: XII, Percentage: 86%  
-  - **Delhi Public School, Greater Noida (2012 - 2018)**  
-    - Grade: X, Percentage: 91%  
+  - Proficient in Python  
+  - Proficient in SQL  
+  - Experience with Tableau  
+  - Familiarity with Azure  

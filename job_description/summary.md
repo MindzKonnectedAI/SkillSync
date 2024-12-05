@@ -1,45 +1,40 @@
-- **Job Title**: Software Quality Assurance Engineer (2780)
-- **Location**: Folsom, CA
-- **Duration**: Contract
+- **Job Title:** Sr Java Developer II (2799)
+- **Location:** Taylor, TX
+- **Duration:** Contract
+- **Key Responsibilities:**
+  - Collaborate with ERCOT business partners for application development and support.
+  - Design, code, test, document, and maintain applications following SDLC.
+  - Ensure compliance with technical standards and architectural frameworks.
+  - Problem-solving for moderately complex issues.
+  - Conduct all phases of the product development life cycle.
+  - Provide input for user manuals and development metrics.
+  - Research and incorporate new technologies and tools.
+  
+- **Technical Skills Required:**
+  - **Java Proficiency:** Strong in Java/J2EE, preferably Java 17 or greater.
+  - **Web Development:** Proficient in HTML, CSS, JavaScript, jQuery, JSP/Spring or Struts2.
+  - **Database Management:** Proficient in ORM/Hibernate, RDBMS/SQL, Oracle PL/SQL.
+  - **Java Development:** Hands-on experience with OOP principles and RDBMS solutions.
+  - **Performance Optimization:** Ability to optimize performance based on requirements.
 
-- **Job Description**:
-  - Design tests and testing strategies for CAISO production software validation and quality assessment.
-  - Apply expertise in testing processes related to security, performance, integration, and functional testing.
-  - Maintain Software Test Automation and Performance Test Engineering code base.
-  - Lead improvements in CAISO Enterprise Test Methodology and provide technical training.
+- **Personal Attributes:**
+  - Self-starter, motivated, team player.
+  - Strong problem-solving and communication skills (verbal and written).
+  - Ability to identify patterns in problem definitions and troubleshoot production issues quickly.
 
-- **Essential Job Functions**:
-  - Ensure technical quality assurance for ISO’s software applications.
-  - Implement robust QA practices for early issue detection.
-  - Lead test planning and ensure software meets ISO requirements.
-  - Optimize testing to reduce Total Cost of Quality.
-  - Provide inputs to enterprise-level test framework architecture.
+- **Tools and Technologies:**
+  - **Operating Systems:** Linux.
+  - **Version Control:** Git.
+  - **Build Tools:** Maven.
+  - **CI/CD:** Jenkins.
+  - **Reporting Tools:** Jasper Reports.
+  - **Testing Frameworks:** JUnit.
+  - **Web Servers:** Tomcat/JBoss.
+  - **Containerization:** Docker Containers.
 
-- **Key Responsibilities**:
-  - **Test Automation Inputs**: Identify optimal scope for automation.
-  - **Test Planning and Execution**: Plan and execute various tests; assess results.
-  - **Product Baseline Tests**: Establish and document evidence for software tests.
-  - **Performance and Test Automation Framework**: Maintain related frameworks and conduct code reviews.
-  - **Collaboration**: Attend meetings and develop best practices.
+- **Education & Certifications:**
+  - Bachelor’s degree in Computer Science or related field, or equivalent experience.
 
-- **Working Conditions**:
-  - Indoor office environment with minimal injury risk.
-  - Occasional travel required.
-  - Daily activities involve desk work with occasional physical requirements.
+- **Experience Requirements:**
+  - Minimum of 5 years of related work experience exceeding degree requirements.
 
-- **Minimum Qualifications**:
-  - **Education**: Bachelor's degree in IT, Computer Science, Electrical Engineering, or related field (Master’s preferred).
-  - **Experience**: 2+ years in Software Quality Assurance or relevant experience.
-  - **Certifications**: Desirable to have ISTQB or similar.
-
-- **Technical Proficiency**:
-  - Experience with test automation tools, VBS for UFT, Python, SQL, web service testing, performance testing, and security testing.
-  - Familiarity with tools: ALM, Jira, Confluence, Selenium, Load Runner, etc.
-
-- **Additional Skills**:
-  - Strong management and leadership skills.
-  - Excellent problem-solving and communication abilities.
-  - Ability to adapt to a dynamic work environment and work independently.
-
-- **Core Values**: Adhere to ISO's Core Values and safety compliance.
-- **Additional Duties**: Perform related tasks as assigned.

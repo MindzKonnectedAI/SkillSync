@@ -93,8 +93,20 @@ def find_matching_and_not_matching_point(state):
         Task:
         Analyze the resume against the job description and categorize the findings into:
 
-        Match: Points where the resume aligns with the job description.
-        Not Match: Points where the resume does not meet the job description's requirements.
+        Match:
+
+        List all points where the resume fully or partially aligns with the job description.
+        If a requirement is partially fulfilled, only list partailly matched details in fulfilled components here list partailly not matched details in Not Match.
+        If a requirement is not partially fulfilled, modify sentence and list partailly matched details here.
+        If the job description requires a specific location and aligns with the job description.
+        Only include attributes that are explicitly mentioned in the resume and clearly match the job description requirements.
+        Not Match:
+
+        List only the points where the job description’s requirements are entirely unmet in the resume.
+        If the job description specifies a location and the resume does not match that location, add this to Not Match.
+        If a requirement is partially fulfilled, list partailly not matched details here.
+
+        Double-check to ensure no matching or not matching point is missed.
 
         ***Never forgot to follow output format.***
         Output Format:
@@ -114,6 +126,7 @@ def find_matching_and_not_matching_point(state):
 def check_matching_point():
     # print("check_matching_point_state", state)
 
+
     # template="""
 
     #     You are an expert assistant with knowledge of resume analysis and job description matching. Your task is to verify if all the matching and not matching points between the resume and job description have been correctly identified. Follow these instructions:
@@ -132,27 +145,56 @@ def check_matching_point():
     #     Identify any requirements in the Job Description that are unmet by the Resume and are not listed in Not Matches.
 
     #     """
+    # template="""
+
+    #     You are an expert assistant with knowledge of resume analysis and job description matching. Your task is to verify if all the matching and not matching points between the resume and job description have been correctly identified. Follow these instructions:
+
+    #         Input Details:
+
+    #         Resume: {resume}
+    #         Job Description: {job_description}
+    #         Identified Matches and Not Matches: {points}
+
+    #         Your Tasks:
+
+    #         1. Cross-check the **Matches** with both the **Resume** and the **Job Description** to ensure no matching points are missing.
+    #         2. Cross-check the **Not Matches** with both the **Resume** and the **Job Description** to ensure no mismatched points are missing.
+    #         3. Identify any points in the **Resume** that could align with the **Job Description** but are not listed in **Matches**.
+    #         4. Identify any requirements in the **Job Description** that are unmet by the **Resume** and are not listed in **Not Matches**.
+
+    #         If any matching or not matching points are missing, please add them to the corresponding list:
+
+    #         - Add any missing points where the **Resume** aligns with the **Job Description** to the **Matches** list.
+    #         - Add any missing points where the **Resume** does not meet the **Job Description**'s requirements to the **Not Matches** list.
+
+    #     """
+
     template="""
+        You are an expert assistant specializing in resume analysis and job description matching. Your task is to review the provided data and ensure all matches and non-matches between the resume and job description are accurately identified.
 
-        You are an expert assistant with knowledge of resume analysis and job description matching. Your task is to verify if all the matching and not matching points between the resume and job description have been correctly identified. Follow these instructions:
+        Input Details:
 
-            Input Details:
+        Resume: {resume}
+        Job Description: {job_description}
+        Identified Matches and Not Matches: {points}
 
-            Resume: {resume}
-            Job Description: {job_description}
-            Identified Matches and Not Matches: {points}
+        Your Tasks
+        Check Existing Matches:
 
-            Your Tasks:
+        Review the Identified Matches.
+        Confirm that each listed match appears in both the Resume and Job Description.
+        If any valid matches are missing, add them to the list.
+        Check Existing Not Matches:
 
-            1. Cross-check the **Matches** with both the **Resume** and the **Job Description** to ensure no matching points are missing.
-            2. Cross-check the **Not Matches** with both the **Resume** and the **Job Description** to ensure no mismatched points are missing.
-            3. Identify any points in the **Resume** that could align with the **Job Description** but are not listed in **Matches**.
-            4. Identify any requirements in the **Job Description** that are unmet by the **Resume** and are not listed in **Not Matches**.
+        Review the Identified Not Matches.
+        Confirm that each listed non-match represents a requirement from the Job Description that is missing in the Resume.
+        If any valid non-matches are missing, add them to the list.
+        Find Missing Matches:
 
-            If any matching or not matching points are missing, please add them to the corresponding list:
+        Identify any additional points where the Resume aligns with the Job Description but are not included in the Identified Matches list.
+        Find Missing Not Matches:
 
-            - Add any missing points where the **Resume** aligns with the **Job Description** to the **Matches** list.
-            - Add any missing points where the **Resume** does not meet the **Job Description**'s requirements to the **Not Matches** list.
+        Identify any requirements in the Job Description that are not met by the Resume and are not listed in the Identified Not Matches list.
 
         """
 
@@ -258,67 +300,3 @@ def talent_score_agent():
 
     # print("response:", response)
     return response
-
-    
-
-# # Define the state for the agent
-# class State(TypedDict):
-#     messages: Annotated[list[AnyMessage], add_messages]
-#     # matching_points: [list[AnyMessage]]
-#     # not_matching_points: [list[AnyMessage]]
-#     # matching_points: [list[AnyMessage]]
-#     # not_matching_points: [list[AnyMessage]]
-
-# # Define a new graph
-# workflow = StateGraph(State)
-
-
-# def load_markdown(outputFile):
-#     markdown_path = outputFile
-#     # print("markdown_path", markdown_path)
-#     loader = UnstructuredMarkdownLoader(markdown_path, encoding="utf-8")
-#     documents = loader.load()
-#     # print("UnstructuredMarkdownLoaderdocuments", documents)
-#     # print(f"length of UnstructuredMarkdownLoader documents loaded: {len(documents)}")
-
-#     texts = [d.page_content for d in documents]
-
-#     # print(f"ltexts: ", texts[0])
-#     return texts[0]
-
-
-# def find_matching_point(state):
-
-#     # job_description = load_markdown("../job_description/outputRuleData.md")
-#     # resume = load_markdown("../resume/outputRuleData.md")
-
-#     # prompt = """
-#     #     You are given a Job Description and a Resume. Your task is to identify every single piece of information that matches between the two documents. Simply list the matched items as a numbered list without providing additional details or context.
-
-#     #     Input:
-#     #     Job Description:
-#     #     {{job_description}}
-
-#     #     Resume:
-#     #     {{resume}}
-
-#     #     Output:
-#     #     [List all matching information as a numbered list]
-#     # """
-#     # matching_points_llm = prompt | llm
-#     # response = matching_points_llm.invoke({"job_description": job_description, "resume": resume})
-#     # return {"messages": [AIMessage(content=response.content)]}
-#     response = llm.invoke("HELLO AI")
-#     return {"messages": [llm.invoke("HELLO AI")]}
-
-
-# workflow.add_node("find_matching_point", find_matching_point)
-# workflow.add_edge(START, "find_matching_point")
-# workflow.add_edge("find_matching_point", END)
-
-# chain = workflow.compile()
-# # create_image_func.create_graph_image(chain, "talentScore")
-
-# response = chain.invoke("find matching points")
-
-# print("response: " + response)
