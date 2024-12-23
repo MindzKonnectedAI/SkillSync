@@ -273,13 +273,13 @@ def generate_final_point_tool(state):
 
     return {"messages": res}
 
-def talent_score_agent():
+def talent_score_agent(jd_file_name, resume_file_name):
 
 # Define a new graph
     workflow = StateGraph(State)
 
-    workflow.add_node("find_matching_and_not_matching_point", find_matching_and_not_matching_point)
-    workflow.add_node("check_matching_and_not_matching_point", check_matching_and_not_matching_point)
+    workflow.add_node("find_matching_and_not_matching_point", find_matching_and_not_matching_point(State, jd_file_name, resume_file_name))
+    workflow.add_node("check_matching_and_not_matching_point", check_matching_and_not_matching_point(State, jd_file_name, resume_file_name))
     workflow.add_node("generate_final_point", generate_final_point_tool)
 
     workflow.add_edge(START, "find_matching_and_not_matching_point")
