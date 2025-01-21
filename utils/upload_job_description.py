@@ -124,7 +124,6 @@ Return your response as bullet points, using titles and headings to categorize e
 **BULLET POINT SUMMARY:**
 """
 
-
 summarize_prompt = PromptTemplate(template=prompt_template, input_variables=["text"])
 
 def summarize_data(load_markdown_path, create_markdown_path):

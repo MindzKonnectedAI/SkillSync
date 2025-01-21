@@ -136,7 +136,8 @@
         "Building CRM Forms",
         "Views",
         "Dashboards",
-        "Workflows"
+        "Workflows",
+        "PrimeFaces"
     ],
     "DB": [
         "SQL",
@@ -148,7 +149,12 @@
         "JPA",
         "Java Persistence API (JPA)",
         "SQL Server",
-        "Azure SQL"
+        "Azure SQL",
+        "Java, Spring Boot",
+        "J2EE, Core Java",
+        "Spring Batch",
+        "Core Java, JPA",
+        "J2EE"
     ],
     "Tools": [
         "Azure DevOps",
@@ -186,7 +192,12 @@
         "ETL Technologies (Scribe Online, Microsoft Azure Data Factory, Kingswaysoft)",
         "AWS",
         "Tableau",
-        "Hadoop"
+        "Hadoop",
+        "SQL queries",
+        "PostgreSQL",
+        "Oracle DB",
+        "SQLite",
+        "MongoDB"
     ],
     "Miscellaneous": [
         "Problem-solving",
@@ -226,6 +237,19 @@
         "Strong Oral and Written Communication Skills",
         "Decision Making Under Uncertainty",
         "Systems Thinking (High-level and Detailed Thinking)",
-        " machine learning"
+        " machine learning",
+        " Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics",
+        "Selenium, JUnit",
+        "TestNG, Postman",
+        "Git, Azure DevOps",
+        "JMeter",
+        "Postman, CI/CD Tools"
+    ],
+    "": [
+        "Agile Processes",
+        "Design Patterns",
+        "API Testing",
+        "Problem-solving",
+        "Troubleshooting"
     ]
 }

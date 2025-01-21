@@ -16,7 +16,8 @@ import utils.csv_to_sql as csv_to_sql
 import utils.create_image_func as create_image_func
 import utils.create_team_supervisor_func as create_team_supervisor_func
 from langchain_core.output_parsers.json import JsonOutputParser
-import utils.upload_job_description as upload_job_description
+# import utils.upload_job_description as upload_job_description
+import utils.JDagent as upload_job_description
 import utils.retreive_users as retreive_users
 from langgraph.errors import GraphRecursionError
 import utils.display_uploaded_files as display_uploaded_files
@@ -68,7 +69,8 @@ sql_chain = sql_agent_team_supervisor.sql_agent_team_supervisor()
 llm = ChatOpenAI(model="gpt-4o-mini")
 
 # Streamlit UI
-st.title("Intelligent Recruitment Assistant")
+st.title("SkillSync")
+# st.title("Intelligent Recruitment Assistant")
 
 def retrive():
     pass
@@ -126,7 +128,7 @@ if(view=="User"):
     if file_submitted and (uploaded_checking_rule_file is not None):
         container = st.empty()
         container.write("Processing the uploaded file...")
-        upload_job_description.upload_rule_data(uploaded_checking_rule_file,container)
+        upload_job_description.upload_job_description(uploaded_checking_rule_file,container)
         time.sleep(2)
         container.empty()
         st.rerun()
@@ -1080,7 +1082,8 @@ if prompt is not None and prompt != "" :
 
 if(buttonVal):
     question = retreive_users.retreive_users_fnc()
-    requirements = retreive_users.load_markdown("./data/summarizeOutputRuleData.md") 
+    requirements = retreive_users.load_markdown("./data/ai_response.md") 
+    # requirements = retreive_users.load_markdown("./data/summarizeOutputRuleData.md") 
     with st.chat_message("Human"):
         st.markdown(requirements)
     st.session_state.chat_history.append(HumanMessage(content=requirements, name=get_agent_name(agent_name)))

@@ -1,12 +1,12 @@
 Name,Location,Experience,Graduation,Post Graduation,PhD,Frontend,Backend,DB,Tools,Miscellaneous
 Tonya Garcia,Austin,6,Bachelor's,Master's,,,,,,
-Jennifer Garcia,New York,5,Bachelor's,Master's,,,,,,
+Jennifer Garcia,New York,5,Bachelor's,Master's,,,,,," Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics"
 Brian Wilson,Wichita,4,Bachelor's,Master's,,,,,,
 Mark Henson,Boston,3,Bachelor's,Master's,,,,,,
 Thomas Lamb,Chicago,5,Bachelor's,Master's,PhD,,Python,SQL,"Hadoop,AWS", machine learning
 Linda Schultz,Miami,2,Bachelor's,Master's,PhD,,,,,
 Destiny Wallace,Boston,3,Bachelor's,Master's,,,,,,
-Timothy Little,San Francisco,5,Bachelor's,Master's,PhD,,,,," Digital Marketing, SEO, Social Media"
+Timothy Little,San Francisco,5,Bachelor's,Master's,PhD,,,,," Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics"
 Barbara Willis,Fresno,3,Bachelor's,Master's,PhD,,,,,
 Thomas Fernandez,Raleigh,4,Bachelor's,Master's,PhD,,,,,
 Kristi Lopez,Louisville,5,Bachelor's,Master's,,,,,,
@@ -21,7 +21,7 @@ Christina Conrad,Columbus,3,Bachelor's,Master's,,,,,,
 Sherry Davenport,Houston,6,Bachelor's,Master's,,,,,,
 Kayla Day,Miami,6,Bachelor's,Master's,,,,,,
 Bryan Adkins,Madison,6,Bachelor's,Master's,PhD,,,,,
-Brian Owens,New York,3,Bachelor's,Master's,,,,,,
+Brian Owens,New York,3,Bachelor's,Master's,,,,,," Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics"
 Melissa Pena,New Orleans,5,Bachelor's,Master's,PhD,,,,,
 Michelle Burton,San Francisco,2,Bachelor's,Master's,,,,,,
 Nancy Wolf,Los Angeles,3,Bachelor's,Master's,,,,,,
@@ -29,7 +29,7 @@ Christopher Brown,Dallas,2,Bachelor's,Master's,,,,,,
 Raymond Goodwin,Wichita,6,Bachelor's,Master's,PhD,,,,,
 Maria Buck,Austin,6,Bachelor's,Master's,PhD,,,,,
 Mrs. Sandra Stevenson,Houston,2,Bachelor's,Master's,,,,,,
-Dawn Hernandez,New York,5,Bachelor's,Master's,,,,,,
+Dawn Hernandez,New York,5,Bachelor's,Master's,,,,,," Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics"
 Carl Ferguson,Denver,3,Bachelor's,Master's,,,,,,
 John Horne,Dallas,2,Bachelor's,Master's,,,,,,
 Logan Dunn,Detroit,4,Bachelor's,Master's,PhD,,,,,
@@ -50,7 +50,7 @@ Whitney White,Madison,2,Bachelor's,Master's,,,,,,
 Glenda Nelson,El Paso,5,Bachelor's,Master's,,,,,,
 Charles Carter,Syracuse,2,Bachelor's,Master's,PhD,,,,,
 Penny Carpenter,Memphis,5,Bachelor's,Master's,,,,,,
-Kimberly Green,New York,2,Bachelor's,Master's,,,,,,
+Kimberly Green,New York,2,Bachelor's,Master's,,,,,," Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics"
 Rebecca Nicholson,Atlanta,3,Bachelor's,Master's,PhD,,,,,
 Samantha Jones,Albuquerque,1,Bachelor's,Master's,,,,,,
 Melissa Taylor,Buffalo,4,Bachelor's,Master's,PhD,,,,,
@@ -61,7 +61,7 @@ Christina Bailey,Cleveland,2,Bachelor's,Master's,PhD,,,,,
 Randy Murray,Anchorage,4,Bachelor's,Master's,PhD,,,,,
 Megan Jones,Omaha,3,Bachelor's,Master's,PhD,,,,,
 Judith Smith,Dallas,5,Bachelor's,Master's,,,,,,
-Jeremy Boone,New York,4,Bachelor's,Master's,PhD,,,,,
+Jeremy Boone,New York,4,Bachelor's,,,,,,," Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics"
 Jeremy Gomez,Chicago,4,Bachelor's,Master's,,,Python,SQL,"Hadoop,AWS, Azure", machine learning
 Michael Williams,Seattle,4,Bachelor's,Master's,PhD,,,,,
 Jennifer Moore,San Francisco,2,Bachelor's,Master's,,,,,,
@@ -127,3 +127,8 @@ Quinn Jackson,Chicago,6,Bachelor's,,,,,,,
 Uma Nelson,Chicago,1,Bachelor's,,,,,,,
 Victor Owen,Chicago,8,Bachelor's,,,,,,,
 Ryan Goslin ,Chicago,4,Bachelor's,,,,Python,SQL,Hadoop,
+John Doe,Remote,3,Bachelor's,,,,"Java, Spring Boot",SQL queries,"Selenium, JUnit",Agile Processes
+Jane Smith,Remote,4,Bachelor's,,,,"J2EE, Core Java",PostgreSQL,"TestNG, Postman",Design Patterns
+Alex Johnson,Remote,2.5,Bachelor's,,,,Spring Batch,Oracle DB,"Git, Azure DevOps",API Testing
+Emily Davis,Remote,3,Bachelor's,,,,"Core Java, JPA",SQLite,JMeter,Problem-solving
+Chris Martin,Remote,5,Bachelor's,,,PrimeFaces,J2EE,MongoDB,"Postman, CI/CD Tools",Troubleshooting
