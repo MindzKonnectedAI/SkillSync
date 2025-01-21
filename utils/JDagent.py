@@ -371,6 +371,8 @@ def find_required_point(state):
         - If it states, "Experience with Python is preferred," exclude: **"Experience with Python."**
         - If it states, "Must have excellent communication skills," include: **"Excellent communication skills."**
         - If it states, "Familiarity with cloud platforms like AWS is a plus," exclude: **"Familiarity with cloud platforms like AWS."**
+        - Always consider location as required  
+
 
         ### Output:
         Return the qualifications as a structured list categorized under the provided table headers, ensuring that only **required** qualifications are included.
@@ -485,6 +487,8 @@ def check_required_point(state):
         4. Present the final, complete list of **required qualifications**:
         - Use bullet points for each qualification.
         - Ensure the list is concise and comprehensive, covering only the critical **required** qualifications.
+
+        5. Always consider location as required  
 
         ### Important Note:
         - Exclude any points labeled as "preferred," "nice-to-have," or anything similar, even if they align with the role.
