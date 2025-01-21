@@ -3,6 +3,9 @@
 #### Experience
 - 2+ years of experience in software testing.
 
+#### Location
+- Remote
+
 #### Graduation
 - Bachelor’s degree in Computer Science or a related field.
 
@@ -28,4 +31,4 @@
 #### Miscellaneous
 - Strong communication and teamwork skills.
 
-*Note: The points listed under "Preferred" are optional but beneficial for candidates.*
+(Note: Preferred points are optional but beneficial.)

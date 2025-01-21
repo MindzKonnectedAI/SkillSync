@@ -3,6 +3,9 @@
 #### Experience
 - 2+ years of experience in software testing.
 
+#### Location
+- Remote
+
 #### Graduation
 - Bachelor’s degree in Computer Science or a related field.
 

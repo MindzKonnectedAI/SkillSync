@@ -39,11 +39,11 @@ Experience,Location,Graduation,Post Graduation,PhD,Frontend,Backend,DB,Tools,Mis
 ,"Bengaluru, India",,,,,Views,,, machine learning,
 ,"Pune, India",,,,,Dashboards,,," Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics",
 ,"Noida, India",,,,,Workflows,,,,
-,"Mumbai, India",,,,,,"Java, Spring Boot",SQL queries,"Selenium, JUnit",Agile Processes
-,"Chennai, India",,,,,,"J2EE, Core Java",PostgreSQL,"TestNG, Postman",Design Patterns
-,"Hyderabad, India",,,,,,Spring Batch,Oracle DB,"Git, Azure DevOps",API Testing
-,"Gurgaon, NCR",,,,,,"Core Java, JPA",SQLite,JMeter,Problem-solving
-,Delhi,,,,,PrimeFaces,J2EE,MongoDB,"Postman, CI/CD Tools",Troubleshooting
+,"Mumbai, India",,,,,,SQL queries,"Selenium, TestNG, Postman, JMeter, Git","Agile processes, CI/CD pipelines, Manual Testing ",
+,"Chennai, India",,,,,,,,,
+,"Hyderabad, India",,,,,,,,,
+,"Gurgaon, NCR",,,,,,,,,
+,Delhi,,,,,,,,,
 ,Noida,,,,,,,,,
 ,NCR Region,,,,,,,,,
 ,"Taylor, TX",,,,,,,,,

@@ -136,8 +136,7 @@
         "Building CRM Forms",
         "Views",
         "Dashboards",
-        "Workflows",
-        "PrimeFaces"
+        "Workflows"
     ],
     "DB": [
         "SQL",
@@ -150,11 +149,7 @@
         "Java Persistence API (JPA)",
         "SQL Server",
         "Azure SQL",
-        "Java, Spring Boot",
-        "J2EE, Core Java",
-        "Spring Batch",
-        "Core Java, JPA",
-        "J2EE"
+        "SQL queries"
     ],
     "Tools": [
         "Azure DevOps",
@@ -193,11 +188,7 @@
         "AWS",
         "Tableau",
         "Hadoop",
-        "SQL queries",
-        "PostgreSQL",
-        "Oracle DB",
-        "SQLite",
-        "MongoDB"
+        "Selenium, TestNG, Postman, JMeter, Git"
     ],
     "Miscellaneous": [
         "Problem-solving",
@@ -239,17 +230,7 @@
         "Systems Thinking (High-level and Detailed Thinking)",
         " machine learning",
         " Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics",
-        "Selenium, JUnit",
-        "TestNG, Postman",
-        "Git, Azure DevOps",
-        "JMeter",
-        "Postman, CI/CD Tools"
+        "Agile processes, CI/CD pipelines, Manual Testing "
     ],
-    "": [
-        "Agile Processes",
-        "Design Patterns",
-        "API Testing",
-        "Problem-solving",
-        "Troubleshooting"
-    ]
+    "": []
 }
