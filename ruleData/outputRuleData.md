@@ -1,49 +1,31 @@
-# Job Posting - Software Tester
+# Job Title: Senior Software Engineer (Java Developer)
 
-body {
-font-family: Arial, sans-serif;
-line-height: 1.6;
-margin: 20px;
-}
-h1, h2, h3 {
-color: #333;
-}
-ul {
-list-style-type: disc;
-margin-left: 20px;
-}
+**Location:** Remote
+**Duration:** 12 months
 
-# Job Title: Software Tester
+## Responsibilities:
+- Demonstrate an excellent ability to understand requirements and implement them independently, without reliance on other team members or leads.
+- Develop Java EE applications with well-designed, reusable, maintainable, and efficient code.
+- Exhibit strong problem-solving and code debugging abilities.
+- Possess excellent knowledge of Java design patterns and implement them as needed.
+- Write Javadoc for every method and class with proper and detailed explanations.
+- Gain hands-on experience in developing data service layers using JPA.
+- Complete day-to-day tasks on time and deliver as promised.
+- Write SQL queries, including DDL and DML.
+- Experience in writing JUnit tests.
+- Engage in technical troubleshooting and performance tuning.
+- Show a strong aptitude for learning and adapting to new technologies in a dynamic environment.
+- Communicate clearly with all levels within the organization.
+- Exhibit excellent interpersonal skills and the ability to work collaboratively in a team environment.
 
-Location: Remote
+## Qualifications:
+- Bachelor’s degree in Computer Science, Engineering (or a related field), or relevant work experience.
+- 5-8 years of hands-on experience in Java/JEE (including Spring Batch, Spring Boot, etc.) with an understanding of time-critical projects with strict deadlines.
+- Excellent knowledge of Java design patterns and their implementation.
+- 5-8 years of experience developing User Interface pages using PrimeFaces and developing data service layers with JPA, writing JUnit tests, SQL queries, and creating views and stored procedures as needed.
+- 5-8 years of experience with Core Java / J2EE backend development.
 
-Employment Type: Full-Time
-
-# Responsibilities:
-
-- Execute manual and automated test cases to ensure software quality.
-- Identify, document, and track defects in a clear and concise manner.
-- Collaborate with developers and stakeholders to clarify requirements and ensure accurate testing.
-- Perform regression testing to verify defect fixes and feature updates.
-- Create and maintain test cases, test plans, and test scripts.
-
-# Required Skills:
-
-- Strong understanding of manual testing methodologies.
-- Proficiency in automation testing tools (e.g., Selenium, TestNG).
-- Experience in writing and executing SQL queries.
-- Familiarity with Agile testing processes.
-- Excellent analytical and problem-solving skills.
-
-# Preferred Skills:
-
-- Knowledge of performance testing tools (e.g., JMeter).
-- Experience in API testing using tools like Postman.
-- Basic understanding of CI/CD pipelines.
-- Knowledge of version control tools (e.g., Git).
-- Strong communication and teamwork skills.
-
-# Qualifications:
-
-- Bachelor’s degree in Computer Science or a related field.
-- 2+ years of experience in software testing.
+## Desired Skills:
+- Strong ability to understand requirements and implement them with minimal or no dependency on others.
+- Experience working in the Public Sector domain.
+- Familiarity with Azure DevOps.

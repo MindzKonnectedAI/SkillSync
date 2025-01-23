@@ -1082,11 +1082,12 @@ if prompt is not None and prompt != "" :
 
 if(buttonVal):
     question = retreive_users.retreive_users_fnc()
-    requirements = retreive_users.load_markdown("./data/ai_response.md") 
-    # requirements = retreive_users.load_markdown("./data/summarizeOutputRuleData.md") 
+    job_discription_markdown = retreive_users.load_markdown("./ruleData/outputRuleData.md") 
+    optimize_jd_content = retreive_users.load_markdown("./data/ai_response.md") 
+    # job_discription_markdown = retreive_users.load_markdown("./data/summarizeOutputRuleData.md") 
     with st.chat_message("Human"):
-        st.markdown(requirements)
-    st.session_state.chat_history.append(HumanMessage(content=requirements, name=get_agent_name(agent_name)))
+        st.markdown(job_discription_markdown)
+    st.session_state.chat_history.append(HumanMessage(content=job_discription_markdown, name=get_agent_name(agent_name)))
     # create_image_func.create_graph_image(super_graph, "super_graph")
     holder = st.empty()
     with st.spinner("Processing your query..."):
@@ -1098,8 +1099,8 @@ if(buttonVal):
                 # print(type(csv_headers))
                 # print(type(str(csv_headers)))
                 
-                matchChainResponse = ai_filter.invoke({"job_description": requirements, "table": csv_headers})
-                query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=requirements)
+                matchChainResponse = ai_filter.invoke({"job_description": optimize_jd_content, "table": csv_headers})
+                query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=optimize_jd_content)
 
 
                 # config={"configurable": {"thread_id": "1"},"recursion_limit":40}
