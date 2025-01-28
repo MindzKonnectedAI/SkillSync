@@ -13,15 +13,36 @@ def generate_boolean_query(jd_content):
     # Define the prompt template for generating the boolean query
 
     print("js", jd_content)
+    # prompt_template = """
+    # You are a recruitment assistant. Given the following job description, generate a boolean query that can be used
+    # to search candidates who match the qualifications and skills required in the job description.
+
+    # Job Description:
+    # {job_description}
+
+    # Boolean Query:
+    # """
     prompt_template = """
-    You are a recruitment assistant. Given the following job description, generate a boolean query that can be used
-    to search candidates who match the qualifications and skills required in the job description.
+        You are an expert in creating Boolean search queries for recruitment purposes. Based on the following job description, generate a single Boolean query that includes all required and preferred qualifications. Use the following guidelines:
 
-    Job Description:
-    {job_description}
+        1. **Required Qualifications**: Combine all mandatory skills, experiences, or certifications using the AND operator. These are non-negotiable criteria for the role.
+        2. **Preferred Qualifications**: Combine all desirable but non-mandatory qualifications using the OR operator, and nest them within parentheses to separate them clearly from required qualifications.
+        3. Use quotation marks for exact phrases (e.g., "data analysis") to ensure precise matching.
+        4. Use asterisks (*) for wildcard searches to include variations of a word (e.g., develop* for developer, development, etc.).
+        5. Exclude any irrelevant or explicitly unwanted terms from the query using the NOT operator (if applicable).
+        6. Ensure all critical details from the job description are accurately reflected in the query, such as:
+        - Specific years of experience required (e.g., 3+ years of experience in Python).
+        - Tools, technologies, methodologies, or certifications mentioned.
+        - Multi-word phrases and proper handling of special characters like apostrophes (e.g., "Bachelor's degree").
+        7. Format the query for readability and compatibility with Boolean search systems (e.g., ATS, LinkedIn, or other search platforms).
 
-    Boolean Query:
+        **Job Description:**
+        {job_description}
+
+        **Output Format:**
+        - Boolean Query: (required_condition_1 AND required_condition_2 AND ...) AND (preferred_condition_1 OR preferred_condition_2 OR ...)
     """
+
     # Create the prompt using the JD content
     prompt = PromptTemplate(input_variables=["job_description"], template=prompt_template)
 

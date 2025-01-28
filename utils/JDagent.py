@@ -25,6 +25,12 @@ from langchain_core.messages import AIMessage
 llamaparse_api_key = os.getenv("LLAMAPARSE_API_KEY")
 llm = ChatOpenAI(model="gpt-4o-mini")
 
+# llm = ChatOpenAI(
+#     api_key="sk-3f3074eaaa194d4c808bb90c3dedc257",  # Your API key
+#     base_url="https://api.deepseek.com",  # Your custom API endpoint
+#     model="deepseek-chat",  # The model you want to use
+# )
+
 # Create the upload directory if it doesn't exist
 folder_path = "./ruleData"
 if not os.path.exists(folder_path):
@@ -161,9 +167,6 @@ def upload_job_description(uploaded_file,container):
         container.success("Data processed successfully")
     except Exception as e:
         container.error(f"Error in processing data: {str(e)}")
-
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-
 
 # Define the state for the agent
 class State(TypedDict):
@@ -488,7 +491,9 @@ def check_required_point(state):
         - Use bullet points for each qualification.
         - Ensure the list is concise and comprehensive, covering only the critical **required** qualifications.
 
-        5. Always consider location as required  
+        5. If location not explicitly mark preferred, then consider location as required  
+
+        6. Don't give table format in output.
 
         ### Important Note:
         - Exclude any points labeled as "preferred," "nice-to-have," or anything similar, even if they align with the role.
@@ -712,6 +717,7 @@ def check_preferred_point(state):
         4. **Output the Final List**:
         - Use bullet points under each table header.
         - Ensure the list is concise, comprehensive, and strictly focused on non-essential qualifications beneficial for the role.
+        - Ensure don't consider "Empty", None, or similar terms in output.
 
         ### Additional Rules to Avoid Errors:
         - Use exact wording or phrasing from the job description wherever possible.
@@ -810,6 +816,9 @@ def generate_final_point_tool(state):
 
             Required Points: {required_messages}
             Preferred Points: {preferred_messages}
+
+            
+
             Output Structure:
 
             Required:
@@ -872,7 +881,7 @@ def jd_agent():
 
     # Provide a valid input state
 
-    create_image_func.create_graph_image(chain, "JDAGENT")
+    # create_image_func.create_graph_image(chain, "JDAGENT")
 
     job_description_file_content = get_file_content('outputRuleData.md', 'ruleData')
 

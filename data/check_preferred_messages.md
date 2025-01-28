@@ -1,10 +1,12 @@
-### Final Preferred Qualifications:
+### Final List of Preferred Qualifications:
 
 #### Experience:
-- Experience working in the Public Sector domain.
-- Familiarity with Azure DevOps.
+- Knowledge of performance testing tools (e.g., JMeter).
+- Experience in API testing using tools like Postman.
+
+#### Tools:
+- Basic understanding of CI/CD pipelines.
+- Knowledge of version control tools (e.g., Git).
 
 #### Miscellaneous:
-- Strong ability to understand requirements and implement them with minimal or no dependency on others.
-- Strong aptitude for learning and adapting to new technologies in a dynamic environment.
-- Excellent interpersonal skills and the ability to work collaboratively in a team environment.
+- Strong communication and teamwork skills.

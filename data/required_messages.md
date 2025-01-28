@@ -1,12 +1,19 @@
-### Extracted Required Qualifications
+### Qualifications
 
 #### Experience
-- 5-8 years of hands-on experience in Java/JEE (including Spring Batch, Spring Boot, etc.) with an understanding of time-critical projects with strict deadlines.
-- 5-8 years of experience developing User Interface pages using PrimeFaces and developing data service layers with JPA, writing JUnit tests, SQL queries, and creating views and stored procedures as needed.
-- 5-8 years of experience with Core Java / J2EE backend development.
+- 2+ years of experience in software testing.
 
 #### Location
 - Remote
 
 #### Graduation
-- Bachelor’s degree in Computer Science, Engineering (or a related field), or relevant work experience.
+- Bachelor’s degree in Computer Science or a related field.
+
+#### Tools
+- Proficiency in automation testing tools (e.g., Selenium, TestNG).
+- Experience in writing and executing SQL queries.
+- Strong understanding of manual testing methodologies.
+
+#### Miscellaneous
+- Familiarity with Agile testing processes.
+- Excellent analytical and problem-solving skills.

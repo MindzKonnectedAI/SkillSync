@@ -1118,3 +1118,20 @@ if(buttonVal):
                 st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
         except GraphRecursionError:
             st.info("Graph recursion limit exceeded , try again!")
+
+
+# from openai import OpenAI
+
+# def deepseekfn():
+#     client = OpenAI(api_key="sk-3f3074eaaa194d4c808bb90c3dedc257", base_url="https://api.deepseek.com")
+
+#     response = client.chat.completions.create(
+#         model="deepseek-chat",
+#         messages=[
+#             {"role": "system", "content": "You are a helpful assistant"},
+#             {"role": "user", "content": "Hello"},
+#         ],
+#         stream=False
+#     )
+
+#     print("hello MR",response)

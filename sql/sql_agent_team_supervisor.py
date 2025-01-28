@@ -9,7 +9,6 @@ from langchain_core.messages import ToolMessage
 from langchain_core.runnables import RunnableLambda, RunnableWithFallbacks
 from langgraph.prebuilt import ToolNode
 from langchain_community.agent_toolkits import SQLDatabaseToolkit
-from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 from langchain_core.utils.function_calling import convert_to_openai_function
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
@@ -59,6 +58,13 @@ db = SQLDatabase.from_uri(f"sqlite:///{db_path}")
 # print(db.get_usable_table_names())
 
 llm = ChatOpenAI(model="gpt-4o-mini")
+
+# llm = ChatOpenAI(
+#     api_key="sk-3f3074eaaa194d4c808bb90c3dedc257",  # Your API key
+#     base_url="https://api.deepseek.com",  # Your custom API endpoint
+#     model="deepseek-chat",  # The model you want to use
+# )
+
 # SQL toolkit
 toolkit = SQLDatabaseToolkit(db=db, llm=llm)
 tools = toolkit.get_tools()
