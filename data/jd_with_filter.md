@@ -40,12 +40,23 @@ Basic understanding of CI/CD pipelines.
 
 Knowledge of version control tools (e.g., Git).
 
-- Proficiency in automation testing tools (e.g., Selenium).
-  
 Miscellaneous
 
 Strong communication and teamwork skills.
 
-- Excellent communication skills.
+Experience
+
+- 2 years of experience in software testing.
+
+DB
+
+- Experience in writing and executing SQL queries.
+
+Tools
+
+- Proficiency in Git.
+  
+Miscellaneous
+
 - Strong analytical skills.
 - Strong problem-solving skills.

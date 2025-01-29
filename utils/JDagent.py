@@ -368,13 +368,13 @@ def find_required_point(state):
         3. Ensure that:
         - Extracted qualifications match the exact wording in the job description.
         - Qualifications are presented as a concise list of bullet points.
+        - If the location is not marked as preferred, then consider it as required.
 
         ### Examples:
         - If the job description states, "A Bachelor's degree is required," include: **"Bachelor's degree."**
         - If it states, "Experience with Python is preferred," exclude: **"Experience with Python."**
         - If it states, "Must have excellent communication skills," include: **"Excellent communication skills."**
         - If it states, "Familiarity with cloud platforms like AWS is a plus," exclude: **"Familiarity with cloud platforms like AWS."**
-        - Always consider location as required  
 
 
         ### Output:
@@ -491,7 +491,7 @@ def check_required_point(state):
         - Use bullet points for each qualification.
         - Ensure the list is concise and comprehensive, covering only the critical **required** qualifications.
 
-        5. If location not explicitly mark preferred, then consider location as required  
+        5. If the location is not marked as preferred, then consider it as required.
 
         6. Don't give table format in output.
 

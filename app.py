@@ -912,8 +912,9 @@ Ensure the output strictly adheres to the following JSON format:
   "Backend": ["..."],
   "DB": ["..."],
   "Tools": ["..."],
-  "Miscellaneous": ["..."],
+  "Phd": ["..."],
   "Location": ["..."],
+  "Miscellaneous": ["..."],
   "Graduation": ["Bachelor's"/null],
   "Post Graduation": ["Master's"/null]
 }}

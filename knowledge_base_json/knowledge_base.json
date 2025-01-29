@@ -82,7 +82,9 @@
     "Post Graduation": [
         "Master's"
     ],
-    "PhD": [],
+    "PhD": [
+        "PhD"
+    ],
     "Frontend": [
         "PrimeFaces",
         "User Interface (UI) development",
@@ -94,7 +96,8 @@
         "ParamQuery",
         "PQGrid",
         "MVC (Model-View-Controller)",
-        " "
+        " ",
+        "Svelte"
     ],
     "Backend": [
         ".NET Core",
@@ -136,7 +139,9 @@
         "Building CRM Forms",
         "Views",
         "Dashboards",
-        "Workflows"
+        "Workflows",
+        "Node.js",
+        "Express.js"
     ],
     "DB": [
         "SQL",
@@ -149,7 +154,8 @@
         "Java Persistence API (JPA)",
         "SQL Server",
         "Azure SQL",
-        "SQL queries"
+        "SQL queries",
+        "PostgreSQL"
     ],
     "Tools": [
         "Azure DevOps",
@@ -188,7 +194,16 @@
         "AWS",
         "Tableau",
         "Hadoop",
-        "Selenium, TestNG, Postman, JMeter, Git"
+        "Selenium, TestNG, Postman, JMeter, Git",
+        "AWS",
+        "Kafka",
+        "Docker",
+        "Kubernetes",
+        "Knative",
+        "Git",
+        "Bitbucket",
+        "Jenkins",
+        "CI/CD pipelines"
     ],
     "Miscellaneous": [
         "Problem-solving",
@@ -230,7 +245,17 @@
         "Systems Thinking (High-level and Detailed Thinking)",
         " machine learning",
         " Digital Marketing, SEO, Social Media,Content Marketing, Google Analytics",
-        "Agile processes, CI/CD pipelines, Manual Testing "
-    ],
-    "": []
+        "Agile processes, CI/CD pipelines, Manual Testing ",
+        "SOLID principles",
+        "Design patterns",
+        "RESTful web services",
+        "Automated testing",
+        "Problem-solving skills",
+        "Communication skills",
+        "Collaboration skills",
+        "Adaptability",
+        "Team-oriented mindset",
+        "Motivation to learn and share",
+        "Enterprise Architecture principles"
+    ]
 }
