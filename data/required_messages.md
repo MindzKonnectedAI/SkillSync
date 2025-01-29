@@ -1,4 +1,4 @@
-### Qualifications
+### Extracted Required Qualifications:
 
 #### Experience
 - 2+ years of experience in software testing.

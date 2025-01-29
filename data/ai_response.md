@@ -18,17 +18,19 @@
 - Familiarity with Agile testing processes.
 - Excellent analytical and problem-solving skills.
 
+---
+
 ### Preferred:
 
-#### Experience:
+#### Experience
 - Knowledge of performance testing tools (e.g., JMeter).
 - Experience in API testing using tools like Postman.
 
-#### Tools:
+#### Tools
 - Basic understanding of CI/CD pipelines.
 - Knowledge of version control tools (e.g., Git).
 
-#### Miscellaneous:
+#### Miscellaneous
 - Strong communication and teamwork skills.
 
-(Note: The points in the Preferred section are optional but beneficial.)
+(Note: Points listed under "Preferred" are optional but beneficial.)

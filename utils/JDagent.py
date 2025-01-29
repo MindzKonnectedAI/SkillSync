@@ -817,8 +817,6 @@ def generate_final_point_tool(state):
             Required Points: {required_messages}
             Preferred Points: {preferred_messages}
 
-            
-
             Output Structure:
 
             Required:

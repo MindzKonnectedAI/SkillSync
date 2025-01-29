@@ -24,6 +24,7 @@ import utils.display_uploaded_files as display_uploaded_files
 import utils.upload_csv as upload_csv
 import utils.calculate_user_percentage as calculate_user_percentage
 import utils.create_boolean_query as create_boolean_query
+import utils.save_to_markdown as save_to_markdown
 import utils.knowledge_base as knowledge_base
 import time
 import re
@@ -777,15 +778,29 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
 
             form_submitted = st.form_submit_button(label="Apply")
 
+            # st.markdown(jd_withfilter)
+                
+
             if form_submitted:
                 # Update session state with the latest user inputs
                 st.session_state.user_inputs = user_inputs
-                print("st.session_state.user_inputs after form submitted :",st.session_state.user_inputs)
+                # print("st.session_state.user_inputs after form submitted :",st.session_state.user_inputs)
+                # print("user_inputs", user_inputs)
+                # jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
+                # print(jd_withfilter)
+                # jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
+
+                # # st.markdown(jd_withfilter)
+                
                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 with st.spinner("Processing your query..."):
-                    qq= requirements + """\n\n ALWAYS include these details at the time of generating SQL query-> """ + str(user_inputs)
+                    jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
 
-                    print("Generated question :",qq)
+                    # jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
+                    # qq= requirements + """\n\n ALWAYS include these details at the time of generating SQL query-> """ + str(user_inputs)
+                    qq= requirements + """\n\nUse the following column-value mapping to generate an SQL query that accurately filters candidates based on the given criteria. """ + str(user_inputs)
+
+                    # print("Generated question :",qq)
                     res = sql_chain.invoke(qq, config)
                     st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
                     st.session_state.user_inputs = {}
@@ -872,104 +887,6 @@ few_shot_prompt = FewShotChatMessagePromptTemplate(
     examples=jd_examples,
 )
 
-# print("few_shot_prompt :",few_shot_prompt.format())
-
-
-# final_prompt = ChatPromptTemplate.from_messages(
-# [("system","""
-# You are given a job description with specific required and preferred qualifications, along with a table of headers. 
-# Your task is to extract and categorize the qualifications, using the table headers as a guide. 
-# Ensure that no required fields from the job description are missed. 
-# The output should be a dictionary Under each key, list the relevant headers mentioned in the job description.
-
-# # Instructions:
-# 1. Extract the qualifications from the job description.
-# 2. Check the job description line by line and word by word.
-# 3. Categorize them according to the table headers.
-# 4. List qualifications
-# 5. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
-# 6. Ensure numeric values are presented as numbers only, without additional strings.
-# 7. Ensure each section is clearly labeled, ordered, and separated by commas.
-# 8. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
-# 9. Extract only the technical skill names from the following job posting, ignoring any descriptive text, conditions, or requirements.
-# 10. ALWAYS double check any information missing corresponding to table header. 
-# Format:
-# "Skills": List[string], "Experience": List[string], "Location": List[string], "Graduation": bool, "Post Graduation": bool
-
-# Output: 
-# Ensure all table headers are addressed in the output.
-# """),
-# few_shot_prompt,
-# ("human","""
-# Job Description:
-# {job_description}
-
-# Table Headers:
-# {table}
-# """)]
-# )
-
-# final_prompt = ChatPromptTemplate.from_messages(
-# [("system","""
-# You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
-
-# - **Experience**: Provide the years of experience as a list. Include relevant years if mentioned explicitly in the job description (e.g., '6', '8', '2', '3').
-# - **Skills**: List all skills and technologies mentioned in the job description. Include programming languages, platforms, tools, and methodologies.
-# - **Location**: Extract the location(s) mentioned for this role.
-# - **Graduation**: Return `True` if a bachelor’s degree is required, otherwise `False`.
-# - **Post Graduation**: Return `True` if a post-graduate degree is required, otherwise `False`.
-
-# Format your response as follows:
-
-# ```json
-# {{
-#   "Experience": ["..."],
-#   "Skills": ["..."],
-#   "Location": ["..."],
-#   "Graduation": true/false,
-#   "Post Graduation": true/false
-# }}
-
-# """),
-# few_shot_prompt,
-# ("human","""Job Description: {job_description}
-
-# Table Headers: {table}
-# """)]
-# )
-
-# final_prompt = ChatPromptTemplate.from_messages(
-# [("system","""
-# You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
-
-# - **Experience**: Provide the total years of experience as a list. Include relevant years if mentioned explicitly in the job description (e.g., '6').
-# - **Skills**: List all skills and technologies mentioned in the job description. Include programming languages, platforms, tools, and methodologies.
-# - **Location**: Extract the location(s) mentioned for this role.
-# - **Graduation**: Return `True` if a bachelor’s degree is required, otherwise `False`.
-# - **Post Graduation**: Return `True` if a post-graduate degree is required, otherwise `False`.
-# - **Never forgot to follow output format 
-
-# Output Format your response as follows:
-
-# ```json
-# {{
-#   "Experience": ["..."],
-#   "Frontend": ["..."],
-#   "Backend": ["..."],
-#   "DB": ["..."],
-#   "Tools": ["..."],
-#   "Miscellaneous": ["..."],
-#   "Location": ["..."],
-#   "Graduation": true/false,
-#   "Post Graduation": true/false
-# }}
-
-# Job Description: {job_description}
-
-# Table Headers: {table}
-# """)]
-# )
-
 final_prompt = ChatPromptTemplate.from_messages(
 [("system", """
 You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
@@ -1009,7 +926,76 @@ Table Headers: {table}
 )
 
 ai_filter = final_prompt | llm | JsonOutputParser()
+
+
+def add_filter_detail_in_optimize_jd_content(optimize_jd_content, matchChainResponse):
+    # print("Checking preferred point", state)
+    print("Checking user_inputs", matchChainResponse)
+
+    # template= """
+    #     Your task is to identify filter details not present in required_preferred_points, then add these details to the preferred points corresponding to their title. If the title is not present, create the title using key and value using its value and update the preferred points.        
+
+    #     ### Input:
+    #     - required_preferred_points: {job_description}
+    #     - filter: {matchChainResponse}
+
+    #     """
+    # template= """
+    #     You are a highly skilled assistant that analyzes and updates job descriptions. Your task is to ensure all details from a structured input are properly reflected in a plain-text job description. Follow these steps:
+
+    #     Compare the details in the provided obj (structured input) with the points in required_preferred_points (plain-text job description).
+    #     For any detail present in obj but missing from both "Required" and "Preferred" sections, add the detail to the appropriate category under the "Preferred" section.
+    #     If a detail appears in "Required" under a specific title, but additional related details in obj are missing, add those missing details under the same title in the "Preferred" section.
+    #     Maintain the structure of required_preferred_points with proper section headers and bullet points.
+
+    #     ### Input:
+    #      - required_preferred_points: {job_description}
+    #      - obj: {matchChainResponse}
+
+    #     """
+
+    template = """
+        You are a highly skilled assistant that analyzes and updates job descriptions. Your task is to ensure all details from a structured input are properly reflected in a plain-text job description. Follow these steps:
+
+        1. Compare the details in the provided `obj` (structured input) with the points in `required_preferred_points` (plain-text job description).
+        2. For any detail present in `obj` but missing from both "Required" and "Preferred" sections, add the detail to the appropriate category under the "Preferred" section.
+        3. If a detail appears in "Required" under a specific title, but additional related details in `obj` are missing, add those missing details under the same title in the "Preferred" section.
+        4. Use the keys from `obj` as titles when adding new information in the "Preferred" section, with the corresponding values listed as bullet points under those titles.
+        5. Maintain the structure and formatting of `required_preferred_points` with proper section headers and bullet points.
+
+        ### Input:
+        - required_preferred_points (plain text): 
+        {job_description}
+
+        - obj (structured data): 
+        {matchChainResponse}
+
+        ### Output:
+        Provide the updated plain-text job description with:
+        1. Missing details from `obj` added to the "Preferred" section, using keys from `obj` as titles if not already present.
+        2. Existing details in the "Required" section unchanged.
+        3. Proper formatting and consistency throughout.
+        4. Don't return explanation. Only return the updated job description.
+
+        """
+
+    prompt = PromptTemplate(template=template, input_variables=["job_description", "matchChainResponse"])
+
+    matching_points_llm = prompt | llm
+    response = matching_points_llm.invoke({
+        "job_description": optimize_jd_content, 
+        "matchChainResponse": matchChainResponse, 
+    })
+
+    save_to_markdown.save_to_markdown(response.content, "./data/jd_with_filter.md")
+
+    # print("response1111111: ", response)
+    return response.content
+    # return matching_points_llm
+
+
 # print("ai_filter logged :",ai_filter)
+
 import pandas as pd
 
 def get_csv_headers(folder_path):
@@ -1052,7 +1038,31 @@ if prompt is not None and prompt != "" :
         matchChainResponse = ai_filter.invoke({"job_description": prompt, "table": csv_headers})
         # print(type(matchChainResponse))
         # Pass matchChainResponse to query_filters_modal
-        query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=prompt)
+        # query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=prompt)
+
+        # st.session_state.user_inputs = user_inputs
+        # print("st.session_state.user_inputs after form submitted :",st.session_state.user_inputs)
+        holder = st.empty()
+        config={"configurable": {"thread_id": "1"},"recursion_limit":40}
+        with st.spinner("Processing your query..."):
+            if(get_agent_name(agent_name) == "SQLTeam Agent"):
+                # qq= prompt + """\n\n ALWAYS refer to this detail to check which details below to which coloum at the time of generating SQL query-> """ + str(matchChainResponse)
+                qq= prompt + """\n\n Use the following column-value mapping to generate an SQL query that accurately filters candidates based on the given criteria. """ + str(matchChainResponse)
+                # qq= prompt
+
+                print("Generated question :",qq)
+                res = sql_chain.invoke(qq, config)
+                st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
+                # st.session_state.user_inputs = {}
+                # user_inputs = {}
+                st.rerun()
+            else:
+                config={"configurable": {"thread_id": "2"},"recursion_limit":40}
+                res = github_chain.invoke(prompt,config)
+                print("AI response hithub :",res["messages"])
+                aiRes = res["messages"][-1].content
+                holder.write(aiRes)            
+                st.session_state.chat_history.append(AIMessage(content=aiRes, name=get_agent_name(agent_name)))
 
         # print("quert", query)
 
@@ -1100,8 +1110,12 @@ if(buttonVal):
                 # print(type(str(csv_headers)))
                 
                 matchChainResponse = ai_filter.invoke({"job_description": optimize_jd_content, "table": csv_headers})
-                query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=optimize_jd_content)
 
+                print("matchChainResponse111111111111: ", matchChainResponse)
+
+
+
+                query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=optimize_jd_content)
 
                 # config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 # res = sql_chain.invoke(question, config)

@@ -1,4 +1,4 @@
-### Final Required Qualifications
+### Final List of Required Qualifications:
 
 #### Experience
 - 2+ years of experience in software testing.

@@ -1,4 +1,4 @@
-### Final List of Preferred Qualifications:
+### Final Preferred Qualifications:
 
 #### Experience:
 - Knowledge of performance testing tools (e.g., JMeter).
