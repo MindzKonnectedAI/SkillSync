@@ -70,7 +70,7 @@ sql_chain = sql_agent_team_supervisor.sql_agent_team_supervisor()
 llm = ChatOpenAI(model="gpt-4o-mini")
 
 # Streamlit UI
-st.title("SkillSync")
+st.title("SkillSync by DataCurve")
 # st.title("Intelligent Recruitment Assistant")
 
 def retrive():
@@ -81,6 +81,8 @@ csv_folder = "csv"
 
 # Ensure the csv and db directories exist
 os.makedirs(csv_folder, exist_ok=True)
+
+st.sidebar.image("./image/DataCurvelogo.png", width=180, output_format="auto")
 
 view = st.sidebar.selectbox(
     "View",
