@@ -1,19 +1,7 @@
-### Final List of Required Qualifications:
-
-#### Experience
-- 2+ years of experience in software testing.
-
-#### Location
-- Remote
-
-#### Graduation
-- Bachelor’s degree in Computer Science or a related field.
-
-#### Tools
-- Proficiency in automation testing tools (e.g., Selenium, TestNG).
-- Experience in writing and executing SQL queries.
-- Strong understanding of manual testing methodologies.
-
-#### Miscellaneous
-- Familiarity with Agile testing processes.
-- Excellent analytical and problem-solving skills.
+###Required:
+Location (required): Chicago (required)  
+Experience (required): 1 year (required)  
+Graduation (required): Bachelor’s degree (required)  
+Post Graduation (required): N/A (required)  
+PhD (required): N/A (required)  
+Skills (required): Python, SQL, Hadoop (required)  

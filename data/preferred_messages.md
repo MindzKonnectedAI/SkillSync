@@ -1,12 +1,1 @@
-### Preferred Qualifications:
-
-#### Experience:
-- Knowledge of performance testing tools (e.g., JMeter).
-- Experience in API testing using tools like Postman.
-
-#### Tools:
-- Basic understanding of CI/CD pipelines.
-- Knowledge of version control tools (e.g., Git).
-
-#### Miscellaneous:
-- Strong communication and teamwork skills.
+{'preferred': {'Location': ['N/A'], 'Experience': ['5-8 years of hands-on experience in Java/JEE', '5-8 years of experience developing User Interface pages using PrimeFaces', '5-8 years of experience with Core Java / J2EE backend development'], 'Graduation': ['Bachelor’s degree in Computer Science', 'Engineering (or a related field)'], 'Post_Graduation': ['N/A'], 'PhD': ['N/A'], 'Skills': ['Java design patterns', 'JPA', 'JUnit tests', 'SQL queries', 'Azure DevOps', 'Public Sector domain']}}

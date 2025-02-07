@@ -80,6 +80,17 @@ Check for the following issues:
 - Using the correct number of arguments for functions
 - Correct casting to appropriate data types
 - Using the proper columns for `JOIN` operations
+- Using below format for mandatory field for query writing.
+    query: SELECT Name, Location, Experience, Skills, Graduation 
+    FROM employee 
+    WHERE Location IN ('Remote')
+    AND Experience >= 2
+    AND Graduation = "Bachelor\'s"
+    AND Skills LIKE '%manual testing%'
+    AND Skills LIKE '%automation testing%'
+    AND Skills LIKE '%Selenium%'
+    AND Skills LIKE '%TestNG%'
+    AND Skills LIKE '%SQL%'
 
 If any of these issues are found, rewrite the query to fix them. If there are no issues, return the original query.
 
@@ -104,7 +115,6 @@ def check_query_tool(query: str) -> str:
 query_result_check_system = """You are grading the result of a SQL query from a DB.
 - Check that the result is not empty.
 - If it is empty, instruct the system to re-try!
-- Ensure that if the results are not empty, they are ordered with the most relevant results at the top, followed by the less relevant ones in descending order of relevance.
 """
 query_result_check_prompt = ChatPromptTemplate.from_messages(
     [("system", query_result_check_system), ("user", "{query_result}")]
@@ -183,7 +193,7 @@ query_gen_system = """
 ROLE:
 You are an agent designed to interact with a SQL database. You have access to tools for interacting with the database.
 GOAL:
-Given an input question, create a syntactically correct SQLite query to run, then look at the results of the query and return the answer.
+Given an input question provided as a JSON string, create a syntactically correct SQLite query to run, then look at the results of the query and return the answer.
 INSTRUCTIONS:
 - Only use the below tools for the following operations.
 - Only use the information returned by the below tools to construct your final answer.
@@ -192,10 +202,66 @@ INSTRUCTIONS:
 - Write your query based upon the schema of the tables. You MUST double check your query before executing it. 
 - You can order the results by a relevant column to return the most interesting examples in the database.
 - Never query for all the columns from a specific table, only ask for the relevant columns given the question.
+- Ensure all required details in input question provided as a JSON string. is mandatory. Never Forgot this step.
 - If you get an error while executing a query, rewrite the query and try again.
 - If the query returns a result, use check_result tool to check the query result.
-- If the query result result is empty, think about the table schema, rewrite the query, and try again.
-- DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database."""
+- DO NOT make any DML statements (INSERT, UPDATE, DELETE, DROP etc.) to the database.
+- Never forget to follow the format below for mandatory fields in query writing. Do NOT skip this format.
+    query: SELECT Name, Location, Experience, Skills, Graduation 
+            FROM employee 
+            WHERE Location IN ('Remote')
+            AND Experience >= 2
+            AND Graduation = "Bachelor\'s"
+            AND Skills LIKE '%manual testing%'
+            AND Skills LIKE '%automation testing%'
+            AND Skills LIKE '%Selenium%'
+            AND Skills LIKE '%TestNG%'
+            AND Skills LIKE '%SQL%'
+
+    **Examples:**
+    Question provided as a JSON string: {{'Required': {{'Location': ['Remote'], 'Experience': ['2'], 'Graduation': ["Bachelor's"], 'Skills': ['manual testing', 'automation testing', 'Selenium', 'TestNG', 'SQL']}}, 'preferred': {{'Location': ['Remote'], 'Skills': ['performance testing', 'API testing', 'Postman', 'Git']}}
+    }}
+
+    **Explanation of Output:** 
+    query: SELECT 
+        Name, 
+        Location, 
+        Experience, 
+        Skills, 
+        Graduation,
+        (
+        (CASE WHEN Location IN ('Remote') THEN 1 ELSE 0 END) +
+        (CASE WHEN Skills LIKE '%performance testing%' THEN 1 ELSE 0 END) +
+        (CASE WHEN Skills LIKE '%API testing%' THEN 1 ELSE 0 END) +
+        (CASE WHEN Skills LIKE '%Postman%' THEN 1 ELSE 0 END) +
+        (CASE WHEN Skills LIKE '%Git%' THEN 1 ELSE 0 END)
+        ) AS preferred_score
+    FROM employee
+    WHERE 
+        Location IN ('Remote')
+        AND Experience >= 2
+        AND Graduation = 'Bachelor''s'
+        AND Skills LIKE '%manual testing%'
+        AND Skills LIKE '%automation testing%'
+        AND Skills LIKE '%Selenium%'
+        AND Skills LIKE '%TestNG%'
+        AND Skills LIKE '%SQL%';
+
+"""
+# query: SELECT Name, Location, Experience, Skills, Graduation 
+# FROM employee 
+# WHERE Location IN ('Remote')
+#   AND Experience >= 2
+#   AND Graduation = "Bachelor\'s"
+#   AND Skills LIKE '%manual testing%'
+#   AND Skills LIKE '%automation testing%'
+#   AND Skills LIKE '%Selenium%'
+#   AND Skills LIKE '%TestNG%'
+#   AND Skills LIKE '%SQL%'
+
+# - Ensure that, in query generation, the required condition always uses the AND operator only.
+# - Ensure that, in query generation, the preferred condition always uses the LIKE operator combined with the OR operator only.
+
 
 # original sql prompt without change===================================================>
 # query_gen_system = """

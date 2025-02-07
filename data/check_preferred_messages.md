@@ -1,12 +1,7 @@
-### Final Preferred Qualifications:
-
-#### Experience:
-- Knowledge of performance testing tools (e.g., JMeter).
-- Experience in API testing using tools like Postman.
-
-#### Tools:
-- Basic understanding of CI/CD pipelines.
-- Knowledge of version control tools (e.g., Git).
-
-#### Miscellaneous:
-- Strong communication and teamwork skills.
+###Preferred:  
+Location (preferred): N/A  
+Experience (preferred): N/A  
+Graduation (preferred): Master's degree  
+Post Graduation (preferred): N/A  
+PhD (preferred): N/A  
+Skills (preferred): AWS, Azure, Tableau, machine learning, familiarity with cloud platforms, experience with data visualization tools  

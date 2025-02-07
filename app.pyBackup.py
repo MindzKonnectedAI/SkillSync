@@ -270,35 +270,35 @@ def get_agent_name(agent_name_here):
 agent_name_to_filter = get_agent_name(agent_name)  # Adjust this parameter as needed
 
 
-# examples = [
-#     {
-#         "question": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
-#         - 2-4 years of experience in software development (required)
-#         - Bachelor’s degree in Computer Science (required)
-#         - Proficiency in JavaScript (required)
-#         - Strong understanding of Git (required)
-#         - Master’s degree (preferred)
-#         - PhD (preferred)
-#         - Experience with cloud platforms such as AWS (preferred)
-#         - Knowledge of Agile methodologies (preferred)""",
-#         "answer": """
-#         {"Required": {"Experience": [2], "Skills": ["JavaScript", "Git"], "Graduation": ["Bachelor's"]}, "Preferred": {"Post Graduation": ["Master's"], "PhD": ["PhD"], "Skills":["AWS", "Agile methodologies"]}}
-#         """,
-#     },
-#     {
-#         "question": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
-#         - 3 years of experience in software development (required)
-#         - Bachelor’s degree in Computer Science (required)
-#         - Proficiency in Python (required)
-#         - Proficiency in SQL (required)
-#         - Proficiency in Hadoop (required)
-#         - Master’s degree (preferred)
-#         - Knowledge of Agile methodologies (preferred)""",
-#         "answer": """
-#         {"Required": {"Experience": [3], "Skills": ["Python","SQL","Hadoop"], "Graduation": ["Bachelor's"]}, "Preferred": {"Post Graduation": ["Master's"], "Skills": ["Agile methodologies"]}}
-#         """,
-#     }
-# ]
+examples = [
+    {
+        "question": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
+        - 2-4 years of experience in software development (required)
+        - Bachelor’s degree in Computer Science (required)
+        - Proficiency in JavaScript (required)
+        - Strong understanding of Git (required)
+        - Master’s degree (preferred)
+        - PhD (preferred)
+        - Experience with cloud platforms such as AWS (preferred)
+        - Knowledge of Agile methodologies (preferred)""",
+        "answer": """
+        {"Required": {"Experience": [2], "Skills": ["JavaScript", "Git"], "Graduation": ["Bachelor's"]}, "Preferred": {"Post Graduation": ["Master's"], "PhD": ["PhD"], "Skills":["AWS", "Agile methodologies"]}}
+        """,
+    },
+    {
+        "question": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
+        - 3 years of experience in software development (required)
+        - Bachelor’s degree in Computer Science (required)
+        - Proficiency in Python (required)
+        - Proficiency in SQL (required)
+        - Proficiency in Hadoop (required)
+        - Master’s degree (preferred)
+        - Knowledge of Agile methodologies (preferred)""",
+        "answer": """
+        {"Required": {"Experience": [3], "Skills": ["Python","SQL","Hadoop"], "Graduation": ["Bachelor's"]}, "Preferred": {"Post Graduation": ["Master's"], "Skills": ["Agile methodologies"]}}
+        """,
+    }
+]
 
 # prompt_template = """
 # You are given a job description with specific required and preferred qualifications, along with a table of headers. 
@@ -335,47 +335,47 @@ agent_name_to_filter = get_agent_name(agent_name)  # Adjust this parameter as ne
 # Create a prompt with the correct input variable
 # matchPrompt = PromptTemplate(template=prompt_template, input_variables=["job_description", "table"])
 
-# matchPrompt = ChatPromptTemplate(messages=[
-#     ("system","""
-# You are given a job description with specific required and preferred qualifications, along with a table of headers. 
-# Your task is to extract and categorize the qualifications as either "Required" or "Preferred", using the table headers as a guide. 
-# Ensure that no required fields from the job description are missed. 
-# The output should be a dictionary with two keys: "Required" and "Preferred" 
-# Under each key, list the relevant headers mentioned in the job description.
+matchPrompt = ChatPromptTemplate(messages=[
+    ("system","""
+You are given a job description with specific required and preferred qualifications, along with a table of headers. 
+Your task is to extract and categorize the qualifications as either "Required" or "Preferred", using the table headers as a guide. 
+Ensure that no required fields from the job description are missed. 
+The output should be a dictionary with two keys: "Required" and "Preferred" 
+Under each key, list the relevant headers mentioned in the job description.
 
-# Job Description:
-# {job_description}
+Job Description:
+{job_description}
 
-# Table Headers:
-# {table}
+Table Headers:
+{table}
 
-# # Instructions:
-# 1. Extract the qualifications from the job description.
-# 2. Categorize them according to the table headers.
-# 3. List "Preferred" qualifications under "Preferred" and all others under "Required."
-# 4. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
-# 5. Ensure numeric values are presented as numbers only, without additional strings.
-# 6. Ensure each section is clearly labeled, ordered, and separated by commas.
-# 7. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
-# 8. ENSURE that the 'Experience' field is always a list with exactly one element. If there are multiple elements in the list, keep only the first one and ignore the rest.
-# 9. PhD should only appear under the PhD key and NOT under Post Graduation. Deduplicate "PhD" from the Post Graduation list if it appears there.
+# Instructions:
+1. Extract the qualifications from the job description.
+2. Categorize them according to the table headers.
+3. List "Preferred" qualifications under "Preferred" and all others under "Required."
+4. If a qualification matches a value in the table rows, use the exact spelling from the table. Otherwise, use the spelling as found in the job description.
+5. Ensure numeric values are presented as numbers only, without additional strings.
+6. Ensure each section is clearly labeled, ordered, and separated by commas.
+7. ENSURE that if any key contains multiple values separated by commas, they are always placed in a list. ALWAYS enforce this structure, and NEVER overlook this step.
+8. ENSURE that the 'Experience' field is always a list with exactly one element. If there are multiple elements in the list, keep only the first one and ignore the rest.
+9. PhD should only appear under the PhD key and NOT under Post Graduation. Deduplicate "PhD" from the Post Graduation list if it appears there.
 
-# Output: 
-# Ensure all table headers are addressed in the output.
-# Only return dictionary nothing else.
+Output: 
+Ensure all table headers are addressed in the output.
+Only return dictionary nothing else.
 
-# # Nerver forgot output format and must be dictionary:
-# Output format: 
-# dictionary: "{{"Required": {{}},"Preferred": {{}}}}"
-# """)
-# ],input_variables=["job_description","table"])
+# Nerver forgot output format and must be dictionary:
+Output format: 
+dictionary: "{{"Required": {{}},"Preferred": {{}}}}"
+""")
+],input_variables=["job_description","table"])
 
-# few_shot_prompt = FewShotChatMessagePromptTemplate(
-#     example_prompt=matchPrompt,
-#     examples=examples,
-# )
+few_shot_prompt = FewShotChatMessagePromptTemplate(
+    example_prompt=matchPrompt,
+    examples=examples,
+)
 
-# matchChain = matchPrompt | llm | JsonOutputParser()
+matchChain = matchPrompt | llm | JsonOutputParser()
 
 def extract_table_from_text(text):
     # print("***************************extract_table_from_text*********************************")
@@ -732,240 +732,16 @@ def match_skills(ai_skills, options):
 
 # generate_question_AI = promptForGenerateQuestion | llm 
 
-import difflib
-import re
-
-def merge_requirements(requirements):
-    merged_result = {
-        'Location': [],
-        'Skills': []
-    }
-    
-    required = requirements.get('Required', {})
-    preferred = requirements.get('preferred', {})
-
-    # Merge location: prioritize required, fallback to preferred
-    required_location = required.get('Location', [])
-    preferred_location = preferred.get('Location', [])
-    merged_result['Location'] = required_location if required_location else preferred_location
-    
-    # Merge skills: combine required and preferred, deduplicate
-    required_skills = required.get('Skills', [])
-    preferred_skills = preferred.get('Skills', [])
-    merged_result['Skills'] = list(set(required_skills + preferred_skills))
-
-    # Add other fields from 'Required' as lists (e.g., Experience, Graduation)
-    for key in required:
-        if key not in ['Location', 'Skills']:
-            # lowercase_key = key.lower()
-            merged_result[key] = required[key]  # Directly assign the list
-    
-    return merged_result
-
-import json
-
-
-# from difflib import get_close_matches
-
-# def find_similar_matches(search_filter, database, similarity_threshold=0.6):
-#     results = {}
-    
-#     for filter_key, filter_value in search_filter.items():
-#         # Find similar keys in database
-#         db_key_match = get_close_matches(
-#             filter_key, 
-#             database.keys(), 
-#             n=1, 
-#             cutoff=similarity_threshold
-#         )
-        
-#         if not db_key_match:
-#             continue  # Skip if no similar key found
-            
-#         db_key = db_key_match[0]
-#         db_values = database[db_key]
-        
-#         # Handle different value types
-#         if isinstance(filter_value, list):
-#             value_matches = {}
-#             for item in filter_value:
-#                 matches = get_close_matches(
-#                     item.lower().strip(),
-#                     [v.lower().strip() for v in db_values],
-#                     n=1,
-#                     cutoff=similarity_threshold
-#                 )
-#                 if matches:
-#                     value_matches[item] = matches[0]
-#             if value_matches:
-#                 results[filter_key] = {
-#                     'database_key': db_key,
-#                     'matches': value_matches
-#                 }
-                
-#         elif isinstance(filter_value, str):
-#             # Handle numerical ranges (e.g., "2+ years")
-#             if db_key == 'Experience' and '+' in filter_value:
-#                 min_years = int(filter_value.split('+')[0])
-#                 numeric_values = [int(x) for x in db_values]
-#                 matches = [str(x) for x in numeric_values if x >= min_years]
-#                 if matches:
-#                     results[filter_key] = {
-#                         'database_key': db_key,
-#                         'matches': matches
-#                     }
-#             else:
-#                 # Handle string values
-#                 matches = get_close_matches(
-#                     filter_value.lower().strip(),
-#                     [v.lower().strip() for v in db_values],
-#                     n=1,
-#                     cutoff=similarity_threshold
-#                 )
-#                 if matches:
-#                     results[filter_key] = {
-#                         'database_key': db_key,
-#                         'matches': {filter_value: matches[0]}
-#                     }
-
-#     return results
-
-
-from difflib import get_close_matches
-
-def find_similar_matches(new_search, database, similarity_threshold=0.8, n=1):
-    results = {
-        "Required": {},
-        "preferred": {}
-    }
-
-    # Process Required section
-    for section in ['Required', 'preferred']:
-        if section not in new_search:
-            continue
-            
-        for filter_key, filter_value in new_search[section].items():
-            # Find similar keys in database
-            db_key_match = get_close_matches(
-                filter_key.lower(),
-                [k.lower() for k in database.keys()],
-                n,
-                cutoff=similarity_threshold
-            )
-            
-            if not db_key_match:
-                continue  # Skip if no similar key found
-                
-            # Get actual database key name
-            db_key = [k for k in database.keys() if k.lower() == db_key_match[0]][0]
-            db_values = database[db_key]
-            
-            # Handle different value types
-            if isinstance(filter_value, list):
-                value_matches = []
-                for item in filter_value:
-                    matches = get_close_matches(
-                        item.strip(),
-                        [v.strip() for v in db_values],
-                        n,
-                        cutoff=similarity_threshold
-                    )
-                    # print("matches", matches)
-                    if matches:
-                        value_matches.append(matches[0])
-
-                # print("value_matches", value_matches)
-                if value_matches:
-                    results[section][filter_key] = value_matches
-                    
-                    
-            elif isinstance(filter_value, str):
-                # Handle numerical experience comparison
-                if db_key.lower() == 'experience':
-                    try:
-                        req_experience = int(filter_value)
-                        numeric_values = [int(v) for v in db_values]
-                        matches = [str(x) for x in numeric_values if x >= req_experience]
-                        if matches:
-                            results[section][filter_key] =  matches
-                            
-                    except ValueError:
-                        pass
-                else:
-                    # Handle string values
-                    matches = get_close_matches(
-                        filter_value.lower().strip(),
-                        [v.lower().strip() for v in db_values],
-                        n,
-                        cutoff=similarity_threshold
-                    )
-                    if matches:
-                        results[section][filter_key] = [matches[0]]
-                        
-
-    return results
-
-# result = find_similar_matches(search_filter, database)
-
-# # Pretty print results
-# print("Key/Value Similarity Results:")
-# for filter_key, match_data in result.items():
-#     print(f"\nFilter Key: {filter_key}")
-#     print(f"Mapped to Database Key: {match_data['database_key']}")
-    
-#     if isinstance(match_data['matches'], dict):
-#         print("Value Matches:")
-#         for filter_val, db_val in match_data['matches'].items():
-#             print(f"  '{filter_val}' → '{db_val}'")
-#     else:
-#         print(f"Value Matches: {match_data['matches']}")
 
 
 @st.dialog("Query Filters")
 def query_filters_modal(matchChainResponse=None, requirements=None):
     try:
-        print("requirements", requirements)
-        # Remove the outer double quotes if they exist
-
-        # if requirements.startswith('"') and requirements.endswith('"'):
-        #     s = requirements[1:-1]
-
-        # # Convert the string to a Python dictionary
-        # data = ast.literal_eval(s)
-
-        # with open('data.json', mode='w', encoding='utf-8') as json_file:
-        #     json.dump(requirements, json_file, indent=4)
-
-        # json_data = json.dumps(requirements, indent=4)
-        # with open('data.json', 'w') as json_file:
-        #     json.dump(json_data, json_file, indent=4)
-        # print("json_data", type(json_data))
-
-        # CONFIG_PATH = os.path.join('knowledge_base_json', 'knowledge_base.json') 
-        with open("./data/ai_response.json", 'r') as f:
-            json_requirements = json.load(f)
-
-        # print("json_requirements", json_requirements)
-
         # Load the JSON configuration
-        # print("matchChainResponse:", matchChainResponse)
+        print("matchChainResponse:", matchChainResponse)
         with open(CONFIG_PATH, 'r') as f:
             form_config = json.load(f)
         
-
-        result = find_similar_matches(json_requirements, form_config)
-
-        print("result", result)
-        print("resultRequired", result["Required"])
-        merge_details = merge_requirements(result)
-        print("merge_details", merge_details)
-
-        for key in form_config:
-            if key not in merge_details:
-                merge_details[key] = []
-        # print("merge_requirementstype", type(merge_requirements))
-        print("merge_details222", merge_details)
-
         # Initialize session state for user inputs if not already set
         if "user_inputs" not in st.session_state:
             st.session_state.user_inputs = {}
@@ -976,58 +752,30 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
         with st.form(key="my_key"):
             user_inputs = {}  # Dictionary to store user selections
             # Create a multiselect for each key in the JSON file
-            # for field_name, options in form_config.items():
-            #     # Set default values based on matchChainResponse
-            #     if field_name.strip() in ["Graduation", "Post Graduation"]:
-            #         # Check if the value in matchChainResponse is True
-            #         if matchChainResponse.get(field_name.strip()) is True:
-            #             # print("[options[0]] ", [options[0]] )
-            #             default_values = [options[0]]  # First option if True
-            #         else:
-            #             default_values = []  # No default if not True
-            #     else:
-            #         # For other fields, filter default values based on matchChainResponse
-            #         default_values = match_skills(matchChainResponse.get(field_name, []),options)
-            #         print("default values", default_values)
-                
-            #     # Use session state to store and retrieve user inputs
-            #     if field_name not in st.session_state.user_inputs:
-            #         st.session_state.user_inputs[field_name] = default_values
-
-            #     # Create the multiselect widget
-            #     user_inputs[field_name] = st.multiselect(
-            #         label=field_name,
-            #         options=options,
-            #         default=st.session_state.user_inputs[field_name],
-            #         key=field_name
-            #     )
-            
             for field_name, options in form_config.items():
                 # Set default values based on matchChainResponse
-                # if field_name.strip() in ["Graduation", "Post Graduation"]:
-                #     # Check if the value in matchChainResponse is True
-                #     if matchChainResponse.get(field_name.strip()) is True:
-                #         # print("[options[0]] ", [options[0]] )
-                #         default_values = [options[0]]  # First option if True
-                #     else:
-                #         default_values = []  # No default if not True
-                # else:
+                if field_name.strip() in ["Graduation23", "Post Graduation23"]:
+                    # Check if the value in matchChainResponse is True
+                    if matchChainResponse.get(field_name.strip()) is True:
+                        print("[options[0]] ", [options[0]] )
+                        default_values = [options[0]]  # First option if True
+                    else:
+                        default_values = []  # No default if not True
+                else:
                     # For other fields, filter default values based on matchChainResponse
-                default_values = merge_details[field_name.strip()]
-                    # print("default values", default_values)
-
-                # print("default values", options)
+                    default_values = match_skills(matchChainResponse.get(field_name, []),options)
+                    print("default values", default_values)
                 
                 # Use session state to store and retrieve user inputs
                 if field_name not in st.session_state.user_inputs:
-                    st.session_state.user_inputs[field_name.strip()] = default_values
+                    st.session_state.user_inputs[field_name] = default_values
 
                 # Create the multiselect widget
                 user_inputs[field_name] = st.multiselect(
-                    label=field_name.strip(),
-                    options=[skill for skill in options],
-                    default=st.session_state.user_inputs[field_name.strip()],
-                    key=field_name.strip()
+                    label=field_name,
+                    options=options,
+                    default=st.session_state.user_inputs[field_name],
+                    key=field_name
                 )
 
             form_submitted = st.form_submit_button(label="Apply")
@@ -1048,7 +796,7 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                 
                 config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 with st.spinner("Processing your query..."):
-                    # jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
+                    jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
 
 
                     # jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
@@ -1058,13 +806,8 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                     # qq= requirements + """\n\nUse the following column-value mapping to accurately generate an SQL query for the above criteria. This is only to help you ensure the criteria match the details provided above. """ + str(user_inputs)
 
                     # print("Generated question :",qq)
-                    # res = sql_chain.invoke({"messages": str(result)}, config)
-                    # json_str = res["messages"][-1].tool_calls[0]["args"]["final_answer"]
-                    # st.session_state.chat_history.append(AIMessage(content=json_str, name=get_agent_name(agent_name)))
-
-                    res = sql_chain.invoke(str(result), config)
+                    res = sql_chain.invoke(jd_withfilter, config)
                     st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
-
                     st.session_state.user_inputs = {}
                     user_inputs = {}
                     st.rerun()
@@ -1080,33 +823,33 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
         st.error(f"An error occurred while opening the Query Filters modal: {str(e)}")
 
 
-# jd_examples = [
-#     {
-#         "job_description": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
-#         - 2-4 years of experience in software development
-#         - Bachelor’s degree in Computer Science
-#         - Proficiency in JavaScript
-#         - Strong understanding of Git
-#         - Master’s degree 
-#         - PhD
-#         - Experience with cloud platforms such as AWS
-#         - Knowledge of Agile methodologies""",
-#         "answer": """
-#         {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": True, "Post Graduation": False}
-#         """,
-#     },
-#     {
-#         "job_description": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
-#         - 3 years of experience in software development
-#         - Bachelor’s degree in Computer Science 
-#         - Proficiency in Python 
-#         - Proficiency in SQL
-#         - Proficiency in Hadoop 
-#         - Knowledge of Agile methodologies""",
-#         "answer": """
-#         {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": True, "Post Graduation": False}
-#         """,
-#     }
+jd_examples = [
+    {
+        "job_description": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
+        - 2-4 years of experience in software development
+        - Bachelor’s degree in Computer Science
+        - Proficiency in JavaScript
+        - Strong understanding of Git
+        - Master’s degree 
+        - PhD
+        - Experience with cloud platforms such as AWS
+        - Knowledge of Agile methodologies""",
+        "answer": """
+        {"Experience": ["2"], "Skills": ["JavaScript", "Git"], "Graduation": True, "Post Graduation": False}
+        """,
+    },
+    {
+        "job_description": """For a 'Software Engineer' position located in Austin, does the candidate meet these criteria:   
+        - 3 years of experience in software development
+        - Bachelor’s degree in Computer Science 
+        - Proficiency in Python 
+        - Proficiency in SQL
+        - Proficiency in Hadoop 
+        - Knowledge of Agile methodologies""",
+        "answer": """
+        {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": True, "Post Graduation": False}
+        """,
+    }
     # {
     #     "job_description": """For a 'Software Engineer' position located in Los Angeles, does the candidate meet these criteria:   
     #     - 2-4 years of experience in software development
@@ -1133,7 +876,7 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
     #     {"Experience": ["3"], "Skills": ["Python","SQL","Hadoop"], "Graduation": Bachelor's, "Post Graduation": Master's}
     #     """,
     # }
-# ]
+]
 
 
 matchPrompt_kownledge_base = ChatPromptTemplate.from_messages([
@@ -1144,173 +887,51 @@ Job Description:
 ("ai","{answer}")
 ])
 
-# few_shot_prompt = FewShotChatMessagePromptTemplate(
-#     example_prompt=matchPrompt_kownledge_base,
-#     examples=jd_examples,
-# )
-
-# final_prompt = ChatPromptTemplate.from_messages(
-# [("system", """
-# You are a highly skilled AI that extracts keywords from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
-
-# **Double-check that all details are thoroughly covered for these categories, ensuring nothing is missing:**
-# - **Experience**: Provide the minimum years of experience as a list of single value. Include relevant years if mentioned explicitly in the job description (e.g., '6').
-# - **Skils**: List all skills.
-# - **Location**: Extract the location(s) mentioned for this role.
-# - **Graduation**: Return a list containing `"Bachelor's"` if a bachelor’s degree is required, otherwise return an empty list (`[]`).
-# - **Post Graduation**: Return a list containing `"Master's"` if a master’s degree is required, otherwise return an empty list (`[]`).
-# **Avoid suggesting experience unless explicitly mentioned.**
-
-# Ensure the output strictly adheres to the following JSON format:
-
-# ```json
-# {{
-#   "Experience": ["..."],
-#   "Skills": ["..."],
-#   "Phd": ["..."],
-#   "Location": ["..."],
-#   "Graduation": ["Bachelor's"/null],
-#   "Post Graduation": ["Master's"/null]
-# }}
-
-
-# Job Description: {job_description}
-
-# Table Headers: {table}
-# """)]
-# )
-
-# final_prompt = ChatPromptTemplate.from_messages(
-# [("system", """
-# You are an expert in extracting key information from job descriptions. Your task is to analyze the following job description and extract the following details in a structured format:
-
-# 1. **Experience**: Extract the required or preferred years of experience, return number like ["1"].
-# 2. **Skills**: Extract the technical, soft, or domain-specific skills keywords mentioned in the job description.
-# 3. **Phd**: Return a list containing `"Phd"` if a Ph.D. is required or preferred, otherwise return an empty list (`[]`).
-# 4. **Location**: Extract the job location(s) mentioned in the description.
-# 5. **Graduation**: Return a list containing `"Bachelor's"` if a bachelor’s degree is required, otherwise return an empty list (`[]`).
-# 6. **Post Graduation**: Return a list containing `"Master's"` if a master’s degree is required, otherwise return an empty list (`[]`).
-
-# If any of the above details are not explicitly mentioned in the job description, return an empty list (`[]`) for that field.
-
-# **Job Description:**
-# {job_description}
-
-# **Output Format:**
-# ```json
-# {{
-#   "Experience": ["..."],
-#   "Skills": ["..."],
-#   "Phd": ["..."],
-#   "Location": ["..."],
-#   "Graduation": ["Bachelor's"/null],
-#   "Post Graduation": ["Master's"/null]
-# }}
-
-# Instructions:
-
-# Be precise and extract only the relevant information.
-
-# If a value is not explicitly mentioned, return an empty list ([]).
-
-# Ensure the output is in valid JSON format.
-
-# Table Headers: {table}
-# """)]
-# )
+few_shot_prompt = FewShotChatMessagePromptTemplate(
+    example_prompt=matchPrompt_kownledge_base,
+    examples=jd_examples,
+)
 
 final_prompt = ChatPromptTemplate.from_messages(
 [("system", """
-You are an expert in extracting keywords from text. Your task is to analyze the provided job description and extract the relevant information in a structured JSON format. Follow the specific extraction criteria outlined below to ensure you capture only the most essential details.
+You are a highly skilled AI that extracts job details from job descriptions. Please analyze the job description provided and structure the details into specific categories. Format your output in JSON with the following keys:
 
-### Extraction Criteria:
-1. **Experience**: Extract only numerical values representing years of experience (e.g., ["1"]).
-2. **Skills**: Extract only specific technology names, programming languages, or tools. Avoid generic categories, descriptions, or qualifiers (e.g., **do not include** phrases like "strong skills in," "experience with," "Familiarity with," "Experience with," etc.).
-3. **PhD**: Return a list containing `"PhD"` if explicitly mentioned as required or preferred; otherwise, return an empty list (`[]`).
-4. **Location**: Extract only the city name(s) mentioned in the context.
-5. **Graduation**: Return a list containing `"Bachelor's"` if a bachelor's degree is mentioned; otherwise, return an empty list (`[]`).
-6. **Post Graduation**: Return a list containing `"Master's"` if a master's degree is mentioned; otherwise, return an empty list (`[]`).
+**Double-check that all details are thoroughly covered for these categories, ensuring nothing is missing:**
+- **Experience**: Provide the minimum years of experience as a list of single value. Include relevant years if mentioned explicitly in the job description (e.g., '6').
+- **Frontend**: List all frontend-related skills and technologies mentioned in the job description, such as frameworks, libraries, and tools specific to frontend development.
+- **Backend**: List all backend-related skills and technologies mentioned in the job description, such as programming languages, frameworks, and platforms specific to backend development.
+- **DB**: List all database-related technologies mentioned in the job description, including database systems, query languages, and relevant tools.
+- **Tools**: Include any additional tools or software mentioned in the job description that are not specific to frontend, backend, or database.
+- **Miscellaneous**: List any other skills, methodologies, or attributes mentioned in the job description that don't fall into the above categories.
+- **Location**: Extract the location(s) mentioned for this role.
+- **Graduation**: Return a list containing `"Bachelor's"` if a bachelor’s degree is required, otherwise return an empty list (`[]`).
+- **Post Graduation**: Return a list containing `"Master's"` if a master’s degree is required, otherwise return an empty list (`[]`).
+**Avoid suggesting experience unless explicitly mentioned.**
 
-### Additional Instructions:
-- **Do not include** any descriptive phrases or broad categories.
-- If a value is not explicitly mentioned, return an empty list (`[]`).
-- Ensure the output is in valid JSON format.
+Ensure the output strictly adheres to the following JSON format:
 
-**context:**
-{job_description}
-
-**Output Format:**
 ```json
 {{
-"Experience": ["..."],
-"Skills": ["..."],
-"Phd": ["..."],
-"Location": ["..."],
-"Graduation": ["Bachelor's"/null],
-"Post Graduation": ["Master's"/null]
+  "Experience": ["..."],
+  "Frontend": ["..."],
+  "Backend": ["..."],
+  "DB": ["..."],
+  "Tools": ["..."],
+  "Phd": ["..."],
+  "Location": ["..."],
+  "Miscellaneous": ["..."],
+  "Graduation": ["Bachelor's"/null],
+  "Post Graduation": ["Master's"/null]
 }}
+
+
+Job Description: {job_description}
+
+Table Headers: {table}
 """)]
 )
 
 ai_filter = final_prompt | llm | JsonOutputParser()
-
-def remove_extract_keywords_from_base_on_knowledge_base_using_job_description(matchChainResponse, word):
-
-    # print("optimize_jd_content inside :", optimize_jd_content)
-    # print("matchChainResponse inside :", matchChainResponse)
-    template = """
-
-    ### Task:  
-    You are given two JSON objects:  
-
-    1. **matchChainResponse**:
-    {matchChainResponse}
-
-    2. **word**:
-    {word}
-
-    Your task is to filter the `word` JSON based on `matchChainResponse`, following these steps:
-
-    ### **Instructions:**
-    1. **Extract Matching Values:**  
-    - Retain only the values in `word` that are also present in `matchChainResponse`.  
-    - Ignore any extra values in `word` that are not presnt in `matchChainResponse`.  
-
-    2. **Preserve Important Details:**  
-    - If a key exists in `matchChainResponse` but has an empty list (`[]`), remove it from the output.  
-    - Ensure that the word **"never"** is never removed or altered.  
-
-    3. **Output Format:**  
-    - Return a JSON object with the same structure as `word`, but only containing the extracted values.  
- 
-    **Expected Output Format:**  
-
-    ```json
-    {{
-        "Experience": ["..."],
-        "Skills": ["..."],
-        "Phd": ["..."],
-        "Location": ["..."],
-        "Graduation": ["Bachelor's"/null],
-        "Post Graduation": ["Master's"/null]
-    }}
-
-    """
-
-    
-
-    prompt = PromptTemplate(template=template, input_variables=["word", "matchChainResponse"])
-
-    matching_points_llm = prompt | llm | JsonOutputParser()
-    response = matching_points_llm.invoke({
-        "word": word, 
-        "matchChainResponse": matchChainResponse, 
-    })
-
-    # save_to_markdown.save_to_markdown(response, "./data/adjust_job_description_base_on_knowledge_base.md")
-
-    # print("response11111112222222222222222222222222222222222222222222: ", response)
-    return response
 
 def adjust_job_description_base_on_knowledge_base(optimize_jd_content, matchChainResponse):
     template = """
@@ -1346,7 +967,11 @@ def adjust_job_description_base_on_knowledge_base(optimize_jd_content, matchChai
             Graduation (required): [Extracted Required Graduation](required)
             Post Graduation (required): [Extracted Required Post Graduation](required)
             PhD (required): [Extracted Required PhD](required)
-            Skills (required): [Extracted Required Skills](required)
+            Frontend (required): [Extracted Required Frontend Skills](required)
+            Backend (required): [Extracted Required Backend Skills](required)
+            DB (required): [Extracted Required Database Skills](required)
+            Tools (required): [Extracted Required Tools](required)
+            Miscellaneous (required): [Extracted Required Miscellaneous Information](required)
 
             ###Preferred:  
             Location (preferred): [Extracted Preferred Location](preferred)  
@@ -1354,10 +979,12 @@ def adjust_job_description_base_on_knowledge_base(optimize_jd_content, matchChai
             Graduation (preferred): [Extracted Preferred Graduation](preferred)  
             Post Graduation (preferred): [Extracted Preferred Post Graduation](preferred)  
             PhD (preferred): [Extracted Preferred PhD](preferred)  
-            Skills (preferred): [Extracted Preferred Skills](preferred)  
+            Frontend (preferred): [Extracted Preferred Frontend Skills](preferred)  
+            Backend (preferred): [Extracted Preferred Backend Skills](preferred)  
+            DB (preferred): [Extracted Preferred Database Skills](preferred)  
+            Tools (preferred): [Extracted Preferred Tools](preferred)  
+            Miscellaneous (preferred): [Extracted Preferred Miscellaneous Information](preferred) 
             
-            Exclude Location, Experience, Graduation, Post Graduation, PhD, and Skills from the output if they are N/A, None, or empty
-
             Clearly indicate that these points are optional but beneficial.
         """
 
@@ -1373,13 +1000,13 @@ def adjust_job_description_base_on_knowledge_base(optimize_jd_content, matchChai
 
     save_to_markdown.save_to_markdown(response.content, "./data/adjust_job_description_base_on_knowledge_base.md")
 
-    # print("response11111112222222222222222222222222222222222222222222: ", response)
+    print("response11111112222222222222222222222222222222222222222222: ", response)
     return response.content
 
 
 def add_filter_detail_in_optimize_jd_content(optimize_jd_content, matchChainResponse):
     # print("Checking preferred point", state)
-    # print("Checking user_inputs", matchChainResponse)
+    print("Checking user_inputs", matchChainResponse)
 
     # template= """
     #     Your task is to identify filter details not present in required_preferred_points, then add these details to the preferred points corresponding to their title. If the title is not present, create the title using key and value using its value and update the preferred points.        
@@ -1426,7 +1053,11 @@ def add_filter_detail_in_optimize_jd_content(optimize_jd_content, matchChainResp
             Graduation (required): [Extracted Required Graduation](required)
             Post Graduation (required): [Extracted Required Post Graduation](required)
             PhD (required): [Extracted Required PhD](required)
-            Skills (required): [Extracted Required Skills](required)
+            Frontend (required): [Extracted Required Frontend Skills](required)
+            Backend (required): [Extracted Required Backend Skills](required)
+            DB (required): [Extracted Required Database Skills](required)
+            Tools (required): [Extracted Required Tools](required)
+            Miscellaneous (required): [Extracted Required Miscellaneous Information](required)
 
             ###Preferred:  
             Location (preferred): [Extracted Preferred Location](preferred)  
@@ -1434,10 +1065,12 @@ def add_filter_detail_in_optimize_jd_content(optimize_jd_content, matchChainResp
             Graduation (preferred): [Extracted Preferred Graduation](preferred)  
             Post Graduation (preferred): [Extracted Preferred Post Graduation](preferred)  
             PhD (preferred): [Extracted Preferred PhD](preferred)  
-            Skills (preferred): [Extracted Preferred Skills](preferred)   
-
-            Exclude Location, Experience, Graduation, Post Graduation, PhD, and Skills from the output if they are N/A, None, or empty
-
+            Frontend (preferred): [Extracted Preferred Frontend Skills](preferred)  
+            Backend (preferred): [Extracted Preferred Backend Skills](preferred)  
+            DB (preferred): [Extracted Preferred Database Skills](preferred)  
+            Tools (preferred): [Extracted Preferred Tools](preferred)  
+            Miscellaneous (preferred): [Extracted Preferred Miscellaneous Information](preferred) 
+            
             Clearly indicate that these points are optional but beneficial.
 
         """
@@ -1555,74 +1188,6 @@ if prompt is not None and prompt != "" :
 #             st.info("Graph recursion limit exceeded , try again!")
 
 
-def get_cleared_question(question, Get_more_context):
-    # Check if "No match found" is in the Get_more_context array
-    if "No match found" in Get_more_context:
-        return question
-    else:
-        cleared_question = f"{question} in which {Get_more_context} ?"
-        return cleared_question
-
-
-def load_knowledge_base():
-    encodings_to_try = ['ISO-8859-1', 'Windows-1252', 'utf-16', 'utf-8-sig']
-    for encoding in encodings_to_try:
-        try:
-            df = pd.read_csv("./Files/knowledgeBase/knowledgeBase.csv", encoding=encoding, dtype=str)
-            print(f"Successfully loaded with encoding: {encoding}")
-            return df
-        except UnicodeDecodeError:
-            print(f"Failed to decode using encoding: {encoding}")
-        except Exception as e:
-            print(f"An error occurred: {e}")
-    return None  # Return None if all attempts fail
-
-def find_match_in_csv(question):
-    # Read the CSV file into a DataFrame
-    # df = pd.read_csv("./Files/knowledgeBase/knowledgeBase.csv", encoding='utf-8', dtype=str)
-    df = load_knowledge_base()
-
-    # Split the question into words and create phrases of varying lengths
-    clean_question = clean_text(question)
-    words = clean_question.split()
-    
-    phrases = []
-    for i in range(len(words)):
-        for j in range(i+1, len(words)+1):
-            phrase = " ".join(words[i:j])
-            phrases.append(phrase)
-    
-    matches = []
-    
-    # Loop through each column and each value to find exact matches
-    for column in df.columns:
-        for value in df[column].astype(str).unique():
-            for phrase in phrases:
-                if phrase.lower() == value.lower():
-                    matches.append(f'{value} is a {column}')
-                    break  # Avoid duplicate matches for the same value
-    
-    return matches if matches else ["No match found"]
-
-
-def find_similar_words(input_dict, database):
-    result = {}
-    for category in input_dict:
-        if category not in database:
-            continue
-        input_words = [word.strip().lower() for word in input_dict[category]]
-        db_words = database[category]
-        matched_words = []
-        for db_word in db_words:
-            db_word_lower = db_word.lower()
-            for input_word in input_words:
-                if input_word in db_word_lower:
-                    matched_words.append(db_word)
-                    break  # Avoid adding duplicates for the same db_word
-        result[category] = matched_words
-    return result
-import json
-
 if(buttonVal):
     question = retreive_users.retreive_users_fnc()
     job_discription_markdown = retreive_users.load_markdown("./ruleData/outputRuleData.md") 
@@ -1643,25 +1208,13 @@ if(buttonVal):
                 # print(type(str(csv_headers)))
                 
                 matchChainResponse = ai_filter.invoke({"job_description": optimize_jd_content, "table": csv_headers})
+
                 print("matchChainResponse111111111111: ", matchChainResponse)
 
-                with open(CONFIG_PATH, 'r') as f:
-                    form_config = json.load(f)
-                # word = find_similar_words(matchChainResponse, form_config)
-                # print("word: ", word)
-                # filter_word = remove_extract_keywords_from_base_on_knowledge_base_using_job_description(matchChainResponse, word)
+                adjust_job_description_base_on_knowledge_base_details = adjust_job_description_base_on_knowledge_base(optimize_jd_content, matchChainResponse)
 
-                # print("filter_word: ", filter_word)
 
-                # adjust_job_description_base_on_knowledge_base_details = adjust_job_description_base_on_knowledge_base(optimize_jd_content, matchChainResponse)
-                # json_data = json.dumps(optimize_jd_content)
-
-                # # matches = find_similarget(json_data, form_config)
-                # print("Match results:")
-                # from pprint import pprint
-                # pprint(matches)
-                # query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=adjust_job_description_base_on_knowledge_base_details)
-                query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=optimize_jd_content)
+                query = query_filters_modal(matchChainResponse=matchChainResponse, requirements=adjust_job_description_base_on_knowledge_base_details)
 
                 # config={"configurable": {"thread_id": "1"},"recursion_limit":40}
                 # res = sql_chain.invoke(question, config)

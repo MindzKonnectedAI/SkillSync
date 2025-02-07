@@ -1,62 +1,20 @@
-Required:
+### Required:
+Location (required): Chicago  
+Experience (required): 1 year  
+Graduation (required): Bachelor's degree  
+Skills (required):  
+- Strong skills in Python (Technology: Python)  
+- Strong skills in SQL (Technology: SQL)  
+- Experience with big data tools (Technology: Hadoop)  
 
-Experience
+### Preferred:  
+Graduation (preferred): Master's degree  
+Skills (preferred):  
+- Familiarity with cloud platforms (Technology: AWS, Azure)  
+- Experience with data visualization tools (Technology: Tableau)  
+- Basic knowledge of machine learning (Technology: No specific tool)  
+- Experience with Post Graduation studies (optional but beneficial)  
+- Skills related to PhD studies (optional but beneficial)  
+- Additional skills in various technologies (optional but beneficial)  
 
-2+ years of experience in software testing.
-
-Location
-
-Remote
-
-Graduation
-
-Bachelor’s degree in Computer Science or a related field.
-
-Tools
-
-Proficiency in automation testing tools (e.g., Selenium, TestNG).
-
-Experience in writing and executing SQL queries.
-
-Strong understanding of manual testing methodologies.
-
-Miscellaneous
-
-Familiarity with Agile testing processes.
-
-Excellent analytical and problem-solving skills.
-
-Preferred:
-
-Experience
-
-Knowledge of performance testing tools (e.g., JMeter).
-
-Experience in API testing using tools like Postman.
-
-Tools
-
-Basic understanding of CI/CD pipelines.
-
-Knowledge of version control tools (e.g., Git).
-
-Miscellaneous
-
-Strong communication and teamwork skills.
-
-Experience
-
-- 2 years of experience in software testing.
-
-DB
-
-- Experience in writing and executing SQL queries.
-
-Tools
-
-- Proficiency in Git.
-  
-Miscellaneous
-
-- Strong analytical skills.
-- Strong problem-solving skills.
+Please note that additional qualifications such as Post Graduation, PhD, and other skills are optional but could significantly enhance your application.

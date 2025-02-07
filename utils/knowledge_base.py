@@ -32,32 +32,101 @@ def upload_csv(uploaded_file,container):
     # # Call the function to save CSV data into the database
     # csv_to_sql.save_csv_to_sql(file_path,container)
 
+# def csv_to_json(csv_file_path, json_file_path):
+#     """
+#     Convert CSV to JSON with each column as a key and values as an array of non-empty rows in that column.
+
+#     Args:
+#     - csv_file_path (str): Path to the CSV file.
+#     - json_file_path (str): Path where the JSON file will be saved.
+#     """
+#     data = {}
+
+#     # Open the CSV file and read it
+#     with open(csv_file_path, mode='r', encoding='utf-8') as csv_file:
+#         csv_reader = csv.DictReader(csv_file)
+        
+#         # Initialize lists for each column header
+#         for header in csv_reader.fieldnames:
+#             data[header] = []
+        
+#         # Populate lists with non-empty values from each column
+#         for row in csv_reader:
+#             for header, value in row.items():
+#                 if value:  # Only add non-empty values
+#                     data[header].append(value)
+
+#     # Write the data to a JSON file
+#     with open(json_file_path, mode='w', encoding='utf-8') as json_file:
+#         json.dump(data, json_file, indent=4)
+
+#     print(f"Data successfully converted from {csv_file_path} to {json_file_path}")
+
+
+# def csv_to_json(csv_file_path, json_file_path):
+#     """
+#     Convert CSV to JSON with each column as a key and values as an array of non-empty rows in that column.
+
+#     Args:
+#     - csv_file_path (str): Path to the CSV file.
+#     - json_file_path (str): Path where the JSON file will be saved.
+#     """
+#     data = {}
+
+#     # Open the CSV file and read it
+#     with open(csv_file_path, mode='r', encoding='utf-8') as csv_file:
+#         csv_reader = csv.DictReader(csv_file)
+
+#         # Filter out empty headers
+#         valid_headers = [header for header in csv_reader.fieldnames if header and header.strip()]
+        
+#         print("valid_headers", valid_headers)
+#         # Initialize lists for each valid column header
+#         for header in valid_headers:
+#             data[header] = []
+
+#         # Populate lists with non-empty values from each column
+#         for row in csv_reader:
+#             for header in valid_headers:
+#                 value = row.get(header, "").strip()  # Strip any extra spaces from value
+#                 if value:  # Only add non-empty values
+#                     data[header].append(value)
+
+#     # Write the data to a JSON file
+#     with open(json_file_path, mode='w', encoding='utf-8') as json_file:
+#         json.dump(data, json_file, indent=4)
+
+#     print(f"Data successfully converted from {csv_file_path} to {json_file_path}")
+
+
+
 def csv_to_json(csv_file_path, json_file_path):
     """
-    Convert CSV to JSON with each column as a key and values as an array of non-empty rows in that column.
-
-    Args:
-    - csv_file_path (str): Path to the CSV file.
-    - json_file_path (str): Path where the JSON file will be saved.
+    Convert CSV to JSON with proper header space handling.
     """
     data = {}
-
-    # Open the CSV file and read it
+    
     with open(csv_file_path, mode='r', encoding='utf-8') as csv_file:
         csv_reader = csv.DictReader(csv_file)
         
-        # Initialize lists for each column header
-        for header in csv_reader.fieldnames:
-            data[header] = []
+        # Create header map: stripped_header -> original_header
+        header_map = {header.strip(): header for header in csv_reader.fieldnames if header.strip()}
+        valid_headers = list(header_map.keys())
         
-        # Populate lists with non-empty values from each column
-        for row in csv_reader:
-            for header, value in row.items():
-                if value:  # Only add non-empty values
-                    data[header].append(value)
+        # Initialize data structure
+        for header in valid_headers:
+            data[header] = []
 
-    # Write the data to a JSON file
+        # Process rows
+        for row in csv_reader:
+            for stripped_header in valid_headers:
+                original_header = header_map[stripped_header]
+                value = row.get(original_header, "").strip()
+                if value:
+                    data[stripped_header].append(value)
+
+    # Write JSON output
     with open(json_file_path, mode='w', encoding='utf-8') as json_file:
         json.dump(data, json_file, indent=4)
 
-    print(f"Data successfully converted from {csv_file_path} to {json_file_path}")
+    print(f"Conversion complete: {csv_file_path} → {json_file_path}")

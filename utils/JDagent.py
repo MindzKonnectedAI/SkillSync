@@ -20,6 +20,7 @@ import chardet
 from langchain_community.document_loaders import UnstructuredMarkdownLoader
 from typing import Annotated, Literal
 from langchain_core.messages import AIMessage
+from langchain_core.output_parsers.json import JsonOutputParser
 
 
 llamaparse_api_key = os.getenv("LLAMAPARSE_API_KEY")
@@ -241,504 +242,384 @@ def get_csv_headers(folder_path):
 
 folder_path = 'knowledge_base_csv'
 
-# def find_required_point(state):
-#     print("find_required_point", state)
-
-#     job_description_file_content = get_file_content('outputRuleData.md', 'ruleData')
-#     # print(job_description_file_content)
-
-#     csv_headers = get_csv_headers(folder_path)
-
-
-#     # Define a PromptTemplate
-#     template="""
-#         You are an AI assistant tasked with analyzing a job description to extract only **required** qualifications. Your goal is to determine which qualifications are critical for the job, even if they are not explicitly labeled as "required." Use context and phrasing to make this determination.
-
-#         ### Job Description:
-#         {job_description}
-
-#         ### Instructions:
-#         1. Extract only qualifications that are **required** for the job.
-#         - A qualification is **required** if:
-#             - It is explicitly stated as "required," "must have," "necessary," or "essential."
-#             - It is strongly implied as critical to performing the job, based on context or role expectations.
-#         - Ignore qualifications that are optional, nice-to-have, or described as "preferred."
-#         2. Categorize the extracted qualifications under the provided table headers. If no qualification fits a header, leave it empty.
-#         3. Ensure the extracted points match the exact wording in the job description.
-#         4. Provide the output in a structured JSON format.
-#         Ensure the output strictly adheres to the following JSON format:
-
-#         ```json
-#         {{
-#         "Experience": ["..."],
-#         "Frontend": ["..."],
-#         "Backend": ["..."],
-#         "DB": ["..."],
-#         "Tools": ["..."],
-#         "Miscellaneous": ["..."],
-#         "Location": ["..."],
-#         "Graduation": ["Bachelor's"/null],
-#         "Post Graduation": ["Master's"/null]
-#         }}
-
-#         """
-
 def find_required_point(state):
     print("find_required_point", state)
 
     job_description_file_content = get_file_content('outputRuleData.md', 'ruleData')
-    # print(job_description_file_content)
 
     csv_headers = get_csv_headers(folder_path)
 
-
-    # Define a PromptTemplate
     # template="""
-    #     You are an AI assistant tasked with analyzing a job description to extract only **required** qualifications. Your goal is to determine which qualifications are critical for the job, even if they are not explicitly labeled as "required." Use context and phrasing to make this determination.
+    #     Objective: Extract only the required information from the job description based on the provided table_header.
 
-    #     ### Job Description:
+    #     Instructions:
+
+    #     Read the job description carefully.
+
+    #     Identify and extract only the mandatory or required details for each column in the table_header. Ignore any "preferred," "nice-to-have," or non-mandatory information.
+        
+    #     If found bachelor degree return only "Bachelor's"
+
+    #     If a specific column has no required information, leave it blank or mark it as "N/A".
+
+    #     Extract only the skill keywords from the following skills. Return them as a comma-separated list without any additional text.
+
+    #     Always double check any information is not missing.
+
+    #     Input:
+
+    #     Table Header:
+    #     {table_header}
+
+    #     Job Description:
     #     {job_description}
 
-    #     ### Instructions:
-    #     1. Extract only qualifications that are **required** for the job.
-    #     - A qualification is **required** if:
-    #         - It is explicitly stated as "required," "must have," "necessary," or "essential."
-    #         - It is strongly implied as critical to performing the job, based on context or role expectations.
-    #     - Ignore qualifications that are optional, nice-to-have, or described as "preferred."
+    #     Output Format:
+    #         Fill in the table with only the required information. Use "N/A" for missing or unspecified fields.
+    #         json```{{
+    #         "Required": {{
+    #             "Location_required": "Extracted Required Location",
+    #             "Experience_required": "Extracted Required Experience",
+    #             "Graduation_required": "Extracted Required Graduation if found bachelor degree return only "Bachelor's" ",
+    #             "Post_Graduation_required": "Extracted Required Post Graduation",
+    #             "PhD_required": "Extracted Required PhD",
+    #             "Skills_required": ["Extracted skills"]
+    #         }}
+    #         }}
 
-    #     2. Categorize the extracted qualifications under the following table headers:
-    #     - {table_header}
+    #     Explanation of Output:
+    #         ###Required:
+    #         json```{{
+    #         "Required": {{
+    #             "Location_required": "New York, NY",
+    #             "Experience_required": "5+ years",
+    #             "Graduation_required": "Bachelor's",
+    #             "Post_Graduation_required": "N/A",
+    #             "PhD_required": "N/A",
+    #             "Skills_required": ["Manual Testing", "automation testing", "Selenium, TestNG"]
+    #         }}
+    #         }}
 
-    #     For each header:
-    #     - Include qualifications that fit directly under the category.
-    #     - If no qualification fits a header, skip that header entirely and do not display it in the output.
-
-    #     3. Ensure that:
-    #     - The extracted points match the exact wording in the job description.
-    #     - Qualifications are returned as a concise list of bullet points.
-
-    #     """
-        # ### Example Output:
-        # - **Experience**:
-        # - 3+ years in software development
-        # - Proven experience in leading teams
-
-        # - **Frontend**:
-        # - Proficiency in React.js
-        # - Strong knowledge of CSS and HTML
-
-        # - **Backend**:
-        # - Experience in building APIs using Node.js
-
-        # - **DB**:
-        # - Knowledge of relational databases like PostgreSQL
-
-        # - **Tools**:
-        # - Proficiency in Git and CI/CD pipelines
-
-        # - **Location**:
-        # - Chicago, IL
-
-        # - **Graduation**:
-        # - Bachelor's degree in Computer Science
-
+    # """
     template="""
-        You are an AI assistant tasked with analyzing a job description to extract only **required** qualifications. Your goal is to determine which qualifications are critical for the job, even if they are not explicitly labeled as "required." Use context and phrasing to make this determination.
-
-        ### Job Description:
-        {job_description}
+        Objective: Extract only the required information from the job description based on the provided table_header.
 
         ### Instructions:
-        1. Extract only qualifications that are **required** for the job.
-        - A qualification is **required** if:
-            - It is explicitly stated using terms like "required," "must have," "necessary," or "essential."
-            - It is strongly implied as critical to performing the job, based on context or role expectations (e.g., "responsible for," "key function," "primary duty").
-        - A qualification is **not required** if it is:
-            - Labeled as "preferred," "nice-to-have," "desired," or "optional."
-            - Mentioned as an advantage but not critical to the role.
-            - Indirectly related to the job responsibilities without being explicitly critical.
 
-        2. Categorize the extracted qualifications under the following table headers:
-        - {table_header}
+        1. **Read the job description carefully** and extract only the details explicitly marked as **mandatory** or **required**.  
+        - Ignore any **preferred, nice-to-have, or non-mandatory** details.  
 
-        For each header:
-        - Include qualifications that directly fit under the category.
-        - Skip any header for which no qualifications are found.
+        2. **Extract Required Information for Each Column:**
+        - Use the `table_header` to determine the required fields.
+        - If a column does not contain required information, mark it as `"N/A"`.  
 
-        3. Ensure that:
-        - Extracted qualifications match the exact wording in the job description.
-        - Qualifications are presented as a concise list of bullet points.
-        - If the location is not marked as preferred, then consider it as required.
+        3. **Degree Extraction:**
+        - If a bachelor's degree is mentioned, **return only `"Bachelor's"`**.
+        - Do **not** include alternative degree variations unless explicitly required.  
 
-        ### Examples:
-        - If the job description states, "A Bachelor's degree is required," include: **"Bachelor's degree."**
-        - If it states, "Experience with Python is preferred," exclude: **"Experience with Python."**
-        - If it states, "Must have excellent communication skills," include: **"Excellent communication skills."**
-        - If it states, "Familiarity with cloud platforms like AWS is a plus," exclude: **"Familiarity with cloud platforms like AWS."**
+        4. **Skill Extraction:**
+        - Extract **only the skill keywords** from the job description.  
+        - Return them **as a comma-separated list** without any extra text.  
+        - **Ensure no required skills are missing.**
+        - **Example Output:** `["Python", "SQL", "Selenium", "TestNG"]`  
+
+        5. **Final Validation:**
+        - **Double-check** that all required details are included.  
+        - Ensure that no mandatory field is missing.  
+
+        ---
+
+        ### **Input Format:**
+        - **Table Header:**  
+        ```{table_header}```  
+        - **Job Description:**  
+        ```{job_description}```  
+
+        ---
 
 
-        ### Output:
-        Return the qualifications as a structured list categorized under the provided table headers, ensuring that only **required** qualifications are included.
+        Output Format:
+            json```{{
+            "Required": {{
+                "Location": ["Extracted Required Location"],
+                "Experience": ["Extracted Required Experience In Number (don't add extra word )"],
+                "Graduation": ["Extracted Required Graduation (if Bachelor's, return only 'Bachelor's')"],
+                "Post_Graduation": ["Extracted Required Post Graduation"],
+                "PhD": ["Extracted Required PhD"],
+                "Skills": ["Extracted skills"]
+                }}
+            }}
+
+        Explanation of Output:
+            ###Required:
+            json```{{
+                "Required": {{
+                "Location": ["New York, NY"],
+                "Experience": ["5"],
+                "Graduation": ["Bachelor's"],
+                "Post_Graduation": ["N/A"],
+                "PhD": ["N/A"],
+                "Skills": ["Manual Testing", "Automation Testing", "Selenium", "TestNG"]
+                }}
+            }}
 
     """
 
     prompt = PromptTemplate(template=template, input_variables=["job_description", "table_header"])
 
-    matching_points_llm = prompt | llm
+    matching_points_llm = prompt | llm | JsonOutputParser()
     response = matching_points_llm.invoke({ "job_description": job_description_file_content, "table_header": csv_headers })
     # print("response: ", response)
-    save_response_to_markdown(response.content, "./data/required_messages.md")
+    save_response_to_markdown(str(response), "./data/required_messages.md")
 
-    return {"required_messages": [AIMessage(content=response.content)]}
-
-def check_required_point(state):
-    print("check_required_point", state)
-    job_description_file_content = get_file_content('outputRuleData.md', 'ruleData')
-    csv_headers = get_csv_headers(folder_path)
-
-    # template="""
-    #         You are an AI assistant tasked with verifying and improving the list of **required qualifications** extracted from a job description. Your goal is to:
-    #         1. Validate the existing extracted points to ensure they align with the job description.
-    #         2. Identify any required qualifications missing from the extracted list by analyzing the job description.
-    #         3. Provide the final, complete list of required points.
-
-    #         ### Job Description:
-    #         {job_description}
-
-    #         ### Existing Extracted Required Points:
-    #         {extracted_required_points}
-
-    #         ### Instructions:
-    #         1. Cross-check the provided **extracted required points** with the job description.
-    #         2. Identify any required qualifications explicitly stated or implied as critical in the job description that are missing from the provided list.
-    #         - A point is **required** if it is explicitly marked as "required," "must have," "necessary," or "essential."
-    #         - It may also be inferred as critical to performing the job based on the context or phrasing in the description.
-    #         3. Ensure the final list is comprehensive, including all required points.
-
-    #         Ensure the output strictly adheres to the following JSON format:
-
-    #         ```json
-    #         {{
-    #         "Experience": ["..."],
-    #         "Frontend": ["..."],
-    #         "Backend": ["..."],
-    #         "DB": ["..."],
-    #         "Tools": ["..."],
-    #         "Miscellaneous": ["..."],
-    #         "Location": ["..."],
-    #         "Graduation": ["Bachelor's"/null],
-    #         "Post Graduation": ["Master's"/null]
-    #         }}
-    #     """
-
-    # template = """
-    # You are an AI assistant tasked with verifying and enhancing the list of **required qualifications** extracted from a job description. Your goal is to ensure the final list is accurate, comprehensive, and aligns with the job description.
-
-    # ### Job Description:
-    # {job_description}
-
-    # ### Existing Extracted Required Points:
-    # {extracted_required_points}
-
-    # ### Instructions:
-    # 1. Cross-check the **Existing Extracted Required Points** against the job description.
-    # - Validate that each point aligns with the job description's explicit or strongly implied requirements.
-    # - Ensure that points match the exact wording or phrasing used in the job description.
-    # - Remove any points that are not explicitly required or strongly implied as critical.
-
-    # 2. Identify any missing required qualifications:
-    # - A qualification is **required** if:
-    #     - It is explicitly stated as "required," "must have," "necessary," or "essential."
-    #     - It is strongly implied as critical to performing the job based on context or role expectations.
-    # - Add any qualifications meeting these criteria to the final list.
-
-    # 3. Organize the final list under the following table headers:
-    # - {table_header}
-    # - Include qualifications that directly fit under each header.
-    # - If no qualifications fit a header, omit it entirely from the final output.
-
-    # 4. Present the final, complete list of required qualifications:
-    # - Use bullet points for each qualification.
-    # - Ensure the list is concise and comprehensive, covering all critical points.
-    # """
-    template = """
-        You are an AI assistant tasked with verifying and enhancing the list of **required qualifications** extracted from a job description. Your goal is to ensure the final list is accurate, comprehensive, and aligns with the job description, focusing exclusively on **required** qualifications.
-
-        ### Job Description:
-        {job_description}
-
-        ### Existing Extracted Required Points:
-        {extracted_required_points}
-
-        ### Instructions:
-        1. Cross-check the **Existing Extracted Required Points** against the job description:
-        - Validate that each point aligns with the job description's explicit or strongly implied **required** qualifications.
-        - Ensure that points match the exact wording or phrasing used in the job description.
-        - Remove any points that are not explicitly required or strongly implied as critical to the role.
-
-        2. Identify any missing **required** qualifications:
-        - A qualification is **required** if:
-            - It is explicitly stated as "required," "must have," "necessary," or "essential."
-            - It is strongly implied as critical to performing the job based on context or role expectations.
-        - Do **not** include qualifications labeled as "preferred," "nice-to-have," or anything similar.
-
-        3. Organize the final list under the following table headers:
-        - {table_header}
-        - Include qualifications that directly fit under each header.
-        - If no qualifications fit a header, omit it entirely from the final output.
-
-        4. Present the final, complete list of **required qualifications**:
-        - Use bullet points for each qualification.
-        - Ensure the list is concise and comprehensive, covering only the critical **required** qualifications.
-
-        5. If the location is not marked as preferred, then consider it as required.
-
-        6. Don't give table format in output.
-
-        ### Important Note:
-        - Exclude any points labeled as "preferred," "nice-to-have," or anything similar, even if they align with the role.
-
-    """
-
-    prompt = PromptTemplate(template=template, input_variables=["job_description", "extracted_required_points", "table_header"])
-
-    matching_points_llm = prompt | llm
-    response = matching_points_llm.invoke({"job_description": job_description_file_content,
-     "extracted_required_points": state["required_messages"][-1].content,
-     "table_header": csv_headers
-     })
-    save_response_to_markdown(response.content, "./data/check_required_messages.md")
-
-    # # print("response: ", response)
-    return {"required_messages": [AIMessage(content=response.content)]}
-    # return matching_points_llm
+    return {"required_messages": [AIMessage(content=str(response))]}
     
 
 def find_preferred_point(state):
     print("find_preferred_point", state)
 
-    # job_description_file_content = get_file_content('outputRuleData.md', 'job_description')
-    # job_description_file_content = get_file_content('summary.md', 'job_description')
     job_description_file_content = get_file_content('outputRuleData.md', 'ruleData')
     csv_headers = get_csv_headers(folder_path)
 
-    # Define a PromptTemplate
-    # template="""
-    #     You are an AI assistant tasked with analyzing a job description to extract only **preferred** qualifications. Your goal is to identify qualifications that enhance a candidate's profile but are not explicitly required for the role.
+    # template="""  
+    #     You are an AI assistant tasked with analyzing a job description to extract only **preferred** qualifications. Your goal is to determine which qualifications are desirable but not mandatory for the job, even if they are not explicitly labeled as "preferred." Use context and phrasing to make this determination.
 
-    #     ### Job Description:
-    #     {job_description}
+    #     Instructions:  
 
     #     ### Instructions:
+    #     - Read the job description carefully.  
     #     1. Extract only qualifications that are **preferred** for the job.
     #     - A qualification is **preferred** if:
-    #         - It is explicitly stated as "preferred," "nice to have," "a plus," or similar terms.
-    #         - It is implied as desirable or beneficial but not critical for the role.
-    #     - Do not include qualifications that are stated or implied as mandatory or required.
-    #     2. Categorize the extracted qualifications under the provided table headers. If no qualification fits a header, leave it empty.
-    #     3. Ensure the extracted points match the exact wording in the job description.
+    #         - It is explicitly stated as "preferred," "nice-to-have," "desired," or "optional."
+    #         - It is implied as beneficial or advantageous but not essential for performing the job.
+    #     - Ignore qualifications that are explicitly described as "required," "must have," "necessary," or "essential."
+    #     - If a specific column has no preferred information, leave it blank or mark it as "N/A".
+    #     - If the location is not marked as preferred, then it should not be considered as preferred.
 
-    #     Ensure the output strictly adheres to the following JSON format:
+    #     Input:  
 
-    #     ```json
-    #     {{
-    #     "Experience": ["..."],
-    #     "Frontend": ["..."],
-    #     "Backend": ["..."],
-    #     "DB": ["..."],
-    #     "Tools": ["..."],
-    #     "Miscellaneous": ["..."],
-    #     "Location": ["..."],
-    #     "Graduation": ["Bachelor's"/null],
-    #     "Post Graduation": ["Master's"/null]
+    #     **Table Header:**  
+    #     {table_header}  
+
+    #     **Job Description:**  
+    #     {job_description}  
+
+    #     **Output Format:**  
+    #         Fill in the table with only the preferred information. Use "N/A" for missing or unspecified fields.  
+
+    #         ###Preferred:  
+    #         ```json{{
+    #         preferred:
+    #         {{
+    #             "Location_preferred": "Extracted Preferred Location",
+    #             "Experience_preferred": "Extracted Preferred Experience",
+    #             "Graduation_preferred": "Extracted Preferred Graduation",
+    #             "Post_Graduation_preferred": "Extracted Preferred Post Graduation",
+    #             "PhD_preferred": "Extracted Preferred PhD",
+    #             "Skills_preferred": ["Extracted skills"]
+    #         }}
     #     }}
 
-    #     """
-    template="""
-        You are an AI assistant tasked with analyzing a job description to extract only **preferred** qualifications. Your goal is to determine which qualifications are desirable but not mandatory for the job, even if they are not explicitly labeled as "preferred." Use context and phrasing to make this determination.
-
-        ### Job Description:
-        {job_description}
-
-        ### Instructions:
-        1. Extract only qualifications that are **preferred** for the job.
-        - A qualification is **preferred** if:
-            - It is explicitly stated as "preferred," "nice-to-have," "desired," or "optional."
-            - It is implied as beneficial or advantageous but not essential for performing the job.
-        - Ignore qualifications that are explicitly described as "required," "must have," "necessary," or "essential."
-
-        2. Categorize the extracted qualifications under the following table headers:
-        - {table_header}
-
-        For each header:
-        - Include qualifications that fit directly under the category.
-        - If no qualification fits a header, skip that header entirely and do not display it in the output.
-
-        3. Ensure that:
-        - The extracted points match the exact wording in the job description.
-        - Qualifications are returned as a concise list of bullet points.
-
-
-        """
-        # ### Example Output:
-        # - **Experience**:
-        # - Experience in leading cross-functional teams
-        # - Exposure to Agile methodologies
-
-        # - **Frontend**:
-        # - Familiarity with Vue.js
-        # - Knowledge of Tailwind CSS
-
-        # - **Backend**:
-        # - Experience in building microservices architecture
-
-        # - **DB**:
-        # - Knowledge of Redis for caching
-
-        # - **Tools**:
-        # - Familiarity with Docker and Kubernetes
-
-        # - **Miscellaneous**:
-        # - Excellent presentation skills
-
-        # - **Location**:
-        # - Remote work flexibility preferred
-
-        # - **Graduation**:
-        # - Bachelor's degree in any field is sufficient, but a degree in Computer Science is preferred
-
-        # - **Post Graduation**:
-        # - Master's degree in Business Administration (MBA) preferred
-
-    prompt = PromptTemplate(template=template, input_variables=["job_description", "table_header"])
-
-    matching_points_llm = prompt | llm
-    response = matching_points_llm.invoke({"job_description": job_description_file_content, "table_header": csv_headers })
-    save_response_to_markdown(response.content, "./data/preferred_messages.md")
-
-    # print("response: ", response)
-    return {"preferred_messages": [AIMessage(content=response.content)]}
-
-def check_preferred_point(state):
-    print("Checking preferred point", state)
-    job_description_file_content = get_file_content('outputRuleData.md', 'ruleData')
-    csv_headers = get_csv_headers(folder_path)
-
-    # template="""
-    #         You are an AI assistant tasked with verifying and improving the list of **preferred qualifications** extracted from a job description. Your goal is to:
-    #         1. Validate the existing extracted points to ensure they align with the job description.
-    #         2. Identify any preferred qualifications missing from the extracted list by analyzing the job description.
-    #         3. Provide the final, complete list of preferred points.
-
-    #         ### Job Description:
-    #         {job_description}
-
-    #         ### Existing Extracted Preferred Points:
-    #         {extracted_preferred_points}
-
-    #         ### Instructions:
-    #         1. Cross-check the provided **extracted preferred points** with the job description.
-    #         2. Identify any preferred qualifications explicitly stated or implied as desirable or beneficial but not critical.
-    #         - A point is **preferred** if it is explicitly marked with terms like "preferred," "nice to have," "a plus," or "advantageous."
-    #         - It may also be inferred as a non-critical enhancement to a candidate's profile.
-    #         3. Ensure the final list includes all relevant preferred qualifications.
-
-    #         Ensure the output strictly adheres to the following JSON format:
-
-    #         ```json
-    #         {{
-    #         "Experience": ["..."],
-    #         "Frontend": ["..."],
-    #         "Backend": ["..."],
-    #         "DB": ["..."],
-    #         "Tools": ["..."],
-    #         "Miscellaneous": ["..."],
-    #         "Location": ["..."],
-    #         "Graduation": ["Bachelor's"/null],
-    #         "Post Graduation": ["Master's"/null]
+    #     **Explanation of Output:**  
+    #         ###Preferred: 
+    #         ```json{{
+    #         "preferred": {{
+    #         "Location_preferred": "San Francisco, CA",
+    #         "Experience_preferred": "3",
+    #         "Graduation_preferred": "N/A",
+    #         "Post_Graduation_preferred": "Master's",
+    #         "PhD_preferred": "N/A"
+    #         "Skills_preferred": ["Manual Testing", "API testing", "Postman"] 
     #         }}
-    #     """
-    # template="""
-    #     You are an AI assistant tasked with verifying and enhancing the list of **preferred qualifications** extracted from a job description. Your goal is to ensure the final list is accurate, comprehensive, and aligns with the job description.
+    #         }}
 
-    #     ### Job Description:
+    #     """
+
+    # template="""  
+    #     Objective: Extract only the preferred information from the job description based on the provided table_header.
+
+    #     Instructions:  
+
+    #     Read the job description carefully.  
+
+    #     Identify and extract only the optional or preferred details for each column in the table_header. Ignore any "required," "must have," "necessary," "essential." or mandatory information.
+
+    #     - If a specific column has no preferred information, leave it blank or mark it as "N/A".
+
+    #     - If the location is not marked as preferred, then it should not be considered as preferred.
+
+    #     Extract only the skill keywords from the following skills. Return them as a comma-separated list without any additional text.
+
+    #     Always double check any information is not missing.
+
+    #     Input:  
+
+    #     **Table Header:**  
+    #     {table_header}  
+
+    #     **Job Description:**  
+    #     {job_description}  
+
+    #     **Output Format:**  
+    #         Fill in the table with only the preferred information. Use "N/A" for missing or unspecified fields.  
+
+    #         ###Preferred:  
+    #         ```json{{
+    #         preferred:
+    #         {{
+    #             "Location_preferred": "Extracted Preferred Location",
+    #             "Experience_preferred": "Extracted Preferred Experience",
+    #             "Graduation_preferred": "Extracted Preferred Graduation",
+    #             "Post_Graduation_preferred": "Extracted Preferred Post Graduation",
+    #             "PhD_preferred": "Extracted Preferred PhD",
+    #             "Skills_preferred": ["Extracted skills"]
+    #         }}
+    #     }}
+
+    #     **Explanation of Output:**  
+    #         ###Preferred: 
+    #         ```json{{
+    #         "preferred": {{
+    #         "Location_preferred": "San Francisco, CA",
+    #         "Experience_preferred": "3",
+    #         "Graduation_preferred": "N/A",
+    #         "Post_Graduation_preferred": "Master's",
+    #         "PhD_preferred": "N/A"
+    #         "Skills_preferred": ["Manual Testing", "API testing", "Postman"] 
+    #         }}
+    #         }}
+
+    #     """
+
+    # template="""  
+    #     Objective: Extract only the preferred (optional) information from the job description based on the provided table_header.
+
+    #     Instructions:
+
+    #     1. Read the job description carefully.
+    #     2. Identify and extract **only** the optional or preferred details for each column in the table_header.
+    #     - **Ignore** any information marked as "required," "must have," "necessary," or "essential."
+    #     - If a specific column does not contain any preferred details, mark it as "N/A" or leave it blank.
+    #     3. For the location field:
+    #     - **Only** include location information if it is explicitly marked as preferred.
+    #     4. Extract only the  optional or preferred skill keywords from the job description:
+    #     - Return them as a **comma-separated list** (e.g., ["Manual Testing", "API testing", "Postman"]).
+    #     - Remove any additional descriptive text; only extract the skill keywords.
+    #     5. Always double-check that no preferred information is missing.
+
+    #     Input:
+
+    #     **Table Header:**
+    #     {table_header}
+
+    #     **Job Description:**
     #     {job_description}
 
-    #     ### Existing Extracted Preferred Points:
-    #     {extracted_preferred_points}
+    #     **Output Format:**  
+    #         Fill in the table with only the preferred information. Use "N/A" for missing or unspecified fields.
 
-    #     ### Instructions:
-    #     1. Cross-check the **Existing Extracted Preferred Points** against the job description.
-    #     - Validate that each point aligns with qualifications explicitly stated or implied as "preferred," "nice-to-have," or "desirable."
-    #     - Ensure that points match the exact wording or phrasing used in the job description.
-    #     - Remove any points that are explicitly required or do not align with preferred qualifications.
+    #         ###Preferred:  
+    #         ```json{{
+    #         preferred:
+    #         {{
+    #             "Location": ["Extracted Preferred Location"],
+    #             "Experience": ["Extracted Preferred Experience"],
+    #             "Graduation": ["Extracted Preferred Graduation"],
+    #             "Post_Graduation": ["Extracted Preferred Post Graduation"],
+    #             "PhD": ["Extracted Preferred PhD"],
+    #             "Skills": ["Extracted Preferred skills"]
+    #         }}
+    #     }}
 
-    #     2. Identify any missing preferred qualifications:
-    #     - A qualification is **preferred** if:
-    #         - It is explicitly stated as "preferred," "nice-to-have," "desirable," or similar terminology.
-    #         - It is implied as beneficial but not essential for the role, based on the job context.
-    #     - Add any qualifications meeting these criteria to the final list.
-
-    #     3. Organize the final list under the following table headers:
-    #     - {table_header}
-    #     - Include qualifications that directly fit under each header.
-    #     - If no qualifications fit a header, omit it entirely from the final output.
-
-    #     4. Present the final, complete list of preferred qualifications:
-    #     - Use bullet points for each qualification.
-    #     - Ensure the list is concise and comprehensive, covering all beneficial but non-essential points.
+    #     **Explanation of Output:**  
+    #         ###Preferred: 
+    #         ```json{{
+    #         "preferred": {{
+    #         "Location": ["San Francisco, CA"],
+    #         "Experience": ["3"],
+    #         "Graduation": ["N/A"],
+    #         "Post_Graduation": ["Master's"],
+    #         "PhD": ["Phd"],
+    #         "Skills": ["Manual Testing", "API testing", "Postman"] 
+    #         }}
+    #         }}
 
     #     """
-    template="""
-        You are an AI assistant tasked with verifying and enhancing the list of **preferred qualifications** extracted from a job description. Your goal is to ensure the final list is accurate, comprehensive, and aligns with the job description.
+    template="""  
+         You are an AI assistant tasked with analyzing a job description to extract only **preferred** qualifications. Your goal is to determine which qualifications are desirable but not mandatory for the job, even if they are not explicitly labeled as "preferred." Use context and phrasing to make this determination.
 
-        ### Job Description:
+        Instructions:
+
+        1. Read the job description carefully.
+        2. Identify and extract **only** the optional or preferred details for each column in the table_header.
+        - **Ignore** any information marked as "required," "must have," "necessary," or "essential."
+        - If a specific column does not contain any preferred details, mark it as "N/A" or leave it blank.
+        3. For the location field:
+        - **Only** include location information if it is explicitly marked as preferred.
+        4. Extract only the  optional or preferred skill keywords from the job description:
+        - Return them as a **comma-separated list** (e.g., ["Manual Testing", "API testing", "Postman"]).
+        - Remove any additional descriptive text; only extract the skill keywords.
+        5. Always double-check that no preferred information is missing.
+
+        Input:
+
+        **Table Header:**
+        {table_header}
+
+        **Job Description:**
         {job_description}
 
-        ### Existing Extracted Preferred Points:
-        {extracted_preferred_points}
+        **Output Format:**  
+            Fill in the table with only the preferred information. Use "N/A" for missing or unspecified fields.
 
-        ### Instructions:
-        1. **Validate the Existing Extracted Preferred Points**:
-        - Confirm that each point in the list aligns explicitly with qualifications stated or implied as "preferred," "nice-to-have," "desirable," or similar terminology in the job description.
-        - **Exclude any qualifications that are explicitly marked as "required," "essential," or implied as mandatory.**
-        - Retain only those points that clearly fall under the "preferred" category based on the job description.
+            ###Preferred:  
+            ```json{{
+            preferred:
+            {{
+                "Location": ["Extracted Preferred Location"],
+                "Experience": ["Extracted Preferred Experience"],
+                "Graduation": ["Extracted Preferred Graduation"],
+                "Post_Graduation": ["Extracted Preferred Post Graduation"],
+                "PhD": ["Extracted Preferred PhD"],
+                "Skills": ["Extracted Preferred skills"]
+            }}
+        }}
 
-        2. **Identify Missing Preferred Qualifications**:
-        - Look for qualifications described as "preferred," "nice-to-have," or "desirable," or qualifications implied as beneficial but not essential for the role.
-        - **Do not include qualifications that are explicitly required or mandatory, even if they are implied to be beneficial.**
-        - Add missing preferred qualifications that meet these criteria.
-
-        3. **Organize the Final List Under the Following Table Headers**:
-        - {table_header}
-        - Assign qualifications to appropriate headers based on their relevance. 
-        - Exclude headers with no applicable qualifications.
-
-        4. **Output the Final List**:
-        - Use bullet points under each table header.
-        - Ensure the list is concise, comprehensive, and strictly focused on non-essential qualifications beneficial for the role.
-        - Ensure don't consider "Empty", None, or similar terms in output.
-
-        ### Additional Rules to Avoid Errors:
-        - Use exact wording or phrasing from the job description wherever possible.
-        - Double-check to ensure no explicitly required qualifications are included in the final preferred list.
+        **Explanation of Output:**  
+            ###Preferred: 
+            ```json{{
+            "preferred": {{
+            "Location": ["San Francisco, CA"],
+            "Experience": ["3"],
+            "Graduation": ["N/A"],
+            "Post_Graduation": ["Master's"],
+            "PhD": ["Phd"],
+            "Skills": ["Manual Testing", "API testing", "Postman"] 
+            }}
+            }}
 
         """
+    prompt = PromptTemplate(template=template, input_variables=["job_description", "table_header"])
 
-    prompt = PromptTemplate(template=template, input_variables=["job_description", "extracted_preferred_points", "table_header"])
+    matching_points_llm = prompt | llm | JsonOutputParser()
+    response = matching_points_llm.invoke({"job_description": job_description_file_content, "table_header": csv_headers })
+    save_response_to_markdown(str(response), "./data/preferred_messages.md")
 
-    matching_points_llm = prompt | llm
-    response = matching_points_llm.invoke({
-        "job_description": job_description_file_content, 
-        "extracted_preferred_points": state["preferred_messages"][-1].content, 
-        "table_header": csv_headers
-    })
-    save_response_to_markdown(response.content, "./data/check_preferred_messages.md")
+    # print("response: ", response)
+    return {"preferred_messages": [AIMessage(content=str(response))]}
 
-    # # print("response: ", response)
-    return {"preferred_messages": [AIMessage(content=response.content)]}
-    # return matching_points_llm
-    
+
+import json
+
+def write_to_json_file(data, filename="output.json"):
+    """Writes a dictionary to a JSON file with ASCII encoding."""
+    try:
+        with open(filename, "w", encoding="utf-8") as file:
+            json.dump(data, file, indent=4, ensure_ascii=False)  # Disable ASCII escaping
+        print(f"Data successfully written to {filename}")
+    except Exception as e:
+        print(f"Error writing to JSON file: {e}")
+
 
 def generate_final_point_tool(state):
     """
@@ -747,99 +628,65 @@ def generate_final_point_tool(state):
 
     print("generate_final_point_tool", state)
 
-    # template="""
-    #     You are an AI assistant tasked with creating an **optimized job description** for a specific role. The job description should be clear, concise, and tailored for querying via an SQL agent. Use the provided required and preferred points to ensure the description is comprehensive and well-structured.
-
-    #     ### Input Data:
-    #     - **Required Points**: {required_messages}
-    #     - **Preferred Points**: {preferred_messages}
-
-    #     ### Instructions:
-    #     1. Create a professional and structured job description using the following sections:
-    #     - **Job Title**: Include the role title.
-    #     - **Overview**: Provide a brief introduction to the role, company, and objectives.
-    #     - **Responsibilities**: List the key responsibilities of the role, ensuring alignment with the required and preferred points.
-    #     - **Qualifications**:
-    #         - **Required Qualifications**: List the required points in clear, bullet-point format.
-    #         - **Preferred Qualifications**: List the preferred points in clear, bullet-point format.
-    #     2. Ensure that:
-    #     - Required qualifications are clearly marked as mandatory.
-    #     - Preferred qualifications are marked as optional but desirable.
-    #     - The wording is precise and avoids ambiguity to facilitate SQL agent queries.
-    #     3. Use consistent and professional language suitable for job seekers.
-    #     4. Return the result as a structured text output with clear headings and subheadings.
-    #     5. Ensure the output is optimized for SQL agent use by maintaining logical and explicit formatting for each section.
-    #     6. Focus on clarity and avoid overly verbose descriptions.
-
-    #     ### Deliverable:
-    #     Return the optimized job description as structured text. Do not include explanations or commentary.
-        
-    #     """
-
-    # template="""
-    #     You are tasked with creating a detailed job description based on the provided information. Use the following guidelines:
-
-    #     Required Points: These are the mandatory qualifications, skills, and experience that are essential for the role. Please ensure that all items listed in the required_point section are clearly outlined as key qualifications.
-
-    #     Preferred Points: These are the qualifications, skills, and experience that are desirable but not mandatory. Make sure to mention that these are additional qualifications that would give candidates an edge.
-
-    #     Task: Based on the required_point and preferred_point, craft a professional job description. Make sure to clearly distinguish between what is required and what is preferred for potential candidates.
-
-    #     Input:
-
-    #     required_point = {required_messages}
-    #     preferred_point = {preferred_messages}
-        
-    #     """
-    # template="""
-    #     Generate questions that guide a SQL agent to retrieve Required Points and Preferred Points based on the input context. The questions should focus on clarity, relevance, and adaptability to dynamic data.
-    #     Input Parameters:
-
-    #     Required Points: {required_messages}
-    #     Preferred Points: {preferred_messages}
-        
-    #     """
-    # template="""
-    #     Generate a list of points based on the input context. Each point should be explicitly categorized as either Required or Preferred for clarity and ease of reference.
-
-    #     Input Parameters:
-    #     Required Points: {required_messages}
-    #     Preferred Points: {preferred_messages}
-        
-    #     """
     template="""
             Purpose: Generate a list of points categorized explicitly as either "Required" or "Preferred" for clear distinction and reference.
 
-            Instructions: Based on the provided input, clearly identify and categorize the points into "Required" and "Preferred" sections. The output should ensure proper alignment with SQL query requirements for accurate results.
+            Instructions: 
+            Based on the provided input, clearly identify and categorize the points into "Required" and "Preferred" sections. The output should ensure proper alignment with SQL query requirements for accurate results.
+
+            Exclude N/A, None or empty details in Location, Experience, Graduation, Post Graduation, PhD and Skills from output.
+            
+            Extract only the skill keywords from the following skills. Return them as a comma-separated list without any additional text.
 
             Input Parameters:
 
             Required Points: {required_messages}
             Preferred Points: {preferred_messages}
 
-            Output Structure:
+        Output Format:
+           
+            json```{{
+                "Required": {{
+                    "Location": ["Extracted Required Location"],
+                    "Experience": ["Extracted Required Experience"],
+                    "Graduation": ["Extracted Required Graduation. If found bachelor degree return only "Bachelor's""],
+                    "Post_Graduation": ["Extracted Required Post Graduation"],
+                    "PhD": ["Extracted Required PhD"],
+                    "Skills": ["Extracted skills"]
+                }}
+                "preferred": {{
+                    "Location": ["Extracted Preferred Location"],
+                    "Experience": ["Extracted Preferred Experience"],
+                    "Graduation": ["Extracted Preferred Graduation"],
+                    "Post_Graduation": ["Extracted Preferred Post Graduation"],
+                    "PhD": ["Extracted Preferred PhD"],
+                    "Skills": ["Extracted skills"]
+                }}
+            }}
 
-            Required:
+            Exclude Location, Experience, Graduation, Post Graduation, PhD and Skills from the output if they are N/A, None, or empty
 
-            List all points under "Required" with exact names and descriptions as provided.
-            Ensure that all required points are explicitly labeled and unambiguously stated.
-            Preferred:
-
-            List all points under "Preferred" separately.
             Clearly indicate that these points are optional but beneficial.
         """
         # Calculate the alignment score: Provide a score representing the percentage of alignment between the resume and job description.
 
     prompt = PromptTemplate(template=template, input_variables=["required_messages", "preferred_messages"])
 
-    generateFinalAwsner = prompt | llm
+    generateFinalAwsner = prompt | llm | JsonOutputParser()
 
     res = generateFinalAwsner.invoke({
         "required_messages": state["required_messages"][-1].content,
         "preferred_messages": state["preferred_messages"][-1].content
     })
 
-    return {"messages": [res]}
+    # print("res", res)
+    # print("restype", type(res))
+
+    file_name = "./data/ai_response.json"
+
+    write_to_json_file(res, file_name)
+
+    return {"messages": [str(res)]}
 
 
 def save_response_to_markdown(response, file_path):
@@ -862,18 +709,31 @@ def jd_agent():
 # Define a new graph
     workflow = StateGraph(State)
 
+    # workflow.add_node("find_required_point", find_required_point)
+    # workflow.add_node("check_required_point", check_required_point)
+    # workflow.add_node("find_preferred_point", find_preferred_point)
+    # workflow.add_node("check_preferred_point", check_preferred_point)
+    # workflow.add_node("generate_final_point", generate_final_point_tool)
+
+    # workflow.add_edge(START, "find_required_point")
+    # workflow.add_edge("find_required_point", "check_required_point")
+    # workflow.add_edge("check_required_point", "find_preferred_point")
+    # workflow.add_edge("find_preferred_point", "check_preferred_point")
+    # workflow.add_edge("check_preferred_point", "generate_final_point")
+    # workflow.add_edge("generate_final_point", END)
+
     workflow.add_node("find_required_point", find_required_point)
-    workflow.add_node("check_required_point", check_required_point)
+    # workflow.add_node("check_required_point", check_required_point)
     workflow.add_node("find_preferred_point", find_preferred_point)
-    workflow.add_node("check_preferred_point", check_preferred_point)
+    # workflow.add_node("check_preferred_point", check_preferred_point)
     workflow.add_node("generate_final_point", generate_final_point_tool)
 
     workflow.add_edge(START, "find_required_point")
-    workflow.add_edge("find_required_point", "check_required_point")
-    workflow.add_edge("check_required_point", "find_preferred_point")
-    workflow.add_edge("find_preferred_point", "check_preferred_point")
-    workflow.add_edge("check_preferred_point", "generate_final_point")
-    # workflow.add_edge("generate_final_point", END)
+    workflow.add_edge("find_required_point", "find_preferred_point")
+    # workflow.add_edge("check_required_point", "find_preferred_point")
+    workflow.add_edge("find_preferred_point", "generate_final_point")
+    # workflow.add_edge("check_preferred_point", "generate_final_point")
+    workflow.add_edge("generate_final_point", END)
 
     chain = workflow.compile()
 
@@ -891,7 +751,7 @@ def jd_agent():
     print("response", response["messages"][-1].content)
     file_name = "./data/ai_response.md"
     ai_response = response["messages"][-1].content
-    save_response_to_markdown(ai_response, file_name)
+    save_response_to_markdown(str(ai_response), file_name)
     # save_response_to_markdown(response["required_messages"][-1].content, "./data/required_messages.md")
     # save_response_to_markdown(response["preferred_messages"][-1].content, "./data/preferred_messages.md")
     # print("response:", response)
