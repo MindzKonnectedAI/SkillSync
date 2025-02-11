@@ -35,7 +35,7 @@ def generate_boolean_query(jd_content):
         - Tools, technologies, methodologies, or certifications mentioned.
         - Multi-word phrases and proper handling of special characters like apostrophes (e.g., "Bachelor's degree").
         7. Format the query for readability and compatibility with Boolean search systems (e.g., ATS, LinkedIn, or other search platforms).
-
+        8. Ensure that location information is not missing.
         **Job Description:**
         {job_description}
 

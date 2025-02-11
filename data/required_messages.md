@@ -1,1 +1,1 @@
-{'Required': {'Location': ['Remote'], 'Experience': ['5-8'], 'Graduation': ["Bachelor's"], 'Post_Graduation': ['N/A'], 'PhD': ['N/A'], 'Skills': ['Java', 'Java EE', 'Spring Batch', 'Spring Boot', 'SQL', 'JPA', 'JUnit', 'Core Java', 'J2EE', 'PrimeFaces']}}
+{'Required': {'Location': ['Chicago'], 'Experience': ['1'], 'Graduation': ["Bachelor's"], 'Post_Graduation': ['N/A'], 'PhD': ['N/A'], 'Skills': ['Python', 'SQL', 'Hadoop']}}

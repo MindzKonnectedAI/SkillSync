@@ -1,44 +1,29 @@
 {
     "Required": {
         "Location": [
-            "Remote"
+            "Chicago"
         ],
         "Experience": [
-            "5-8"
+            "1"
         ],
         "Graduation": [
             "Bachelor's"
         ],
         "Skills": [
-            "Java",
-            "Java EE",
-            "Spring Batch",
-            "Spring Boot",
+            "Python",
             "SQL",
-            "JPA",
-            "JUnit",
-            "Core Java",
-            "J2EE",
-            "PrimeFaces"
+            "Hadoop"
         ]
     },
-    "Preferred": {
-        "Experience": [
-            "5-8 years of hands-on experience in Java/JEE",
-            "5-8 years of experience developing User Interface pages using PrimeFaces",
-            "5-8 years of experience with Core Java / J2EE backend development"
-        ],
-        "Graduation": [
-            "Bachelor’s degree in Computer Science",
-            "Engineering (or a related field)"
+    "preferred": {
+        "Post_Graduation": [
+            "Master’s degree"
         ],
         "Skills": [
-            "Java design patterns",
-            "JPA",
-            "JUnit tests",
-            "SQL queries",
-            "Azure DevOps",
-            "Public Sector domain"
+            "AWS",
+            "Azure",
+            "Tableau",
+            "machine learning"
         ]
     }
 }
