@@ -921,6 +921,45 @@ def find_similar_matches(new_search, database, similarity_threshold=0.8, n=1):
 #         print(f"Value Matches: {match_data['matches']}")
 
 
+import copy
+
+def update_required_dict(result, user_inputs):
+    """
+    Update the 'Required' section of the result dictionary based on user_inputs.
+    
+    For each key in user_inputs with a non-empty value:
+      - If the key exists in result['Required'] and its value differs (ignoring order for lists),
+        update it.
+      - If the key does not exist, add it.
+    
+    Returns:
+        tuple: (result, result_updated) where result is the updated dictionary and
+               result_updated is True if any changes were made.
+    """
+    result_updated = False
+    # Ensure the "Required" key exists.
+    required = result.setdefault("Required", {})
+
+    for key, new_value in user_inputs.items():
+        if new_value:  # Only process non-empty values.
+            if key in required:
+                current_value = required[key]
+                # For list values, compare as sets (ignoring order).
+                if isinstance(current_value, list) and isinstance(new_value, list):
+                    if set(current_value) != set(new_value):
+                        required[key] = new_value
+                        result_updated = True
+                else:
+                    if current_value != new_value:
+                        required[key] = new_value
+                        result_updated = True
+            else:
+                required[key] = new_value
+                result_updated = True
+
+    return result, result_updated
+
+
 @st.dialog("Query Filters")
 def query_filters_modal(matchChainResponse=None, requirements=None):
     try:
@@ -1039,7 +1078,7 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                 # Update session state with the latest user inputs
                 st.session_state.user_inputs = user_inputs
                 # print("st.session_state.user_inputs after form submitted :",st.session_state.user_inputs)
-                # print("user_inputs", user_inputs)
+                print("user_inputs", user_inputs)
                 # jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
                 # print(jd_withfilter)
                 # jd_withfilter = add_filter_detail_in_optimize_jd_content(requirements, user_inputs)
@@ -1062,7 +1101,22 @@ def query_filters_modal(matchChainResponse=None, requirements=None):
                     # json_str = res["messages"][-1].tool_calls[0]["args"]["final_answer"]
                     # st.session_state.chat_history.append(AIMessage(content=json_str, name=get_agent_name(agent_name)))
 
-                    res = sql_chain.invoke(str(result), config)
+                    def process_result(result, user_inputs, config):
+                        # Make a deep copy of the original result to preserve it in case no updates occur.
+                        original_result = copy.deepcopy(result)
+                        updated_result, result_updated = update_required_dict(result, user_inputs)
+                        
+                        # If updated_result was changed, invoke sql_chain with updated_result; otherwise, with original_result.
+                        # return sql_chain.invoke(str(updated_result) if result_updated else str(original_result), config)
+                        if(result_updated):
+                            print("updated_result", updated_result)
+                            return sql_chain.invoke(str(updated_result), config)
+                        else:
+                            print("original_result", original_result)
+                            return sql_chain.invoke(str(original_result), config)
+                        
+                    # res = sql_chain.invoke(str(result), config)
+                    res = process_result(result, user_inputs, config)
                     st.session_state.chat_history.append(AIMessage(content=res["messages"][-1].content, name=get_agent_name(agent_name)))
 
                     st.session_state.user_inputs = {}
