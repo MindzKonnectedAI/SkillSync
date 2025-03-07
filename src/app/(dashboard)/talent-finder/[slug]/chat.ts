@@ -38,7 +38,7 @@ export const sendMessage = async (
     try {
       const chatModel = new ChatOpenAI({
         // apiKey: "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",
-        // apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
         temperature: 0,
         modelName: "gpt-4o-mini", // Use GPT-4 or any other model of your choice
       });
