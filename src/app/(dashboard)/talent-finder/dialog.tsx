@@ -145,7 +145,7 @@ export default function dialog({ open, setOpen, findMatch, setJDContent }: Dialo
                     </DialogTitle>
                 </DialogHeader>
                 {open.type === "ATS" && <ATS setOpen={setOpen} />}
-                {open.type === "github" && <Github setOpen={setOpen} findMatch={findMatch} setJDContent={setJDContent} setOpen={setOpen} />}
+                {open.type === "github" && <Github setOpen={setOpen} findMatch={findMatch} setJDContent={setJDContent} />}
             </DialogContent>
         </Dialog>
     )
