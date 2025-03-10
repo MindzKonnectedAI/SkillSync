@@ -24,6 +24,7 @@ export default function TaletFinder() {
     const { items, setItems } = useContext(UserContext)
     const [ value, setValue ] = useState<string>("")
     const router = useRouter()
+    const [JDcontent, setJDContent] = useState<string>("");
 
     // console.log(SupervisorAgent())
 
@@ -156,14 +157,14 @@ export default function TaletFinder() {
 
     return (
         <>
-            {open.open && <DialogS open={open} setOpen={setOpen} findMatch={findMatch} />}
+            {open.open && <DialogS open={open} setOpen={setOpen} findMatch={findMatch} setJDContent={setValue} />}
             <div className={`flex flex-col justify-center items-center h-[88dvh] gap-5`}>
                 <div className='flex flex-col justify-center items-center'>
                     <div className="text-4xl ">Skillsync by datacurve</div>
                     <div className="py-2 text-sm text-gray-500">Find your matching candidate with skillsync AI</div>
                     <div className="flex flex-col items-center">
                         <Button className="ml-auto" variant={"outline"} onClick={() => setOpen({ open: true, type: "github" })} >Upload job discription</Button>
-                        <Input onChange={(value) => setValue(value.target.value)} className="w-[700px] h-[60px]" width={300} type="email" id="email" placeholder="Find your matching candidate with AI" />
+                        <Input value={value} onChange={(value) => setValue(value.target.value)} className="w-[700px] h-[60px]" width={300} type="email" id="email" placeholder="Find your matching candidate with AI" />
                         {/* {loading && <div className="bg-muted w-full">
                             <div className={`bg-muted absolute flex justify-between w-[700px] gap-5 p-2 rounded-t-5`}>
                                 {expandMessage && <div className="flex flex-col gap-2">
