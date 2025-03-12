@@ -113,183 +113,6 @@ const State = Annotation.Root({
   }),
 });
 
-// const ResearchTeamState = Annotation.Root({
-//   messages: Annotation<BaseMessage[]>({
-//     reducer: (x, y) => x.concat(y),
-//   }),
-//   team_members: Annotation<string[]>({
-//     reducer: (x, y) => x.concat(y),
-//   }),
-//   next: Annotation<string>({
-//     reducer: (x, y) => y ?? x,
-//     default: () => "supervisor",
-//   }),
-//   instructions: Annotation<string>({
-//     reducer: (x, y) => y ?? x,
-//     default: () => "Solve the human's question.",
-//   }),
-// })
-
-// const searchNode = (state: typeof ResearchTeamState.State) => {
-//   const stateModifier = agentStateModifier(
-//     "You are a research assistant who can search for up-to-date info using the tavily search engine.",
-//     [],
-//     state.team_members ?? ["Search"],
-//   )
-//   const searchAgent = createReactAgent({
-//     llm,
-//     tools: [],
-//     stateModifier,
-//   })
-//   return runAgentNode({ state, agent: searchAgent, name: "Search" });
-// };
-
-// const researchNode = (state: typeof ResearchTeamState.State) => {
-//   const stateModifier = agentStateModifier(
-//     "You are a research assistant who can scrape specified urls for more detailed information using the scrapeWebpage function.",
-//     [],
-//     state.team_members ?? ["WebScraper"],
-//   )
-//   const researchAgent = createReactAgent({
-//     llm,
-//     tools: [],
-//     stateModifier,
-//   })
-//   return runAgentNode({ state, agent: researchAgent, name: "WebScraper" });
-// }
-
-// const supervisorAgent = await createTeamSupervisor(
-//   llm,
-//   "You are a supervisor tasked with managing a conversation between the" +
-//   " following workers:  {team_members}. Given the following user request," +
-//   " respond with the worker to act next. Each worker will perform a" +
-//   " task and respond with their results and status. When finished," +
-//   " respond with FINISH.\n\n" +
-//   " Select strategically to minimize the number of steps taken.",
-//   ["Search", "WebScraper"],
-// );
-
-// const researchGraph = new StateGraph(ResearchTeamState)
-//   .addNode("Search", searchNode)
-//   .addNode("supervisor", supervisorAgent)
-//   .addNode("WebScraper", researchNode)
-//   // Define the control flow
-//   .addEdge("Search", "supervisor")
-//   .addEdge("WebScraper", "supervisor")
-//   .addConditionalEdges("supervisor", (x) => x.next, {
-//     Search: "Search",
-//     WebScraper: "WebScraper",
-//     FINISH: END,
-//   })
-//   .addEdge(START, "supervisor");
-
-// const researchChain = researchGraph.compile();
-
-// // This defines the agent state for the document writing team
-// const DocWritingState = Annotation.Root({
-//   messages: Annotation<BaseMessage[]>({
-//     reducer: (x, y) => x.concat(y),
-//   }),
-//   team_members: Annotation<string[]>({
-//     reducer: (x, y) => x.concat(y),
-//   }),
-//   next: Annotation<string>({
-//     reducer: (x, y) => y ?? x,
-//     default: () => "supervisor",
-//   }),
-//   current_files: Annotation<string>({
-//     reducer: (x, y) => (y ? `${x}\n${y}` : x),
-//     default: () => "No files written.",
-//   }),
-//   instructions: Annotation<string>({
-//     reducer: (x, y) => y ?? x,
-//     default: () => "Solve the human's question.",
-//   }),
-// })
-
-// // const docWritingLlm = new ChatOpenAI({ modelName: "gpt-4o-mini" });
-
-// const prelude = new RunnableLambda({
-//   func: async (state: {
-//     messages: BaseMessage[];
-//     next: string;
-//     instructions: string;
-//   }) => {
-//     let writtenFiles: string[] = [];
-
-//   },
-// });
-
-// const docWritingNode = (state: typeof DocWritingState.State) => {
-//   const stateModifier = agentStateModifier(
-//     `You are an expert writing a research document.\nBelow are files currently in your directory:\n${state.current_files}`,
-//     [],
-//     state.team_members ?? [],
-//   )
-//   const docWriterAgent = createReactAgent({
-//     llm,
-//     tools: [],
-//     stateModifier,
-//   })
-//   const contextAwareDocWriterAgent = prelude.pipe(docWriterAgent);
-//   return runAgentNode({ state, agent: contextAwareDocWriterAgent, name: "DocWriter" });
-// }
-
-// const noteTakingNode = (state: typeof DocWritingState.State) => {
-//   const stateModifier = agentStateModifier(
-//     "You are an expert senior researcher tasked with writing a paper outline and" +
-//     ` taking notes to craft a perfect paper. ${state.current_files}`,
-//     [],
-//     state.team_members ?? [],
-//   )
-//   const noteTakingAgent = createReactAgent({
-//     llm,
-//     tools: [],
-//     stateModifier,
-//   })
-//   const contextAwareNoteTakingAgent = prelude.pipe(noteTakingAgent);
-//   return runAgentNode({ state, agent: contextAwareNoteTakingAgent, name: "NoteTaker" });
-// }
-
-
-// const docTeamMembers = ["DocWriter", "NoteTaker"];
-// const docWritingSupervisor = await createTeamSupervisor(
-//   llm,
-//   "You are a supervisor tasked with managing a conversation between the" +
-//   " following workers:  {team_members}. Given the following user request," +
-//   " respond with the worker to act next. Each worker will perform a" +
-//   " task and respond with their results and status. When finished," +
-//   " respond with FINISH.\n\n" +
-//   " Select strategically to minimize the number of steps taken.",
-//   docTeamMembers,
-// );
-// // Create the graph here:
-// const authoringGraph = new StateGraph(DocWritingState)
-//   .addNode("DocWriter", docWritingNode)
-//   .addNode("NoteTaker", noteTakingNode)
-//   .addNode("supervisor", docWritingSupervisor)
-//   // Add the edges that always occur
-//   .addEdge("DocWriter", "supervisor")
-//   .addEdge("NoteTaker", "supervisor")
-//   // Add the edges where routing applies
-//   .addConditionalEdges("supervisor", (x) => x.next, {
-//     DocWriter: "DocWriter",
-//     NoteTaker: "NoteTaker",
-//     FINISH: END,
-//   })
-//   .addEdge(START, "supervisor");
-
-// const enterAuthoringChain = RunnableLambda.from(
-//   ({ messages }: { messages: BaseMessage[] }) => {
-//     return {
-//       messages: messages,
-//       team_members: ["Doc Writer", "Note Taker", "Chart Generator"],
-//     };
-//   },
-// );
-
-// const authoringChain = enterAuthoringChain.pipe(authoringGraph.compile());
-
 const GithubTeamState = Annotation.Root({
   messages: Annotation<BaseMessage[]>({
     reducer: (x, y) => x.concat(y),
@@ -522,7 +345,7 @@ const fetchUsersAgentNode = (state: typeof GithubTeamState.State) => {
   return runAgentNode({ state, agent: fetchUsersAgent, name: "fetchUsers" });
 };
 
-const members = ['SupportedQueries', 'QueriesGenerator', 'fetchUsers']
+// const members = ['SupportedQueries', 'QueriesGenerator', 'fetchUsers']
 
 const githubSupervisor = await createTeamSupervisor(
   llm,
@@ -573,19 +396,107 @@ const enterAuthoringChainGithub = RunnableLambda.from(
   },
 );
 
-const githubChain = githubGraph.compile();
+// const githubChain = githubGraph.compile();
 
 const authoringChainGithub = enterAuthoringChainGithub.pipe(githubGraph.compile());
 
-const supervisorNode = await createTeamSupervisor(
+
+const BooleanTeamState = Annotation.Root({
+  messages: Annotation<BaseMessage[]>({
+    reducer: (x, y) => x.concat(y),
+  }),
+  team_members: Annotation<string[]>({
+    reducer: (x, y) => x.concat(y),
+  }),
+  next: Annotation<string>({
+    reducer: (x, y) => y ?? x,
+    default: () => "supervisor",
+  }),
+  instructions: Annotation<string>({
+    reducer: (x, y) => y ?? x,
+    default: () => "Solve the human's question.",
+  }),
+})
+
+const createBooleanAgentNode = (state: typeof BooleanTeamState.State) => {
+  const stateModifier = agentStateModifier(
+    `
+    You are an expert in crafting Boolean search queries for recruitment purposes. Your task is to generate a Boolean search query using the following job description. Ensure the query accurately reflects the required and preferred qualifications, skills, and experience mentioned. Use the correct Boolean operators (AND, OR, NOT, and parentheses) to group terms appropriately. If multiple skills or qualifications are listed, use AND for mandatory requirements and OR for optional ones. Ensure exact phrases (like "Bachelor's degree") are enclosed in quotes.
+    `,
+    [],
+    state.team_members ?? ["createBooleanQueryAgent"],
+  )
+  const createBooleanQueryAgent = createReactAgent({
+    llm,
+    tools: [],
+    stateModifier,
+  })
+  return runAgentNode({ state, agent: createBooleanQueryAgent, name: "createBooleanQueryAgent" });
+};
+
+// const members = ['SupportedQueries', 'QueriesGenerator', 'fetchUsers']
+
+const booleanSupervisor = await createTeamSupervisor(
   llm,
   "You are a supervisor tasked with managing a conversation between the" +
-  " following teams: {team_members}. Given the following user request," +
+  " following workers:  {team_members}. Given the following user request," +
   " respond with the worker to act next. Each worker will perform a" +
   " task and respond with their results and status. When finished," +
   " respond with FINISH.\n\n" +
   " Select strategically to minimize the number of steps taken.",
-  ["GithubTeam"],
+  ["createBooleanQueryAgent"],
+);
+
+// const githubSupervisor = await createTeamSupervisor(
+//   llm,
+//   "You are a supervisor tasked with managing a conversation between the" +
+//   " following workers:  {team_members}. Given the following user request," +
+//   " respond with the worker to act next. Each worker will perform a" +
+//   " task and respond with their results and status. When finished," +
+//   " respond with FINISH.\n\n" +
+//   " Select strategically to minimize the number of steps taken.",
+//   ['SupportedQueries', 'QueriesGenerator', 'fetchUsers'],
+// );
+
+// Create the graph here:
+const booleanGraph = new StateGraph(BooleanTeamState)
+  .addNode("createBooleanQueryAgent", createBooleanAgentNode)
+  .addNode("supervisor", booleanSupervisor)
+  // Add the edges that always occur
+  .addEdge("createBooleanQueryAgent", "supervisor")
+  // Add the edges where routing applies
+  .addConditionalEdges("supervisor", (x) => x.next, {
+    createBooleanQueryAgent: "createBooleanQueryAgent",
+    FINISH: END,
+  })
+  .addEdge(START, "supervisor");
+
+const enterAuthoringChainBoolean = RunnableLambda.from(
+  ({ messages }: { messages: BaseMessage[] }) => {
+    return {
+      messages: messages,
+      team_members: ['createBooleanQueryAgent'],
+    };
+  },
+);
+
+// const githubChain = githubGraph.compile();
+
+const authoringChainBoolean = enterAuthoringChainBoolean.pipe(booleanGraph.compile());
+
+const supervisorNode = await createTeamSupervisor(
+  llm,
+  // "You are a supervisor tasked with managing a conversation between the" +
+  // " following teams: {team_members}. Given the following user request," +
+  // " respond with the worker to act next. Each worker will perform a" +
+  // " task and respond with their results and status. When finished," +
+  // " respond with FINISH.\n\n" +
+  // " Select strategically to minimize the number of steps taken.",
+  "You are a supervisor tasked with managing a conversation between the" +
+  " following teams: {team_members}. Given the following user request," +
+  " select one worker to perform their task. Once any worker responds" +
+  " with their results and status, immediately end the process by responding with FINISH.",
+  ["GithubTeam", "BooleanTeam"],
 );
 
 const getMessages = RunnableLambda.from((state: typeof State.State) => {
@@ -599,37 +510,18 @@ const joinGraph = RunnableLambda.from((response: any) => {
 });
 
 const superGraph = new StateGraph(State)
-  // .addNode("ResearchTeam", async (input) => {
-  //   const getMessagesResult = await getMessages.invoke(input);
-  //   const researchChainResult = await researchChain.invoke({
-  //     messages: getMessagesResult.messages,
-  //   });
-  //   const joinGraphResult = await joinGraph.invoke({
-  //     messages: researchChainResult.messages,
-  //   });
-  // })
-  //   .addNode("GithubTeam", async (input) => {
-  //     console.log("SuperGraph", State)
-  //     console.log("input", input)
-
-  //     const getMessagesResult = await getMessages.invoke(input);
-  //     const githubChainResult = await githubChain.invoke({
-  //       messages: getMessagesResult.messages,
-  //     });
-  //     const joinGraphResult = await joinGraph.invoke({
-  //       messages: githubChainResult.messages,
-  //     });
-  //   })
-  // .addNode("PaperWritingTeam", getMessages.pipe(authoringChain).pipe(joinGraph))
   .addNode("GithubTeam", getMessages.pipe(authoringChainGithub).pipe(joinGraph))
+  .addNode("BooleanTeam", getMessages.pipe(authoringChainBoolean).pipe(joinGraph))
   .addNode("supervisor", supervisorNode)
   // .addEdge("ResearchTeam", "supervisor")
   // .addEdge("PaperWritingTeam", "supervisor")
   .addEdge("GithubTeam", "supervisor")
+  .addEdge("BooleanTeam", "supervisor")
   .addConditionalEdges("supervisor", (x) => x.next, {
     // PaperWritingTeam: "PaperWritingTeam",
     // ResearchTeam: "ResearchTeam",
     GithubTeam: "GithubTeam",
+    BooleanTeam: "BooleanTeam",
     FINISH: END,
   })
   .addEdge(START, "supervisor");

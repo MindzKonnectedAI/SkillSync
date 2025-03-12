@@ -19,11 +19,6 @@ import { runAgent } from "./action";
 import { StreamEvent } from "@langchain/core/tracers/log_stream";
 import { ChatOpenAI } from '@langchain/openai';
 import { sendMessage } from "./chat"
-import { usePathname } from "next/navigation"
-import { useRouter } from "next/navigation"
-import ProfileCheckerDialog from "./profileCheckerDialog"
-import ContentSections from "./ContentSections"
-import ResumeSidebar from "./ResumeSidebar"
 
 const AssistantResponse = ({ content }: { content: string }) => {
     useEffect(() => {
@@ -121,24 +116,25 @@ const AssistantResponse = ({ content }: { content: string }) => {
 
 
 export default function Slug() {
-    const path = usePathname()
-    const router = useRouter()
     const searchParams = useSearchParams()
     const search = searchParams.get('query')
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [open, setOpen] = useState({ open: false, type: "" })
-    const [resumeUpload, setResumeUpload] = useState(false)
 
-    const [selectedOptions, setSelectedOptions] = useState<string>("");
+    const [selectedOptions, setSelectedOptions] = useState({
+        github: true,
+        ats: false,
+        reddit: false
+    });
     const [submitted, setSubmitted] = useState(false);
     const [inputValue, setInputValue] = useState("")
     const [isLoading, setIsLoading] = useState(false);
     const [expandMessage, setExpandMessage] = useState(true);
     const [data, setData] = useState<StreamEvent[]>([]);
-
-    const handleCheckboxChange = (value: string) => {
-        console.log("value:", value)
-        setSelectedOptions(value);
+    const handleCheckboxChange = (value: keyof typeof selectedOptions) => {
+        setSelectedOptions(prev => ({
+            ...prev,
+            [value]: !prev[value]
+        }));
     };
 
 
@@ -157,67 +153,16 @@ export default function Slug() {
                         <CardTitle>Platform Selection</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        {/* {sessionStorage.getItem("selectedOptions") &&
-                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").map(option =>
-                                <div className="flex items-center space-x-2">
-                                    <Checkbox
-                                        id="github"
-                                        // checked={selectedOptions}
-                                        onCheckedChange={() => handleCheckboxChange(option)}
-                                    />
-                                    <Label htmlFor={option}>{option}</Label>
-                                </div>)} */}
-                        {sessionStorage.getItem("selectedOptions") &&
-                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("Github") &&
-                            <div className="flex items-center space-x-2">
-                                <Checkbox
-                                    id="Github"
-                                    checked={selectedOptions === "Github"}
-                                    onCheckedChange={() => handleCheckboxChange("Github")}
-                                />
-                                <Label htmlFor="Github">Github</Label>
-                            </div>}
-                        {sessionStorage.getItem("selectedOptions") &&
-                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("Boolean agent") &&
-                            <div className="flex items-center space-x-2">
-                                <Checkbox
-                                    id="Boolean agent"
-                                    checked={selectedOptions === "Boolean agent"}
-                                    onCheckedChange={() => handleCheckboxChange("Boolean agent")}
-                                />
-                                <Label htmlFor="Boolean agent">Boolean</Label>
-                            </div>}
-                        {sessionStorage.getItem("selectedOptions") &&
-                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("Profile checker") &&
-                            <div className="flex items-center space-x-2">
-                                <Checkbox
-                                    id="Profile checker"
-                                    checked={selectedOptions === "Profile checker"}
-                                    onCheckedChange={() => handleCheckboxChange("Profile checker")}
-                                />
-                                <Label htmlFor="Profile checker">Profile Checker</Label>
-                            </div>}
-                        {sessionStorage.getItem("selectedOptions") &&
-                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("ATS") &&
-                            <div className="flex items-center space-x-2">
-                                <Checkbox
-                                    id="ATS"
-                                    checked={selectedOptions === "ATS"}
-                                    onCheckedChange={() => handleCheckboxChange("ATS")}
-                                />
-                                <Label htmlFor="ATS">ATS</Label>
-                            </div>}
-                        {sessionStorage.getItem("selectedOptions") &&
-                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("Reddit") &&
-                            <div className="flex items-center space-x-2">
-                                <Checkbox
-                                    id="Reddit"
-                                    checked={selectedOptions === "Reddit"}
-                                    onCheckedChange={() => handleCheckboxChange("Reddit")}
-                                />
-                                <Label htmlFor="Reddit">Reddit</Label>
-                            </div>}
-                        {/* <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2">
+                            <Checkbox disabled={submitted}
+                                id="github"
+                                checked={selectedOptions.github}
+                                onCheckedChange={() => handleCheckboxChange('github')}
+                            />
+                            <Label htmlFor="github">GitHub</Label>
+                        </div>
+
+                        <div className="flex items-center space-x-2">
                             <Checkbox disabled={submitted}
                                 id="ats"
                                 checked={selectedOptions.ats}
@@ -233,9 +178,9 @@ export default function Slug() {
                                 onCheckedChange={() => handleCheckboxChange('reddit')}
                             />
                             <Label htmlFor="reddit">Reddit</Label>
-                        </div> */}
+                        </div>
 
-                        {/* {submitted && getSelectedItems().length > 0 && (
+                        {submitted && getSelectedItems().length > 0 && (
                             <div className="mt-4 p-4 rounded bg-slate-100">
                                 <p>Selected platforms:</p>
                                 <ul className="list-disc pl-5 mt-2">
@@ -250,7 +195,7 @@ export default function Slug() {
                             <div className="mt-4 p-4 rounded bg-amber-100 text-amber-800">
                                 <p>No platforms selected!</p>
                             </div>
-                        )} */}
+                        )}
                     </CardContent>
                     <CardFooter>
                         <Button
@@ -266,14 +211,14 @@ export default function Slug() {
     </div>)
 
 
-    // const messages = [
-    //     {
-    //         id: "12121",
-    //         user: (search ? search.replace("+", " ") : ""),
-    //         ai: <SelectPlatform />
-    //     },
-    // ]
-    const [chat, setChat] = useState<{ id: string; user: string; ai: string | React.ReactNode }[]>([])
+    const messages = [
+        {
+            id: "12121",
+            user: (search ? search.replace("+", " ") : ""),
+            ai: <SelectPlatform />
+        },
+    ]
+    const [chat, setChat] = useState<{ id: string; user: string; ai: string | React.ReactNode }[]>(messages)
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -299,19 +244,33 @@ export default function Slug() {
     }
 
     const handleUpdateMessageStream = async (props: handleUpdateMessageStreamType) => {
-        const questioWithTeam = `${props.user} "Team: ${selectedOptions}"`
-
-        console.log("questioWithTeam", questioWithTeam)
+        const questioWithTeam = `${props.user} "Team: ${"GithubTeam"}`
 
         const data = await streamFn(questioWithTeam)
-
+        // console.log("arr:", data)
+        // console.log("streamData:", streamData)
         const secondlastNode = data[data.length - 2]
+        // console.log("secondlastNode", secondlastNode)
 
         const nodeName = Object.keys(secondlastNode)[0]
         // console.log("nodeName", nodeName)
         const lastContent = secondlastNode[nodeName]?.messages[0]?.kwargs?.content
+        // console.log("lastContent", lastContent)
+
+        // const history = newMessages.map(({ role, content }) => ({
+        //     role,
+        //     content: typeof content === "string" ? content : "",
+        // }));
 
         const response = await sendMessage(lastContent);
+
+        // const messages = [
+        //     new HumanMessage(
+        //       `Create next js ui component for give context and very important only return conponent nothing else: ${lastContent}`
+        //     ),
+        //   ];
+
+        // const response = await chatModel.invoke(messages);
 
         console.log("response", response)
 
@@ -331,24 +290,54 @@ export default function Slug() {
         setIsLoading(false); // Start loading when user sends message
 
     }
-    console.log("chat is loaded", chat)
+
     const handleAccept = async () => {
-        router.push(`${path}?query=${search}&platform="${selectedOptions}"`)
         setSubmitted(true);
-        if (selectedOptions !== "Profile checker") {
-
-            setIsLoading(true);
-            const newMessage = {
-                id: uuidv4(),
-                user: (search ? search.replace("+", " ") : ""),
-                ai: <div className="loader" />, // Placeholder for AI response
+        setIsLoading(true);
+        setChat(
+            (prevMessages) => {
+                // Clone the array
+                const updatedMessages = [...prevMessages];
+                // Update the text of the last message
+                if (updatedMessages.length > 0) {
+                    updatedMessages[updatedMessages.length - 1] = {
+                        ...updatedMessages[updatedMessages.length - 1],
+                        user: chat[chat.length - 1]?.user,
+                        ai: <div className="loader" />
+                    };
+                }
+                return updatedMessages;
             }
+        );
 
-            console.log("selectedOptions", selectedOptions)
-            setChat((prevMessages) => [...prevMessages, newMessage]);
-            await handleUpdateMessageStream(newMessage)
-            setExpandMessage(false)
-        }
+        await handleUpdateMessageStream(chat[chat.length - 1])
+
+        // const questioWithTeam = `${chat[chat.length - 1]?.user} "Team: ${"GithubTeam"}`
+
+        // const data = await streamFn(questioWithTeam)
+        // console.log("arr:", data)
+        // // console.log("streamData:", streamData)
+        // const secondlastNode = data[data.length - 2]
+        // console.log("secondlastNode", secondlastNode)
+
+        // const nodeName = Object.keys(secondlastNode)[0]
+        // console.log("nodeName", nodeName)
+        // const lastContent = secondlastNode[nodeName]?.messages[0]?.kwargs?.content
+        // console.log("lastContent", lastContent)
+
+        // const updatedMessage = {
+        //     id: uuidv4(),
+        //     user: chat[chat.length - 1]?.user,
+        //     ai: lastContent
+        // };
+
+        // setChat((prevChat) => {
+        //     return prevChat.map((res) =>
+        //         res?.id === chat[chat.length - 1].id ? { ...res, ...updatedMessage } : res
+        //     );
+        // });
+
+        setExpandMessage(false)
     };
 
 
@@ -356,16 +345,53 @@ export default function Slug() {
     const addMessage = async (userMessage: string) => {
         setIsLoading(true); // Start loading when user sends message
 
-        const id = uuidv4()
+        if (!submitted) {
+            const newMessage = {
+                id: uuidv4(),
+                user: userMessage,
+                ai: <SelectPlatform />, // Placeholder for AI response
+            };
 
-        const newMessage = {
-            id,
-            user: userMessage,
-            ai: <div className="loader" />
-        };
-        setChat((prevChat) => [...prevChat, newMessage]);
+            setChat((prevChat) => [...prevChat, newMessage]);
+        } else {
+            const id = uuidv4()
 
-        await handleUpdateMessageStream(newMessage)
+            const newMessage = {
+                id,
+                user: userMessage,
+                ai: <div className="loader" />
+            };
+            setChat((prevChat) => [...prevChat, newMessage]);
+            // aiResponse(newMessage)
+
+            await handleUpdateMessageStream(newMessage)
+
+            // const questioWithTeam = `${userMessage} "Team: ${"GithubTeam"}`
+
+            // const data = await streamFn(questioWithTeam)
+            // console.log("arr:", data)
+            // // console.log("streamData:", streamData)
+            // const secondlastNode = data[data.length - 2]
+            // console.log("secondlastNode", secondlastNode)
+
+            // const nodeName = Object?.keys(secondlastNode)[0]
+            // console.log("nodeName", nodeName)
+            // const lastContent = secondlastNode[nodeName]?.messages[0]?.kwargs?.content
+            // console.log("lastContent", lastContent)
+
+            // const updatedMessage = {
+            //     id: uuidv4(),
+            //     user: chat[chat.length - 1]?.user,
+            //     ai: lastContent
+            // };
+
+            // setChat((prevChat) => {
+            //     return prevChat.map((res) =>
+            //         res?.id === id ? { ...res, ...updatedMessage } : res
+            //     );
+            // });
+
+        }
     };
 
     // console.log("dataStream:", data)
@@ -389,8 +415,7 @@ export default function Slug() {
                 </div>
             </header>
             <div className="flex flex-col gap-8 h-[calc(100dvh-140px)] overflow-y-scroll">
-                {!submitted && <SelectPlatform />}
-                {submitted && chat?.map((res, index) => <> <div className="flex gap-5 justify-end" key={index}>
+                {chat?.map((res, index) => <> <div className="flex gap-5 justify-end" key={index}>
                     <div className="max-w-[60%] p-5">
                         {res.user}
                     </div>
@@ -403,23 +428,18 @@ export default function Slug() {
                             AI
                         </div>
                         <div className="w-[60%] bg-muted p-4">
+                            {/* {!res.ai && !submitted && <Image src={dot} alt="" className="rounded-full" />} */}
                             {res.ai}
+                            {/* {!submitted && typeof res.ai !== "string" && <div className="flex items-center gap-2">
+                                <Button className="w-[200px]"
+                                    onClick={handleAccept} disabled={submitted}
+                                >
+                                    {submitted ? " Done" : "Accept"}
+                                </Button>
+                            </div>} */}
                         </div>
                     </div>
                 </>)}
-                {submitted && selectedOptions === "Profile checker" && !resumeUpload && <div className="flex justify-center items-center gap-4 w-full h-[100%]">
-                    <div>
-                        <Button onClick={() => setOpen({ open: true, type: "resume" })}>
-                            Click to start your profile matches.
-                        </Button>
-                    </div>
-                </div>}
-                {submitted && selectedOptions === "Profile checker" && resumeUpload && <div className="flex gap-4 w-full h-[100%]">
-                    <ContentSections />
-                    <div className="relative right-0">
-                        <ResumeSidebar />
-                    </div>
-                </div>}
             </div>
             <div className="flex justify-center mt-auto w-[100%] p-2">
                 <div className="mt-auto grow">
@@ -458,7 +478,7 @@ export default function Slug() {
                         </div>
                     </div>
                     }
-                    {submitted && selectedOptions !== "Profile checker" && <div className="flex justify-center items-center gap-4 w-full">
+                    <div className="flex justify-center items-center gap-4 w-full">
                         <form onSubmit={handleSubmit} className="flex justify-center items-center gap-4 w-full">
                             <Input
                                 className="h-[50px]"
@@ -469,10 +489,9 @@ export default function Slug() {
                                 Submit
                             </Button>
                         </form>
-                    </div>}
+                    </div>
                 </div>
             </div>
-            {open.open && <ProfileCheckerDialog open={open} setOpen={setOpen} setResumeUpload={setResumeUpload} />}
         </div>
     )
 }

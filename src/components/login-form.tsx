@@ -13,10 +13,15 @@ import { Label } from "@/components/ui/label"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
+interface LoginFormProps extends React.HTMLAttributes<HTMLDivElement> {
+  setComponent: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export function LoginForm({
   className,
+  setComponent,
   ...props
-}: React.ComponentPropsWithoutRef<"div">) {
+}: LoginFormProps) {
   const router = useRouter()
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -77,7 +82,8 @@ export function LoginForm({
                   </div>
                   <Input id="password" type="password" required placeholder="Password" />
                 </div>
-                <Button onClick={() => router.push("talent-finder")} className="w-full">
+                {/* <Button onClick={() => router.push("talent-finder")} className="w-full"> */}
+                <Button onClick={() => setComponent(false)} className="w-full">
                   {/* <Link href="/talent-finder"> */}
                   Login
                   {/* </Link> */}
