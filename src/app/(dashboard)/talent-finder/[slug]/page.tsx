@@ -188,14 +188,14 @@ export default function Slug() {
                                 <Label htmlFor="Boolean agent">Boolean</Label>
                             </div>}
                         {sessionStorage.getItem("selectedOptions") &&
-                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("Profile checker") &&
+                            JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("Resume match") &&
                             <div className="flex items-center space-x-2">
                                 <Checkbox
-                                    id="Profile checker"
-                                    checked={selectedOptions === "Profile checker"}
-                                    onCheckedChange={() => handleCheckboxChange("Profile checker")}
+                                    id="Resume match"
+                                    checked={selectedOptions === "Resume match"}
+                                    onCheckedChange={() => handleCheckboxChange("Resume match")}
                                 />
-                                <Label htmlFor="Profile checker">Profile Checker</Label>
+                                <Label htmlFor="Resume match">Resume Match</Label>
                             </div>}
                         {sessionStorage.getItem("selectedOptions") &&
                             JSON.parse(sessionStorage.getItem("selectedOptions") || "null").includes("ATS") &&
@@ -335,7 +335,7 @@ export default function Slug() {
     const handleAccept = async () => {
         router.push(`${path}?query=${search}&platform="${selectedOptions}"`)
         setSubmitted(true);
-        if (selectedOptions !== "Profile checker") {
+        if (selectedOptions !== "Resume match") {
 
             setIsLoading(true);
             const newMessage = {
@@ -407,14 +407,14 @@ export default function Slug() {
                         </div>
                     </div>
                 </>)}
-                {submitted && selectedOptions === "Profile checker" && !resumeUpload && <div className="flex justify-center items-center gap-4 w-full h-[100%]">
+                {submitted && selectedOptions === "Resume match" && !resumeUpload && <div className="flex justify-center items-center gap-4 w-full h-[100%]">
                     <div>
                         <Button onClick={() => setOpen({ open: true, type: "resume" })}>
                             Click to start your profile matches.
                         </Button>
                     </div>
                 </div>}
-                {submitted && selectedOptions === "Profile checker" && resumeUpload && <div className="flex gap-4 w-full h-[100%]">
+                {submitted && selectedOptions === "Resume match" && resumeUpload && <div className="flex gap-4 w-full h-[100%]">
                     <ContentSections />
                     <div className="relative right-0">
                         <ResumeSidebar />
@@ -458,7 +458,7 @@ export default function Slug() {
                         </div>
                     </div>
                     }
-                    {submitted && selectedOptions !== "Profile checker" && <div className="flex justify-center items-center gap-4 w-full">
+                    {submitted && selectedOptions !== "Resume match" && <div className="flex justify-center items-center gap-4 w-full">
                         <form onSubmit={handleSubmit} className="flex justify-center items-center gap-4 w-full">
                             <Input
                                 className="h-[50px]"

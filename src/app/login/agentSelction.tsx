@@ -13,16 +13,25 @@ import { Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { BadgeInfo } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 
 export default function AgentSelction() {
   const router = useRouter();
-  const options = [
-    { label: 'Boolean (by default)', value: 'Boolean agent', defaultChecked: true, locked: true },
-    { label: 'GitHub', value: 'Github' },
-    { label: 'Profile checker', value: 'Profile checker' },
-    { label: 'ATS', value: 'ATS' },
-    { label: 'Reddit', value: 'Reddit' },
+  const options: { label: string; value: string; defaultChecked: boolean; locked?: boolean, discription: string }[] = [
+    // { label: 'Boolean (by default)', value: 'Boolean agent', defaultChecked: true, locked: true },
+    { label: 'Boolean', value: 'Boolean agent', defaultChecked: true, discription: "An AI agent that dynamically generates precise Boolean queries based on user input and contextual data." },
+
+    { label: 'GitHub', value: 'Github', defaultChecked: true, discription: "A GitHub agent that fetches and processes user data dynamically." },
+    { label: 'Resume match', value: 'Resume match', defaultChecked: true, discription: "An AI agent that matches resumes with job descriptions efficiently." },
+    { label: 'ATS', value: 'ATS', defaultChecked: true, discription: "An ATS agent that finds candidates from data sources based on job descriptions." },
+    { label: 'Reddit', value: 'Reddit', defaultChecked: true, discription: "A Reddit agent that finds users based on specified criteria." },
   ];
   const [selectedOptions, setSelectedOptions] = useState(
     options.filter(option => option.defaultChecked).map(option => option.value)
@@ -55,11 +64,33 @@ export default function AgentSelction() {
         <CardContent>
           {options.map((option) => (
             <label key={option.value} className="flex items-center space-x-3">
-              <Checkbox
-                checked={selectedOptions.includes(option.value)}
-                onCheckedChange={() => handleChange(option.value, option.locked)}
-              />
-              <span className="text-base">{option.label}</span>
+              <div className="flex flex-col w-full">
+                <div className="flex items-center gap-2">
+                  <Checkbox
+                    checked={selectedOptions.includes(option.value)}
+                    onCheckedChange={() => handleChange(option.value, option.locked)}
+                  />
+                  <span className="text-base">{option.label}</span>
+                </div>
+                <div className="flex  justify-between">
+                  <div className="text-base pl-6 text-[0.9rem] text-zinc-400 flex justify-between">
+                    {option.discription.slice(0, 47)}{option.discription.length > 50 && "....."}
+                  </div>
+                  <div>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger className='cursor-pointer'>
+                          <BadgeInfo className="cursor-pointer ml-auto" size={20} />
+                        </TooltipTrigger>
+                        <TooltipContent className='bg-white'>
+                          {option.discription}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+
+                  </div>
+                </div>
+              </div>
               {option.locked && <Lock className="w-4 h-4 text-gray-400" />}
             </label>
           ))}
